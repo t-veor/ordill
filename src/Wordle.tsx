@@ -174,14 +174,14 @@ export default class Wordle extends Component<{}, WordleState> {
         const isValid = currentWord != null && currentWord.length === 5 && isValidWord(currentWord);
 
         return (
-            <div class="wordle">
+            <>
                 <WordGrid words={grid} />
                 <Keyboard
                     letterStates={letterStates}
                     onKeyDown={this.submitKey}
                     isValid={isValid}
                 />
-            </div>
+            </>
         );
     }
 }

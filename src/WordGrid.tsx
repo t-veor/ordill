@@ -18,9 +18,9 @@ export interface WordGridProps {
 }
 
 export default function WordGrid({ words }: WordGridProps) {
-    const rows = [];
-    for (const word of words) {
+    const rows = words.map(word => {
         const cells = [];
+
         for (let i = 0; i < 5; i++) {
             const letter = word[i];
             const char = letter?.letter ?? "";
@@ -28,8 +28,9 @@ export default function WordGrid({ words }: WordGridProps) {
 
             cells.push(<div class={`word-grid-cell ${state}`}>{char}</div>);
         }
-        rows.push(<div class="word-grid-row">{cells}</div>);
-    }
+
+        return (<div class="word-grid-row">{cells}</div>);
+    });
 
     return (<div class="word-grid">{rows}</div>);
 }

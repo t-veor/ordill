@@ -1,11 +1,30 @@
+:root {
+  --green: #48a33c;
+  --dark-green: #3d8533;
+  --yellow: #e2c20e;
+  --dark-yellow: #c0a615;
+  --light-grey: #ddd;
+  --darker-grey: #bbb;
+  --dark-grey: #888;
+  --light-incorrect: #555;
+  --incorrect: #333;
+  --light-text: #eee;
+  --dark-text: #222;
+}
+
 * {
   box-sizing: border-box;
+}
+
+h1 {
+  margin: 0;
 }
 
 html,
 body {
   height: 100%;
   margin: 0;
+  color: var(--dark-text);
 }
 
 body {
@@ -13,20 +32,26 @@ body {
   font-size: 16pt;
 }
 
-.wordle {
+.main-container {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  max-width: 30em;
+  max-width: 640px;
   min-height: 100%;
   margin: 0 auto;
+  padding: 10px 0;
+  gap: 10px;
+}
+
+.header {
+  padding: 5px;
+  border-bottom: 3px solid var(--dark-grey);
 }
 
 .word-grid {
   display: flex;
   flex-direction: column;
   flex: 1 0;
-  margin-top: 5px;
   gap: 5px;
 }
 
@@ -37,32 +62,80 @@ body {
 }
 
 .word-grid-cell {
-  width: 1.5em;
-  height: 1.5em;
-  border: 1px solid black;
+  width: 60px;
+  height: 60px;
+  border: 2px solid var(--dark-grey);
   text-transform: uppercase;
-  font-size: 200%;
+  font-size: 32pt;
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  transition: background-color 0.4s steps(2, jump-none),
+    color 0.4s steps(2, jump-none);
+}
+
+@keyframes cell-flip {
+  0% {
+    transform: rotateX(0deg);
+  }
+
+  50% {
+    transform: rotateX(90deg);
+  }
+
+  50% {
+    transform: rotateX(-90deg);
+  }
+
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+
+.word-grid-cell:nth-child(2) {
+  animation-delay: 0.2s;
+  transition-delay: 0.2s;
+}
+
+.word-grid-cell:nth-child(3) {
+  animation-delay: 0.4s;
+  transition-delay: 0.4s;
+}
+
+.word-grid-cell:nth-child(4) {
+  animation-delay: 0.6s;
+  transition-delay: 0.6s;
+}
+
+.word-grid-cell:nth-child(5) {
+  animation-delay: 0.8s;
+  transition-delay: 0.8s;
 }
 
 .word-grid-cell.incorrect {
-  background-color: black;
-  color: white;
+  background-color: var(--incorrect);
+  color: var(--light-text);
 }
 
 .word-grid-cell.correct {
-  background: green;
-  color: white;
+  background: var(--green);
+  color: var(--light-text);
 }
 
 .word-grid-cell.partial {
-  background-color: gold;
+  background-color: var(--yellow);
+}
+
+.word-grid-cell.incorrect,
+.word-grid-cell.correct,
+.word-grid-cell.partial {
+  animation-name: cell-flip;
+  animation-duration: 0.4s;
+  animation-timing-function: linear;
 }
 
 .word-grid-cell.entry {
-  background-color: lightgray;
+  background-color: var(--light-grey);
 }
 
 .keyboard {
@@ -70,7 +143,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  margin: 4px 0;
 }
 
 .keyboard-row {
@@ -80,13 +152,17 @@ body {
 }
 
 .keyboard-button {
-  font-size: 16pt;
+  font-size: 12pt;
   text-transform: uppercase;
-  height: 2em;
-  flex: 0 1 8%;
+  height: 45px;
   border-radius: 0;
   border-width: 0;
   cursor: pointer;
+}
+
+.keyboard-button.letter {
+  flex: 0 1 8%;
+  transition: background-color 0.2s linear 1s, color 0.2s linear 1s;
 }
 
 .keyboard-button.entry:disabled {
@@ -95,26 +171,40 @@ body {
 }
 
 .keyboard-button.incorrect {
-  background-color: black;
-  color: white;
+  background-color: var(--incorrect);
+  color: var(--light-text);
+}
+
+.keyboard-button.incorrect:not(:disabled):hover {
+  background-color: var(--light-incorrect);
 }
 
 .keyboard-button.correct {
-  background: green;
-  color: white;
+  background: var(--green);
+  color: var(--light-text);
+}
+
+.keyboard-button.correct:not(:disabled):hover {
+  background-color: var(--dark-green);
 }
 
 .keyboard-button.partial {
-  background-color: gold;
+  background-color: var(--yellow);
+}
+
+.keyboard-button.partial:not(:disabled):hover {
+  background-color: var(--dark-yellow);
 }
 
 .keyboard-button.entry {
-  background-color: lightgray;
+  background-color: var(--light-grey);
+}
+
+.keyboard-button.entry:not(:disabled):hover {
+  background-color: var(--darker-grey);
 }
 
 .keyboard-button.backspace,
 .keyboard-button.enter {
-  flex: 0 1 12%;
-  font-size: 80%;
-  height: 2.5em;
+  flex: 0 1.5 12%;
 }

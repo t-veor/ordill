@@ -12,13 +12,7 @@ esbuild.build({
         fs.copyFile(
             path.join(__dirname, "src", "index.html"),
             path.join(__dirname, "dist", "index.html"),
-            (err) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve();
-                }
-            }
+            (err) => err ? reject(err) : resolve(),
         );
     });
 }).catch((e) => {

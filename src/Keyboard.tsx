@@ -25,7 +25,7 @@ export default class Keyboard extends Component<KeyboardProps> {
     };
 
     render({ letterStates, isValid }: RenderableProps<KeyboardProps>) {
-        const rows = KEYBOARD_ROWS.map(row => {
+        const rows = KEYBOARD_ROWS.map((row, rowIndex) => {
             const keys = row.map(key => {
                 let buttonClass = "keyboard-button";
                 let contents;
@@ -45,6 +45,7 @@ export default class Keyboard extends Component<KeyboardProps> {
                         buttonClass += " backspace";
                         contents = "\u{232b}";
                     } else {
+                        buttonClass += " letter";
                         contents = key;
                     }
 
@@ -54,6 +55,7 @@ export default class Keyboard extends Component<KeyboardProps> {
 
                 return (
                     <button
+                        key={key}
                         data-key={key}
                         class={buttonClass}
                         onClick={this.onClick}
@@ -64,7 +66,7 @@ export default class Keyboard extends Component<KeyboardProps> {
                 );
             });
 
-            return (<div class="keyboard-row">{keys}</div>);
+            return (<div class="keyboard-row" key={rowIndex}>{keys}</div>);
         });
 
         return (<div class="keyboard">{rows}</div>);

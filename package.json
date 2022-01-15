@@ -5,6 +5,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "typecheck": "tsc --noEmit",
     "build": "node build.js"
   },
   "dependencies": {
