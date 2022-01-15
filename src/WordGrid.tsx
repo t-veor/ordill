@@ -1,6 +1,12 @@
 import { h, Fragment } from "preact";
 
-export type LetterState = "entry" | "incorrect" | "correct" | "partial";
+export type LetterState = 0 | 1 | 2 | 3;
+export const LETTER_STATE_MAP: Record<LetterState, string> = {
+    [0]: "entry",
+    [1]: "incorrect",
+    [2]: "partial",
+    [3]: "correct",
+};
 
 export interface Letter {
     letter: string,
@@ -18,7 +24,7 @@ export default function WordGrid({ words }: WordGridProps) {
         for (let i = 0; i < 5; i++) {
             const letter = word[i];
             const char = letter?.letter ?? "";
-            const state = letter?.state ?? "entry";
+            const state = LETTER_STATE_MAP[letter?.state ?? 0];
 
             cells.push(<div class={`word-grid-cell ${state}`}>{char}</div>);
         }

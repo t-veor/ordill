@@ -1,4 +1,5 @@
 import { h, Fragment, Component } from "preact";
+import Keyboard from "./Keyboard";
 import WordGrid, { Letter, LetterState } from "./WordGrid";
 import { isAllowedLetter, isValidWord, randomWord } from "./words";
 
@@ -6,6 +7,7 @@ interface WordleState {
     guessedWords: Array<Array<Letter>>,
     currentWord?: string,
     secretWord: string,
+    letterStates: Record<string, LetterState | undefined>,
 }
 
 const checkWord = (word: string, target: string): Array<Letter> | null => {
@@ -25,7 +27,7 @@ const checkWord = (word: string, target: string): Array<Letter> | null => {
         if (word[i] === target[i]) {
             letters[i] = {
                 letter: word[i],
-                state: "correct",
+                state: 3,
             };
             freqs[word[i]] -= 1;
         }
@@ -40,12 +42,12 @@ const checkWord = (word: string, target: string): Array<Letter> | null => {
         if (freqs[letter] == null || freqs[letter] <= 0) {
             letters[i] = {
                 letter,
-                state: "incorrect",
+                state: 1,
             };
         } else {
             letters[i] = {
                 letter,
-                state: "partial",
+                state: 2,
             };
             freqs[letter] -= 1;
         }
@@ -58,6 +60,7 @@ export default class Wordle extends Component<{}, WordleState> {
     state: WordleState = {
         guessedWords: [],
         secretWord: "",
+        letterStates: {},
     };
 
     componentDidMount() {
@@ -70,7 +73,11 @@ export default class Wordle extends Component<{}, WordleState> {
     }
 
     onKeyDown = (event: KeyboardEvent) => {
-        switch (event.key) {
+        this.submitKey(event.key);
+    };
+
+    submitKey = (key: string) => {
+        switch (key) {
             case "Enter":
                 this.submitWord();
                 break;
@@ -86,10 +93,10 @@ export default class Wordle extends Component<{}, WordleState> {
                 break;
             }
             default:
-                this.appendLetter(event.key.toLowerCase());
+                this.appendLetter(key.toLowerCase());
                 break;
         }
-    };
+    }
 
     reset() {
         const secretWord = randomWord();
@@ -97,6 +104,7 @@ export default class Wordle extends Component<{}, WordleState> {
             guessedWords: [],
             currentWord: "",
             secretWord,
+            letterStates: {},
         });
     }
 
@@ -127,34 +135,52 @@ export default class Wordle extends Component<{}, WordleState> {
         if (correct || currentWord.length === 5 && isValidWord(currentWord)) {
             const letters = checkWord(currentWord, this.state.secretWord)!;
 
+            const newState = Object.assign({}, this.state.letterStates);
+            for (const { letter, state } of letters) {
+                const prevState = newState[letter];
+                if (prevState == null || prevState < state) {
+                    newState[letter] = state;
+                }
+            }
+
             if (correct) {
                 this.setState({
                     guessedWords: [...this.state.guessedWords, letters],
                     currentWord: undefined,
+                    letterStates: newState,
                 });
             } else {
                 this.setState({
                     guessedWords: [...this.state.guessedWords, letters],
                     currentWord: "",
+                    letterStates: newState,
                 });
             }
         }
     }
 
     render() {
-        const grid = [...this.state.guessedWords];
+        const { currentWord, letterStates, guessedWords } = this.state;
 
-        const currentWord = this.state.currentWord;
+        const grid = [...guessedWords];
+
         if (currentWord != null) {
             grid.push(currentWord.split("").map(letter => ({
                 letter,
-                state: "entry"
+                state: 0,
             })));
         }
+
+        const isValid = currentWord != null && currentWord.length === 5 && isValidWord(currentWord);
 
         return (
             <div class="wordle">
                 <WordGrid words={grid} />
+                <Keyboard
+                    letterStates={letterStates}
+                    onKeyDown={this.submitKey}
+                    isValid={isValid}
+                />
             </div>
         );
     }

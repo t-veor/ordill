@@ -1,15 +1,32 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 16pt;
+}
+
 .wordle {
   display: flex;
   justify-content: center;
+  flex-direction: column;
+  max-width: 30em;
+  min-height: 100%;
+  margin: 0 auto;
 }
 
 .word-grid {
   display: flex;
   flex-direction: column;
+  flex: 1 0;
 }
 
 .word-grid-row {
   display: flex;
+  justify-content: center;
 }
 
 .word-grid-cell {
@@ -18,7 +35,7 @@
   border: 1px solid black;
   text-transform: uppercase;
   margin: 5px;
-  font-size: 32pt;
+  font-size: 200%;
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -40,4 +57,58 @@
 
 .word-grid-cell.entry {
   background-color: lightgray;
+}
+
+.keyboard {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 4px;
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+}
+
+.keyboard-button {
+  font-size: 16pt;
+  text-transform: uppercase;
+  height: 2em;
+  flex: 0 1 8%;
+  margin: 2px;
+  border-radius: 0;
+  border-width: 0;
+  cursor: pointer;
+}
+
+.keyboard-button.entry:disabled {
+  opacity: 80%;
+  cursor: not-allowed;
+}
+
+.keyboard-button.incorrect {
+  background-color: black;
+  color: white;
+}
+
+.keyboard-button.correct {
+  background: green;
+  color: white;
+}
+
+.keyboard-button.partial {
+  background-color: gold;
+}
+
+.keyboard-button.entry {
+  background-color: lightgray;
+}
+
+.keyboard-button.backspace {
+  flex: 0 1 12%;
+}
+
+.keyboard-button.enter {
+  flex: 0 1 12%;
 }
