@@ -4,6 +4,9 @@ Simple implementation of the fantastic Wordle
 (<https://www.powerlanguage.co.uk/wordle/>) with an Icelandic dictionary, made
 for fun as I am learning Icelandic.
 
+You can play a live version of this game here:
+<https://t-veor.github.io/islenskt-wordle/index.html>
+
 ## Building
 
 Run the following commands:
