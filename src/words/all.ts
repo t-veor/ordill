@@ -3701,6 +3701,7 @@ const allWords = [
     "fabbi",
     "fafla",
     "fagga",
+    "faggi",
     "fagið",
     "fagni",
     "fagns",

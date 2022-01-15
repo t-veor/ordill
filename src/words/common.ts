@@ -2569,7 +2569,6 @@ const commonWords = [
     "nýbúi",
     "gilli",
     "slaki",
-    "faggi",
     "lúser",
     "bamba",
     "þrefi",
