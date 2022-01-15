@@ -5,7 +5,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "esbuild ./src/index.tsx --bundle --outfile=./dist/bundle.js && cp ./src/index.html ./dist/"
+    "build": "node build.js"
   },
   "dependencies": {
     "preact": "^10.6.4"

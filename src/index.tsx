@@ -1,3 +1,4 @@
 import { h, Fragment, render } from "preact";
+import Wordle from "./Wordle";
 
-render(<h2>Hello world!</h2>, document.body);
+render(<Wordle />, document.body);

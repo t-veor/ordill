@@ -1,0 +1,43 @@
+.wordle {
+  display: flex;
+  justify-content: center;
+}
+
+.word-grid {
+  display: flex;
+  flex-direction: column;
+}
+
+.word-grid-row {
+  display: flex;
+}
+
+.word-grid-cell {
+  width: 1.5em;
+  height: 1.5em;
+  border: 1px solid black;
+  text-transform: uppercase;
+  margin: 5px;
+  font-size: 32pt;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.word-grid-cell.incorrect {
+  background-color: black;
+  color: white;
+}
+
+.word-grid-cell.correct {
+  background: green;
+  color: white;
+}
+
+.word-grid-cell.partial {
+  background-color: gold;
+}
+
+.word-grid-cell.entry {
+  background-color: lightgray;
+}
