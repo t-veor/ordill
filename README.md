@@ -5,7 +5,7 @@ Simple implementation of the fantastic Wordle
 for fun as I am learning Icelandic.
 
 You can play a live version of this game here:
-<https://t-veor.github.io/ordill/index.html>
+<https://t-veor.github.io/ordill/>
 
 ## Building
 
