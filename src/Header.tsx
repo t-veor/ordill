@@ -1,4 +1,5 @@
 import { h, Fragment, Component } from "preact";
+import DarkModeButton from "./DarkModeButton";
 import Instructions from "./Instructions";
 
 interface HeaderState {
@@ -22,6 +23,7 @@ export default class Header extends Component<{}, HeaderState> {
         return (
             <div class="header">
                 <h1 class="title">Orðill</h1>
+                <DarkModeButton />
                 <button
                     class="instructions-button"
                     onClick={this.openInstructions}

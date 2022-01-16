@@ -2,12 +2,27 @@
   --red: #cc302b;
   --green: #429736;
   --yellow: #e2c20e;
+  --light-blue: #4d8cdf;
   --blue: #2b62aa;
   --light-grey: #ddd;
   --dark-grey: #888;
   --incorrect: #333;
   --light-text: #eee;
   --dark-text: #222;
+}
+
+body {
+  --text-color: var(--dark-text);
+  --background: white;
+  --entry-color: var(--light-grey);
+  --link-color: var(--blue);
+}
+
+body.dark {
+  --text-color: var(--light-text);
+  --background: #181a1b;
+  --entry-color: #4f5a5f;
+  --link-color: var(--light-blue);
 }
 
 * {
@@ -28,11 +43,16 @@ hr {
   margin: 10px 5px;
 }
 
+a {
+  color: var(--link-color);
+}
+
 html,
 body {
   height: 100%;
   margin: 0;
-  color: var(--dark-text);
+  background: var(--background);
+  color: var(--text-color);
 }
 
 body {
@@ -55,12 +75,14 @@ body {
   height: 50px;
   margin: 0 5px;
   align-items: end;
+  gap: 4px;
 }
 
 .title {
   flex: 1 0;
 }
 
+.dark-mode-button,
 .instructions-button {
   flex: 0 1 8%;
 }
@@ -71,7 +93,7 @@ body {
   height: 100%;
   top: 0;
   left: 0;
-  background: white;
+  background: var(--background);
   z-index: 100;
 }
 
@@ -114,33 +136,33 @@ body {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--background-color);
-  color: var(--color);
+  background-color: var(--cell-background);
+  color: var(--cell-color);
 }
 
 @keyframes cell-flip {
   0% {
     transform: rotateX(0deg);
-    color: var(--dark-text);
-    background-color: var(--light-grey);
+    color: var(--text-color);
+    background-color: var(--entry-color);
   }
 
   50% {
     transform: rotateX(90deg);
-    color: var(--dark-text);
-    background-color: var(--light-grey);
+    color: var(--text-color);
+    background-color: var(--entry-color);
   }
 
   50.001% {
     transform: rotateX(-90deg);
-    color: var(--color);
-    background-color: var(--background-color);
+    color: var(--cell-color);
+    background-color: var(--cell-background);
   }
 
   100% {
     transform: rotateX(0deg);
-    color: var(--color);
-    background-color: var(--background-color);
+    color: var(--cell-color);
+    background-color: var(--cell-background);
   }
 }
 
@@ -148,25 +170,25 @@ body {
   0% {
     transform: rotateX(0deg);
     color: transparent;
-    background-color: var(--light-grey);
+    background-color: var(--entry-color);
   }
 
   50% {
     transform: rotateX(90deg);
     color: transparent;
-    background-color: var(--light-grey);
+    background-color: var(--entry-color);
   }
 
   50.001% {
     transform: rotateX(-90deg);
-    color: var(--color);
-    background-color: var(--background-color);
+    color: var(--cell-color);
+    background-color: var(--cell-background);
   }
 
   100% {
     transform: rotateX(0deg);
-    color: var(--color);
-    background-color: var(--background-color);
+    color: var(--cell-color);
+    background-color: var(--cell-background);
   }
 }
 
@@ -187,19 +209,19 @@ body {
 }
 
 .word-grid-cell.incorrect {
-  --background-color: var(--incorrect);
-  --color: var(--light-text);
+  --cell-background: var(--incorrect);
+  --cell-color: var(--light-text);
 }
 
 .word-grid-cell.correct,
 .word-grid-cell.resigning {
-  --background-color: var(--green);
-  --color: var(--light-text);
+  --cell-background: var(--green);
+  --cell-color: var(--light-text);
 }
 
 .word-grid-cell.partial {
-  --background-color: var(--yellow);
-  --color: var(--dark-text);
+  --cell-background: var(--yellow);
+  --cell-color: var(--dark-text);
 }
 
 .word-grid-cell.incorrect,
@@ -217,8 +239,8 @@ body {
 }
 
 .word-grid-cell.entry {
-  --background-color: var(--light-grey);
-  --color: var(--dark-text);
+  --cell-background: var(--entry-color);
+  --cell-color: var(--text-color);
 }
 
 .keyboard {
@@ -236,7 +258,8 @@ body {
 
 button {
   position: relative;
-  background-color: var(--light-grey);
+  background-color: var(--entry-color);
+  color: var(--text-color);
   font-size: 12pt;
   font-weight: bold;
   text-transform: uppercase;
@@ -264,28 +287,48 @@ button:active::after {
   border: 2px solid var(--blue);
 }
 
+@keyframes keyboard-button-color-transition {
+  from {
+    background-color: var(--entry-color);
+    color: var(--text-color);
+  }
+
+  to {
+    background-color: var(--keyboard-background);
+    color: var(--keyboard-color);
+  }
+}
+
 .keyboard-button.letter {
   flex: 0 1 8%;
-  transition: background-color 0.2s linear 1s, color 0.2s linear 1s;
 }
 
 .keyboard-button.entry:disabled {
-  opacity: 80%;
+  opacity: 50%;
   cursor: not-allowed;
 }
 
+.keyboard-button.incorrect,
+.keyboard-button.correct,
+.keyboard-button.partial {
+  animation: keyboard-button 0.2s linear 1s backwards;
+  background-color: var(--keyboard-background);
+  color: var(--keyboard-color);
+}
+
 .keyboard-button.incorrect {
-  background-color: var(--incorrect);
-  color: var(--light-text);
+  --keyboard-background: var(--incorrect);
+  --keyboard-color: var(--light-text);
 }
 
 .keyboard-button.correct {
-  background: var(--green);
-  color: var(--light-text);
+  --keyboard-background: var(--green);
+  --keyboard-color: var(--light-text);
 }
 
 .keyboard-button.partial {
-  background-color: var(--yellow);
+  --keyboard-background: var(--yellow);
+  --keyboard-color: var(--dark-text);
 }
 
 .keyboard-button.enter {
