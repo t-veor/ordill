@@ -253,7 +253,10 @@ body {
 .keyboard-row {
   display: flex;
   justify-content: center;
-  gap: 4px;
+}
+
+.keyboard-button {
+  margin: 0 2px;
 }
 
 button {
