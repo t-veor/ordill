@@ -41,7 +41,8 @@ body {
 }
 
 .header {
-  padding: 5px;
+  margin: 0 5px;
+  padding: 5px 0;
   border-bottom: 3px solid var(--dark-grey);
 }
 

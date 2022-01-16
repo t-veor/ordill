@@ -75,7 +75,7 @@ const makeResultText = (guessedWords: Array<Array<Letter>>): string => {
             word.map(({ state }) => SQUARES[state]).join("")
         )).join("\n");
 
-    return `Íslenskt Wordle ${guessedWords.length}/\u{221e}\n\n${grid}`;
+    return `Orðill ${guessedWords.length}/\u{221e}\n\n${grid}`;
 }
 
 export default class Wordle extends Component<{}, WordleState> {
