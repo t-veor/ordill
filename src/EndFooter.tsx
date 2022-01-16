@@ -34,7 +34,7 @@ export default class EndFooter extends Component<EndFooterProps, EndFooterState>
 
         let message;
         if (state === "won") {
-            message = `Þér tókst í ${guesses} tilraun${isPlural(guesses) ? "um" : ""}!`;
+            message = `Þér tókst það í ${guesses} tilraun${isPlural(guesses) ? "um" : ""}!`;
         } else {
             message = `Þú gafst upp eftir ${guesses} tilraun${isPlural(guesses) ? "ir" : ""}!`;
         }

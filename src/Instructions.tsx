@@ -27,7 +27,7 @@ export default function Instructions({ open, onClose }: InstructionsProps) {
                         <a target="_blank" href="https://github.com/t-veor/ordill">Github</a>.
                     </p>
                     <p>
-                        Þetta er íslensk útgáfa af hinu frábæru{" "}
+                        Þetta er íslensk útgáfa af hinu frábæra{" "}
                         <a target="_blank" href="https://www.powerlanguage.co.uk/wordle/">Wordle</a>.
                         Source kóðann má finna á{" "}
                         <a target="_blank" href="https://github.com/t-veor/ordill">Github</a>.
