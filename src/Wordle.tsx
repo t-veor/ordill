@@ -100,6 +100,10 @@ export default class Wordle extends Component<{}, WordleState> {
     }
 
     onKeyDown = (event: KeyboardEvent) => {
+        const target = event.target as HTMLElement;
+        if (event.key === "Enter" && (target.tagName === "BUTTON" || target.tagName === "A")) {
+            return;
+        }
         this.submitKey(event.key);
     };
 

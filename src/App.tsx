@@ -6,6 +6,7 @@ export default function App() {
     return (
         <div class="main-container">
             <Header />
+            <hr />
             <Wordle />
         </div>
     );
