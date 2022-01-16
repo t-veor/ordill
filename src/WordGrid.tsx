@@ -11,6 +11,7 @@ export const LETTER_STATE_MAP: Record<LetterState, string> = {
 export interface Letter {
     letter: string,
     state: LetterState,
+    resigning?: boolean,
 }
 
 export interface WordGridProps {
@@ -26,7 +27,12 @@ export default function WordGrid({ words }: WordGridProps) {
             const char = letter?.letter ?? "";
             const state = LETTER_STATE_MAP[letter?.state ?? 0];
 
-            cells.push(<div class={`word-grid-cell ${state}`}>{char}</div>);
+            let cellClass = `word-grid-cell ${state}`;
+            if (letter?.resigning) {
+                cellClass = `word-grid-cell resigning`;
+            }
+
+            cells.push(<div class={cellClass}>{char}</div>);
         }
 
         return (<div class="word-grid-row">{cells}</div>);

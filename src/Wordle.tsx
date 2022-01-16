@@ -1,13 +1,26 @@
 import { h, Fragment, Component } from "preact";
+import EndFooter from "./EndFooter";
 import Keyboard from "./Keyboard";
 import WordGrid, { Letter, LetterState } from "./WordGrid";
 import { isAllowedLetter, isValidWord, randomWord } from "./words";
 
+const SQUARES = ["\u{2b1c}", "\u{2b1b}", "\u{1f7e8}", "\u{1f7e9}"];
+
+type GameState = {
+    state: "playing",
+    currentWord: string,
+} | {
+    state: "won"
+} | {
+    state: "resigned"
+};
+
 interface WordleState {
     guessedWords: Array<Array<Letter>>,
-    currentWord?: string,
+    gameState: GameState,
     secretWord: string,
     letterStates: Record<string, LetterState | undefined>,
+    generation: number,
 }
 
 const checkWord = (word: string, target: string): Array<Letter> | null => {
@@ -56,11 +69,25 @@ const checkWord = (word: string, target: string): Array<Letter> | null => {
     return letters;
 }
 
+const makeResultText = (guessedWords: Array<Array<Letter>>): string => {
+    const grid = guessedWords
+        .map(word => (
+            word.map(({ state }) => SQUARES[state]).join("")
+        )).join("\n");
+
+    return `Íslenskt Wordle ${guessedWords.length}/\u{221e}\n\n${grid}`;
+}
+
 export default class Wordle extends Component<{}, WordleState> {
     state: WordleState = {
         guessedWords: [],
+        gameState: {
+            state: "playing",
+            currentWord: ""
+        },
         secretWord: "",
         letterStates: {},
+        generation: 0,
     };
 
     componentDidMount() {
@@ -81,54 +108,83 @@ export default class Wordle extends Component<{}, WordleState> {
             case "Enter":
                 this.submitWord();
                 break;
-            case "Backspace": {
-                const currentWord = this.state.currentWord;
-                if (currentWord == null) {
-                    break;
-                }
-
-                this.setState({
-                    currentWord: currentWord.substring(0, currentWord.length - 1),
-                });
+            case "Backspace":
+                this.backspace();
                 break;
-            }
+            case "GiveUp":
+                this.giveUp();
+                break;
             default:
                 this.appendLetter(key.toLowerCase());
                 break;
         }
     }
 
+    playAgain = () => {
+        this.reset();
+    }
+
+    copyResults = () => {
+        const text = makeResultText(this.state.guessedWords);
+        return navigator.clipboard.writeText(text);
+    }
+
     reset() {
         const secretWord = randomWord();
         this.setState({
             guessedWords: [],
-            currentWord: "",
+            gameState: {
+                state: "playing",
+                currentWord: "",
+            },
             secretWord,
             letterStates: {},
+            generation: this.state.generation + 1,
         });
     }
 
     appendLetter(letter: string) {
-        const currentWord = this.state.currentWord;
-        if (currentWord == null) {
+        const { gameState } = this.state;
+        if (gameState.state !== "playing") {
             return;
         }
 
+        const { currentWord } = gameState;
         if (currentWord.length >= 5) {
             return;
         }
         if (isAllowedLetter(letter)) {
             this.setState({
-                currentWord: currentWord + letter,
+                gameState: {
+                    state: "playing",
+                    currentWord: currentWord + letter,
+                }
             });
         }
     }
 
-    submitWord() {
-        const currentWord = this.state.currentWord;
-        if (currentWord == null) {
+    backspace() {
+        const { gameState } = this.state;
+        if (gameState.state !== "playing") {
             return;
         }
+
+        const { currentWord } = gameState;
+        this.setState({
+            gameState: {
+                state: "playing",
+                currentWord: currentWord.substring(0, currentWord.length - 1),
+            },
+        });
+    }
+
+    submitWord() {
+        const { gameState } = this.state;
+        if (gameState.state !== "playing") {
+            return;
+        }
+
+        const { currentWord } = gameState;
 
         const correct = currentWord === this.state.secretWord;
 
@@ -146,42 +202,81 @@ export default class Wordle extends Component<{}, WordleState> {
             if (correct) {
                 this.setState({
                     guessedWords: [...this.state.guessedWords, letters],
-                    currentWord: undefined,
+                    gameState: { state: "won" },
                     letterStates: newState,
                 });
             } else {
                 this.setState({
                     guessedWords: [...this.state.guessedWords, letters],
-                    currentWord: "",
+                    gameState: {
+                        state: "playing",
+                        currentWord: "",
+                    },
                     letterStates: newState,
                 });
             }
         }
     }
 
+    giveUp() {
+        const { gameState } = this.state;
+        if (gameState.state !== "playing") {
+            return;
+        }
+
+        this.setState({
+            gameState: {
+                state: "resigned"
+            },
+        });
+    }
+
     render() {
-        const { currentWord, letterStates, guessedWords } = this.state;
+        const { gameState, letterStates, guessedWords, secretWord, generation } = this.state;
 
         const grid = [...guessedWords];
 
-        if (currentWord != null) {
+        let footer = null;
+        if (gameState.state === "playing") {
+            const { currentWord } = gameState;
             grid.push(currentWord.split("").map(letter => ({
                 letter,
                 state: 0,
             })));
-        }
 
-        const isValid = currentWord != null && currentWord.length === 5 && isValidWord(currentWord);
-
-        return (
-            <>
-                <WordGrid words={grid} />
+            const wordIsValid = currentWord.length === 5 && isValidWord(currentWord);
+            footer = (
                 <Keyboard
                     letterStates={letterStates}
                     onKeyDown={this.submitKey}
-                    isValid={isValid}
+                    wordIsValid={wordIsValid}
                 />
+            );
+        } else {
+            if (gameState.state === "resigned") {
+                grid.push(secretWord.split("").map(letter => ({
+                    letter,
+                    state: 3,
+                    resigning: true,
+                })));
+            }
+
+            footer = (
+                <EndFooter
+                    state={gameState.state}
+                    guesses={guessedWords.length}
+                    onPlayAgain={this.playAgain}
+                    onCopyResults={this.copyResults}
+                />
+            );
+        }
+
+        return (
+            <>
+                <WordGrid key={generation} words={grid} />
+                {footer}
             </>
         );
     }
 }
+

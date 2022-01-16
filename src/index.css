@@ -1,12 +1,9 @@
 :root {
+  --red: #cc302b;
   --green: #48a33c;
-  --dark-green: #3d8533;
   --yellow: #e2c20e;
-  --dark-yellow: #c0a615;
   --light-grey: #ddd;
-  --darker-grey: #bbb;
   --dark-grey: #888;
-  --light-incorrect: #555;
   --incorrect: #333;
   --light-text: #eee;
   --dark-text: #222;
@@ -70,25 +67,59 @@ body {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  transition: background-color 0.4s steps(2, jump-none),
-    color 0.4s steps(2, jump-none);
+  background-color: var(--background-color);
+  color: var(--color);
 }
 
 @keyframes cell-flip {
   0% {
     transform: rotateX(0deg);
+    color: var(--dark-text);
+    background-color: var(--light-grey);
   }
 
   50% {
     transform: rotateX(90deg);
+    color: var(--dark-text);
+    background-color: var(--light-grey);
   }
 
-  50% {
+  50.001% {
     transform: rotateX(-90deg);
+    color: var(--color);
+    background-color: var(--background-color);
   }
 
   100% {
     transform: rotateX(0deg);
+    color: var(--color);
+    background-color: var(--background-color);
+  }
+}
+
+@keyframes cell-flip-resigning {
+  0% {
+    transform: rotateX(0deg);
+    color: transparent;
+    background-color: var(--light-grey);
+  }
+
+  50% {
+    transform: rotateX(90deg);
+    color: transparent;
+    background-color: var(--light-grey);
+  }
+
+  50.001% {
+    transform: rotateX(-90deg);
+    color: var(--color);
+    background-color: var(--background-color);
+  }
+
+  100% {
+    transform: rotateX(0deg);
+    color: var(--color);
+    background-color: var(--background-color);
   }
 }
 
@@ -113,17 +144,19 @@ body {
 }
 
 .word-grid-cell.incorrect {
-  background-color: var(--incorrect);
-  color: var(--light-text);
+  --background-color: var(--incorrect);
+  --color: var(--light-text);
 }
 
-.word-grid-cell.correct {
-  background: var(--green);
-  color: var(--light-text);
+.word-grid-cell.correct,
+.word-grid-cell.resigning {
+  --background-color: var(--green);
+  --color: var(--light-text);
 }
 
 .word-grid-cell.partial {
-  background-color: var(--yellow);
+  --background-color: var(--yellow);
+  --color: var(--dark-text);
 }
 
 .word-grid-cell.incorrect,
@@ -134,8 +167,16 @@ body {
   animation-timing-function: linear;
 }
 
+.word-grid-cell.resigning {
+  animation-name: cell-flip-resigning;
+  animation-duration: 0.4s;
+  animation-timing-function: linear;
+  animation-fill-mode: backwards;
+}
+
 .word-grid-cell.entry {
-  background-color: var(--light-grey);
+  --background-color: var(--light-grey);
+  --color: var(--dark-text);
 }
 
 .keyboard {
@@ -151,7 +192,8 @@ body {
   gap: 2px;
 }
 
-.keyboard-button {
+button {
+  background-color: var(--light-grey);
   font-size: 12pt;
   text-transform: uppercase;
   height: 45px;
@@ -175,36 +217,42 @@ body {
   color: var(--light-text);
 }
 
-.keyboard-button.incorrect:not(:disabled):hover {
-  background-color: var(--light-incorrect);
-}
-
 .keyboard-button.correct {
   background: var(--green);
   color: var(--light-text);
-}
-
-.keyboard-button.correct:not(:disabled):hover {
-  background-color: var(--dark-green);
 }
 
 .keyboard-button.partial {
   background-color: var(--yellow);
 }
 
-.keyboard-button.partial:not(:disabled):hover {
-  background-color: var(--dark-yellow);
-}
-
-.keyboard-button.entry {
-  background-color: var(--light-grey);
-}
-
-.keyboard-button.entry:not(:disabled):hover {
-  background-color: var(--darker-grey);
-}
-
-.keyboard-button.backspace,
 .keyboard-button.enter {
+  flex: 0 2.5 calc(24% + 4px);
+}
+
+.keyboard-button.give-up {
+  background-color: var(--red);
+  color: var(--light-text);
+  font-size: 10pt;
   flex: 0 1.5 12%;
+}
+
+.keyboard-button.backspace {
+  flex: 0 1.5 12%;
+}
+
+.end-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.end-footer-message {
+  text-align: center;
+  padding: 5px;
+}
+
+.end-footer-button.play-again {
+  background-color: var(--green);
+  color: var(--light-text);
 }

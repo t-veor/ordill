@@ -2,17 +2,17 @@ import { h, Fragment, Component, Attributes, ComponentChild, ComponentChildren, 
 import { LetterState, LETTER_STATE_MAP } from "./WordGrid";
 
 const KEYBOARD_ROWS = [
-    ["á", "é", "í", "ó", "ú", "ý", "ö"],
+    ["Enter", "á", "é", "í", "ó", "ú", "ý", "ö"],
     ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "ð"],
     ["a", "s", "d", "f", "g", "h", "j", "k", "l", "æ"],
-    ["Enter", "z", "x", "c", "v", "b", "n", "m", "þ", "Backspace"],
+    ["GiveUp", "z", "x", "c", "v", "b", "n", "m", "þ", "Backspace"],
 ];
 
 const BLANKED_KEYS = ["c", "q", "w", "z"];
 
 export interface KeyboardProps {
     letterStates: Record<string, LetterState | undefined>,
-    isValid: boolean,
+    wordIsValid: boolean,
     onKeyDown?: (key: string) => void;
 }
 
@@ -24,7 +24,7 @@ export default class Keyboard extends Component<KeyboardProps> {
         }
     };
 
-    render({ letterStates, isValid }: RenderableProps<KeyboardProps>) {
+    render({ letterStates, wordIsValid }: RenderableProps<KeyboardProps>) {
         const rows = KEYBOARD_ROWS.map((row, rowIndex) => {
             const keys = row.map(key => {
                 let buttonClass = "keyboard-button";
@@ -34,12 +34,15 @@ export default class Keyboard extends Component<KeyboardProps> {
                 if (key === "Enter") {
                     buttonClass += " enter";
                     contents = "Giska";
-                    if (!isValid) {
+                    if (!wordIsValid) {
                         disabled = true;
                         buttonClass += " entry";
                     } else {
                         buttonClass += " correct";
                     }
+                } else if (key === "GiveUp") {
+                    buttonClass += " give-up";
+                    contents = "Gefast Upp";
                 } else {
                     if (key === "Backspace") {
                         buttonClass += " backspace";
