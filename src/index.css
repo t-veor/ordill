@@ -311,10 +311,15 @@ button:active::after {
   cursor: not-allowed;
 }
 
+.keyboard-button.letter.incorrect,
+.keyboard-button.letter.correct,
+.keyboard-button.letter.partial {
+  animation: keyboard-button-color-transition 0.2s linear 1s backwards;
+}
+
 .keyboard-button.incorrect,
 .keyboard-button.correct,
 .keyboard-button.partial {
-  animation: keyboard-button-color-transition 0.2s linear 1s backwards;
   background-color: var(--keyboard-background);
   color: var(--keyboard-color);
 }
