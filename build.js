@@ -25,10 +25,10 @@ esbuild.build({
     minify: true,
     outdir: "./dist/"
 }).then(() => {
-    // Copy index.html
-    return fs.copyFile(
-        path.join(__dirname, "src/index.html"),
-        path.join(__dirname, "dist/index.html"),
+    // Copy static
+    return copyDir(
+        path.join(__dirname, "static"),
+        path.join(__dirname, "dist"),
     );
 }).then(() => {
     // Copy fonts
