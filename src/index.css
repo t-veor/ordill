@@ -1,3 +1,21 @@
+/* @license fonts/LICENSE.txt */
+@font-face {
+  font-family: "Libre Franklin";
+  font-style: normal;
+  font-weight: 400;
+  src: local(""),
+    url("fonts/libre-franklin-v7-latin-regular.woff2") format("woff2"),
+    url("fonts/libre-franklin-v7-latin-regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Libre Franklin";
+  font-style: normal;
+  font-weight: 600;
+  src: local(""), url("fonts/libre-franklin-v7-latin-600.woff2") format("woff2"),
+    url("fonts/libre-franklin-v7-latin-600.woff") format("woff");
+}
+
 :root {
   --red: #cc302b;
   --green: #429736;
@@ -9,6 +27,7 @@
   --incorrect: #333;
   --light-text: #eee;
   --dark-text: #222;
+  --fonts: "Libre Franklin", "Franklin Gothic Medium", Arial, sans-serif;
 }
 
 body {
@@ -56,7 +75,7 @@ body {
 }
 
 body {
-  font-family: "Franklin Gothic Medium", Arial, sans-serif;
+  font-family: var(--fonts);
   font-size: 16pt;
 }
 
@@ -133,6 +152,7 @@ body {
   border: 2px solid var(--dark-grey);
   text-transform: uppercase;
   font-size: 32pt;
+  font-weight: 600;
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -263,8 +283,9 @@ button {
   position: relative;
   background-color: var(--entry-color);
   color: var(--text-color);
+  font-family: var(--fonts);
   font-size: 12pt;
-  font-weight: bold;
+  font-weight: 600;
   text-transform: uppercase;
   height: 45px;
   border-radius: 0;
