@@ -19913,6 +19913,7 @@ const allWords = [
     "urðir",
     "urðið",
     "urðum",
+    "urður",
     "urðuð",
     "uslar",
     "uslið",

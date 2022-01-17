@@ -1370,7 +1370,6 @@ const commonWords = [
     "ópera",
     "flaut",
     "venda",
-    "urður",
     "bítur",
     "sviti",
     "brýna",
