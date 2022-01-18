@@ -1,5 +1,5 @@
-import allWords from "./all"
-import commonWords from "./common"
+import allWords from "./all.wordlist.txt";
+import commonWords from "./common.wordlist.txt";
 
 export const randomWord = () => commonWords[Math.random() * commonWords.length | 0];
 

@@ -2,7 +2,7 @@ words = set()
 
 common_words = set()
 
-with open("common.txt", encoding="utf-8") as f:
+with open("common.wordlist.txt", encoding="utf-8") as f:
     for line in f:
         common_words.add(line.strip())
 
@@ -18,6 +18,6 @@ with open("SHsnid.csv", encoding="utf-8") as f:
 
 words = sorted(words)
 
-with open("all.txt", "w+", encoding="utf-8", newline="\n") as f:
+with open("all.wordlist.txt", "w+", encoding="utf-8", newline="\n") as f:
     for i in words:
         f.write(f"{i}\n")

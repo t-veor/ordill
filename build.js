@@ -1,6 +1,7 @@
 const esbuild = require("esbuild");
 const { promises: fs } = require("fs");
 const path = require("path");
+const wordListCompressorPlugin = require("./plugins/word-list-compressor-plugin");
 
 async function copyDir(src, dst) {
     await fs.mkdir(dst, { recursive: true });
@@ -23,18 +24,13 @@ esbuild.build({
     external: ["fonts/*"],
     bundle: true,
     minify: true,
-    outdir: "./dist/"
+    outdir: "./dist/",
+    plugins: [wordListCompressorPlugin],
 }).then(() => {
     // Copy static
     return copyDir(
         path.join(__dirname, "static"),
         path.join(__dirname, "dist"),
-    );
-}).then(() => {
-    // Copy fonts
-    return copyDir(
-        path.join(__dirname, "fonts"),
-        path.join(__dirname, "dist/fonts"),
     );
 }).catch((e) => {
     console.log(e);
