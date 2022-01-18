@@ -36,14 +36,14 @@ const wordListCompressorPlugin = {
     name: "word-list-compressor",
     setup(build) {
 
-        build.onResolve({ filter: /^word-list-uncompressor$/ }, args => ({
+        build.onResolve({ filter: /^word-list-decompressor$/ }, args => ({
             path: args.path,
-            namespace: "word-list-uncompressor",
+            namespace: "word-list-decompressor",
         }));
 
-        build.onLoad({ filter: /.*/, namespace: "word-list-uncompressor" }, () => ({
+        build.onLoad({ filter: /.*/, namespace: "word-list-decompressor" }, () => ({
             contents: `
-export default function uncompress(data) {
+export default function decompress(data) {
     const words = [];
 
     const splitData = data.split(".");
@@ -82,8 +82,8 @@ export default function uncompress(data) {
 
             return {
                 contents: `
-import uncompress from "word-list-uncompressor";
-const data = uncompress(${JSON.stringify(compressed)});
+import decompress from "word-list-decompressor";
+const data = decompress(${JSON.stringify(compressed)});
 export default data;
                 `,
                 loader: "js",

@@ -1591,7 +1591,6 @@ setur
 seyla
 seyta
 seyði
-sigga
 sigla
 sigli
 sigma

@@ -16233,6 +16233,7 @@ sifji
 sifta
 sigar
 sigað
+sigga
 siggi
 siggs
 siggu
