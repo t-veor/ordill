@@ -1,395 +1,401 @@
 /* @license fonts/LICENSE.txt */
 @font-face {
-  font-family: "Libre Franklin";
-  font-style: normal;
-  font-weight: 400;
-  src: local(""),
-    url("fonts/libre-franklin-v7-latin-regular.woff2") format("woff2"),
-    url("fonts/libre-franklin-v7-latin-regular.woff") format("woff");
+    font-family: "Libre Franklin";
+    font-style: normal;
+    font-weight: 400;
+    src: local(""),
+        url("fonts/libre-franklin-v7-latin-regular.woff2") format("woff2"),
+        url("fonts/libre-franklin-v7-latin-regular.woff") format("woff");
 }
 
 @font-face {
-  font-family: "Libre Franklin";
-  font-style: normal;
-  font-weight: 600;
-  src: local(""), url("fonts/libre-franklin-v7-latin-600.woff2") format("woff2"),
-    url("fonts/libre-franklin-v7-latin-600.woff") format("woff");
+    font-family: "Libre Franklin";
+    font-style: normal;
+    font-weight: 600;
+    src: local(""),
+        url("fonts/libre-franklin-v7-latin-600.woff2") format("woff2"),
+        url("fonts/libre-franklin-v7-latin-600.woff") format("woff");
 }
 
 :root {
-  --red: #cc302b;
-  --green: #429736;
-  --yellow: #e2c20e;
-  --light-blue: #4d8cdf;
-  --blue: #2b62aa;
-  --light-grey: #ddd;
-  --dark-grey: #888;
-  --incorrect: #333;
-  --light-text: #eee;
-  --dark-text: #222;
-  --fonts: "Libre Franklin", "Franklin Gothic Medium", Arial, sans-serif;
+    --red: #cc302b;
+    --green: #429736;
+    --yellow: #e2c20e;
+    --light-blue: #4d8cdf;
+    --blue: #2b62aa;
+    --light-grey: #ddd;
+    --dark-grey: #888;
+    --incorrect: #333;
+    --light-text: #eee;
+    --dark-text: #222;
+    --fonts: "Libre Franklin", "Franklin Gothic Medium", Arial, sans-serif;
 }
 
 body {
-  --text-color: var(--dark-text);
-  --background: white;
-  --entry-color: var(--light-grey);
-  --link-color: var(--blue);
+    --text-color: var(--dark-text);
+    --background: white;
+    --entry-color: var(--light-grey);
+    --link-color: var(--blue);
 }
 
 body.dark {
-  --text-color: var(--light-text);
-  --background: #181a1b;
-  --entry-color: #4f5a5f;
-  --link-color: var(--light-blue);
+    --text-color: var(--light-text);
+    --background: #181a1b;
+    --entry-color: #4f5a5f;
+    --link-color: var(--light-blue);
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 h1,
 h2 {
-  margin: 0;
+    margin: 0;
 }
 
 p {
-  margin: 0.25em 5px 1em;
+    margin: 0.25em 5px 1em;
 }
 
 hr {
-  color: var(--dark-grey);
-  margin: 10px 5px;
+    color: var(--dark-grey);
+    margin: 10px 5px;
 }
 
 a {
-  color: var(--link-color);
+    color: var(--link-color);
 }
 
 html,
 body {
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-  position: relative;
-  background: var(--background);
-  color: var(--text-color);
-  font-family: var(--fonts);
-  font-size: 16pt;
+    position: relative;
+    background: var(--background);
+    color: var(--text-color);
+    font-family: var(--fonts);
+    font-size: 16pt;
 }
 
 .main-container {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  max-width: 640px;
-  min-height: 100vh;
-  margin: 0 auto;
-  padding: 10px 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 640px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 10px 0;
 }
 
 .header {
-  display: flex;
-  height: 50px;
-  margin: 0 5px;
-  align-items: end;
-  gap: 4px;
+    display: flex;
+    height: 50px;
+    margin: 0 5px;
+    align-items: end;
+    gap: 4px;
 }
 
 .title {
-  flex: 1 0;
+    flex: 1 0;
 }
 
 .dark-mode-button,
 .instructions-button {
-  flex: 0 1 8%;
+    flex: 0 1 8%;
 }
 
 .instructions {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background: var(--background);
-  z-index: 100;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: var(--background);
+    z-index: 100;
 }
 
 .instructions.closed {
-  display: none;
+    display: none;
 }
 
 .instructions-contents {
-  max-width: 640px;
-  margin: 0 auto;
-  padding: 10px 0;
-  font-size: 12pt;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 10px 0;
+    font-size: 12pt;
 }
 
 .word-grid {
-  display: flex;
-  flex-direction: column;
-  flex: 1 0;
-  gap: 5px;
-  margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    flex: 1 0;
+    gap: 5px;
+    margin-bottom: 10px;
 }
 
 .word-grid-row {
-  display: flex;
-  justify-content: center;
-  gap: 5px;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
 }
 
 .word-grid-row.example {
-  justify-content: start;
-  padding: 0 5px;
+    justify-content: start;
+    padding: 0 5px;
 }
 
 .word-grid-cell {
-  width: 60px;
-  height: 60px;
-  border: 2px solid var(--dark-grey);
-  text-transform: uppercase;
-  font-size: 32pt;
-  font-weight: 600;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--cell-background);
-  color: var(--cell-color);
+    width: 60px;
+    height: 60px;
+    border: 2px solid var(--dark-grey);
+    text-transform: uppercase;
+    font-size: 32pt;
+    font-weight: 600;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--cell-background);
+    color: var(--cell-color);
 }
 
 @keyframes cell-flip {
-  0% {
-    transform: rotateX(0deg);
-    color: var(--text-color);
-    background-color: var(--entry-color);
-  }
+    0% {
+        transform: rotateX(0deg);
+        color: var(--text-color);
+        background-color: var(--entry-color);
+    }
 
-  50% {
-    transform: rotateX(90deg);
-    color: var(--text-color);
-    background-color: var(--entry-color);
-  }
+    50% {
+        transform: rotateX(90deg);
+        color: var(--text-color);
+        background-color: var(--entry-color);
+    }
 
-  50.001% {
-    transform: rotateX(-90deg);
-    color: var(--cell-color);
-    background-color: var(--cell-background);
-  }
+    50.001% {
+        transform: rotateX(-90deg);
+        color: var(--cell-color);
+        background-color: var(--cell-background);
+    }
 
-  100% {
-    transform: rotateX(0deg);
-    color: var(--cell-color);
-    background-color: var(--cell-background);
-  }
+    100% {
+        transform: rotateX(0deg);
+        color: var(--cell-color);
+        background-color: var(--cell-background);
+    }
 }
 
 @keyframes cell-flip-resigning {
-  0% {
-    transform: rotateX(0deg);
-    color: transparent;
-    background-color: var(--entry-color);
-  }
+    0% {
+        transform: rotateX(0deg);
+        color: transparent;
+        background-color: var(--entry-color);
+    }
 
-  50% {
-    transform: rotateX(90deg);
-    color: transparent;
-    background-color: var(--entry-color);
-  }
+    50% {
+        transform: rotateX(90deg);
+        color: transparent;
+        background-color: var(--entry-color);
+    }
 
-  50.001% {
-    transform: rotateX(-90deg);
-    color: var(--cell-color);
-    background-color: var(--cell-background);
-  }
+    50.001% {
+        transform: rotateX(-90deg);
+        color: var(--cell-color);
+        background-color: var(--cell-background);
+    }
 
-  100% {
-    transform: rotateX(0deg);
-    color: var(--cell-color);
-    background-color: var(--cell-background);
-  }
+    100% {
+        transform: rotateX(0deg);
+        color: var(--cell-color);
+        background-color: var(--cell-background);
+    }
 }
 
 .word-grid-cell:nth-child(2) {
-  animation-delay: 0.2s;
+    animation-delay: 0.2s;
 }
 
 .word-grid-cell:nth-child(3) {
-  animation-delay: 0.4s;
+    animation-delay: 0.4s;
 }
 
 .word-grid-cell:nth-child(4) {
-  animation-delay: 0.6s;
+    animation-delay: 0.6s;
 }
 
 .word-grid-cell:nth-child(5) {
-  animation-delay: 0.8s;
+    animation-delay: 0.8s;
 }
 
 .word-grid-cell.incorrect {
-  --cell-background: var(--incorrect);
-  --cell-color: var(--light-text);
+    --cell-background: var(--incorrect);
+    --cell-color: var(--light-text);
 }
 
 .word-grid-cell.correct,
 .word-grid-cell.resigning {
-  --cell-background: var(--green);
-  --cell-color: var(--light-text);
+    --cell-background: var(--green);
+    --cell-color: var(--light-text);
 }
 
 .word-grid-cell.partial {
-  --cell-background: var(--yellow);
-  --cell-color: var(--dark-text);
+    --cell-background: var(--yellow);
+    --cell-color: var(--dark-text);
 }
 
 .word-grid-cell.incorrect,
 .word-grid-cell.correct,
 .word-grid-cell.partial,
 .word-grid-cell.resigning {
-  animation-name: cell-flip;
-  animation-duration: 0.4s;
-  animation-timing-function: linear;
-  animation-fill-mode: backwards;
+    animation-name: cell-flip;
+    animation-duration: 0.4s;
+    animation-timing-function: linear;
+    animation-fill-mode: backwards;
 }
 
 .word-grid-cell.resigning {
-  animation-name: cell-flip-resigning;
+    animation-name: cell-flip-resigning;
 }
 
 .word-grid-cell.entry {
-  --cell-background: var(--entry-color);
-  --cell-color: var(--text-color);
+    --cell-background: var(--entry-color);
+    --cell-color: var(--text-color);
 }
 
 .keyboard {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .keyboard-row {
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 .keyboard-button {
-  margin: 0 2px;
+    margin: 0 2px;
+    min-width: 0;
 }
 
 button {
-  position: relative;
-  background-color: var(--entry-color);
-  color: var(--text-color);
-  font-family: var(--fonts);
-  font-size: 12pt;
-  font-weight: 600;
-  text-transform: uppercase;
-  height: 45px;
-  border-radius: 0;
-  border-width: 0;
-  cursor: pointer;
+    position: relative;
+    background-color: var(--entry-color);
+    color: var(--text-color);
+    font-family: var(--fonts);
+    font-size: 12pt;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    height: 50px;
+    border-radius: 0;
+    border-width: 0;
+    cursor: pointer;
 }
 
 button:not(:disabled)::after {
-  content: " ";
-  position: absolute;
-  left: -2px;
-  top: -2px;
-  width: 100%;
-  height: 100%;
+    content: " ";
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    width: 100%;
+    height: 100%;
 }
 
 button:hover::after {
-  border: 2px solid var(--dark-grey);
+    border: 2px solid var(--dark-grey);
 }
 
 button:focus::after,
 button:active::after {
-  border: 2px solid var(--blue);
+    border: 2px solid var(--blue);
 }
 
 @keyframes keyboard-button-color-transition {
-  from {
-    background-color: var(--entry-color);
-    color: var(--text-color);
-  }
+    from {
+        background-color: var(--entry-color);
+        color: var(--text-color);
+    }
 
-  to {
-    background-color: var(--keyboard-background);
-    color: var(--keyboard-color);
-  }
+    to {
+        background-color: var(--keyboard-background);
+        color: var(--keyboard-color);
+    }
 }
 
 .keyboard-button.letter {
-  flex: 0 1 8%;
+    flex: 0 1 8%;
 }
 
 .keyboard-button.entry:disabled {
-  opacity: 50%;
-  cursor: not-allowed;
+    opacity: 50%;
+    cursor: not-allowed;
 }
 
 .keyboard-button.letter.incorrect,
 .keyboard-button.letter.correct,
 .keyboard-button.letter.partial {
-  animation: keyboard-button-color-transition 0.2s linear 1s backwards;
+    animation: keyboard-button-color-transition 0.2s linear 1s backwards;
 }
 
 .keyboard-button.incorrect,
 .keyboard-button.correct,
 .keyboard-button.partial {
-  background-color: var(--keyboard-background);
-  color: var(--keyboard-color);
+    background-color: var(--keyboard-background);
+    color: var(--keyboard-color);
 }
 
 .keyboard-button.incorrect {
-  --keyboard-background: var(--incorrect);
-  --keyboard-color: var(--light-text);
+    --keyboard-background: var(--incorrect);
+    --keyboard-color: var(--light-text);
 }
 
 .keyboard-button.correct {
-  --keyboard-background: var(--green);
-  --keyboard-color: var(--light-text);
+    --keyboard-background: var(--green);
+    --keyboard-color: var(--light-text);
 }
 
 .keyboard-button.partial {
-  --keyboard-background: var(--yellow);
-  --keyboard-color: var(--dark-text);
+    --keyboard-background: var(--yellow);
+    --keyboard-color: var(--dark-text);
 }
 
 .keyboard-button.enter {
-  flex: 0 2.5 calc(24% + 4px);
+    flex: 0 2.5 calc(24% + 4px);
+    min-width: auto;
 }
 
 .keyboard-button.give-up {
-  background-color: var(--red);
-  color: var(--light-text);
-  font-size: 10pt;
-  flex: 0 1.5 12%;
+    background-color: var(--red);
+    color: var(--light-text);
+    font-size: 10pt;
+    flex: 0 1.5 12%;
+    min-width: auto;
 }
 
 .keyboard-button.backspace {
-  flex: 0 1.5 12%;
+    flex: 0 1.5 12%;
+    min-width: auto;
 }
 
 .end-footer {
-  display: flex;
-  flex-direction: column;
-  padding: 0 4px;
-  gap: 4px;
+    display: flex;
+    flex-direction: column;
+    padding: 0 4px;
+    gap: 4px;
 }
 
 .end-footer-message {
-  text-align: center;
-  padding: 5px;
+    text-align: center;
+    padding: 5px;
 }
 
 .end-footer-button.play-again {
-  background-color: var(--blue);
-  color: var(--light-text);
+    background-color: var(--blue);
+    color: var(--light-text);
 }
