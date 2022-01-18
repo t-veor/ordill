@@ -68,13 +68,15 @@ a {
 
 html,
 body {
-  height: 100%;
+  min-height: 100vh;
   margin: 0;
-  background: var(--background);
-  color: var(--text-color);
+  padding: 0;
 }
 
 body {
+  position: relative;
+  background: var(--background);
+  color: var(--text-color);
   font-family: var(--fonts);
   font-size: 16pt;
 }
@@ -84,7 +86,7 @@ body {
   justify-content: center;
   flex-direction: column;
   max-width: 640px;
-  min-height: 100%;
+  min-height: 100vh;
   margin: 0 auto;
   padding: 10px 0;
 }
