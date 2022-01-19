@@ -19,9 +19,11 @@
 
 :root {
     --red: #cc302b;
-    --green: #429736;
+    --magenta: #ea13be;
+    --green: #339d24;
     --yellow: #e2c20e;
-    --light-blue: #4d8cdf;
+    --light-blue: #3c89ee;
+    --orange: #e5600e;
     --blue: #2b62aa;
     --light-grey: #ddd;
     --dark-grey: #888;
@@ -35,6 +37,9 @@ body {
     --text-color: var(--dark-text);
     --background: white;
     --entry-color: var(--light-grey);
+    --partial-color: var(--yellow);
+    --correct-color: var(--green);
+    --failure-color: var(--red);
     --link-color: var(--blue);
 }
 
@@ -45,8 +50,29 @@ body.dark {
     --link-color: var(--light-blue);
 }
 
+body.high-contrast {
+    --partial-color: var(--light-blue);
+    --correct-color: var(--orange);
+    --failure-color: var(--magenta);
+}
+
 * {
     box-sizing: border-box;
+}
+
+html,
+body {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    position: relative;
+    background: var(--background);
+    color: var(--text-color);
+    font-family: var(--fonts);
+    font-size: 16pt;
 }
 
 h1,
@@ -67,19 +93,37 @@ a {
     color: var(--link-color);
 }
 
-html,
-body {
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
-}
-
-body {
+button {
     position: relative;
-    background: var(--background);
+    background-color: var(--entry-color);
     color: var(--text-color);
     font-family: var(--fonts);
-    font-size: 16pt;
+    font-size: 12pt;
+    font-weight: 600;
+    text-align: center;
+    text-transform: uppercase;
+    height: 50px;
+    border-radius: 0;
+    border-width: 0;
+    cursor: pointer;
+}
+
+button:not(:disabled)::after {
+    content: " ";
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    width: calc(100% - 1px);
+    height: calc(100% - 1px);
+}
+
+button:hover::after {
+    border: 2.5px solid var(--dark-grey);
+}
+
+button:focus::after,
+button:active::after {
+    border: 2.5px solid var(--blue);
 }
 
 .main-container {
@@ -104,12 +148,14 @@ body {
     flex: 1 0;
 }
 
-.dark-mode-button,
-.instructions-button {
-    flex: 0 1 8%;
+.tab-button {
+    width: 50px;
+    height: 50px;
+    font-size: 14pt;
+    font-weight: 400;
 }
 
-.instructions {
+.tab {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -119,15 +165,69 @@ body {
     z-index: 100;
 }
 
-.instructions.closed {
-    display: none;
-}
-
-.instructions-contents {
+.tab-contents {
     max-width: 640px;
     margin: 0 auto;
     padding: 10px 0;
     font-size: 12pt;
+}
+
+.tab-header {
+    display: flex;
+    height: 50px;
+    margin: 0 5px;
+    align-items: end;
+    gap: 4px;
+}
+
+.tab-title {
+    flex: 1 0;
+}
+
+.tab.closed {
+    display: none;
+}
+
+.setting {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5px;
+}
+
+.setting-name {
+    font-size: 125%;
+}
+
+.setting-description {
+    font-size: 80%;
+    margin-top: 3px;
+    opacity: 0.8;
+}
+
+.switch-button {
+    width: 50px;
+    height: 50px;
+    font-size: 14pt;
+    font-weight: 400;
+}
+
+.switch {
+    display: flex;
+    align-content: end;
+    gap: 4px;
+}
+
+.switch-button.active {
+    color: var(--light-text);
+}
+
+.switch-button.false.active {
+    background-color: var(--failure-color);
+}
+
+.switch-button.true.active {
+    background-color: var(--correct-color);
 }
 
 .word-grid {
@@ -150,6 +250,7 @@ body {
 }
 
 .word-grid-cell {
+    position: relative;
     width: 60px;
     height: 60px;
     border: 2px solid var(--dark-grey);
@@ -215,6 +316,30 @@ body {
     }
 }
 
+@keyframes cell-flip-symbol {
+    from {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    50.001% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes cell-emphasis {
+    20% {
+        transform: scale(1.1);
+    }
+}
+
 .word-grid-cell:nth-child(2) {
     animation-delay: 0.2s;
 }
@@ -238,12 +363,12 @@ body {
 
 .word-grid-cell.correct,
 .word-grid-cell.resigning {
-    --cell-background: var(--green);
+    --cell-background: var(--correct-color);
     --cell-color: var(--light-text);
 }
 
 .word-grid-cell.partial {
-    --cell-background: var(--yellow);
+    --cell-background: var(--partial-color);
     --cell-color: var(--dark-text);
 }
 
@@ -266,6 +391,45 @@ body {
     --cell-color: var(--text-color);
 }
 
+.word-grid-cell.entry.filled {
+    animation: cell-emphasis 0.1s;
+}
+
+.word-grid-cell.incorrect::before,
+.word-grid-cell.partial::before,
+.word-grid-cell.correct::before,
+.word-grid-cell.resigning::before {
+    position: absolute;
+    visibility: hidden;
+    font-size: 10pt;
+    text-align: center;
+    width: 1em;
+    right: 0;
+    bottom: 0;
+    animation-name: cell-flip-symbol;
+    animation-duration: inherit;
+    animation-delay: inherit;
+    animation-timing-function: inherit;
+    animation-fill-mode: inherit;
+}
+
+.use-symbols .word-grid-cell::before {
+    visibility: visible;
+}
+
+.word-grid-cell.incorrect::before {
+    content: "X";
+}
+
+.word-grid-cell.partial::before {
+    content: "?";
+}
+
+.word-grid-cell.correct::before,
+.word-grid-cell.resigning::before {
+    content: "\2713";
+}
+
 .keyboard {
     width: 100%;
     display: flex;
@@ -283,40 +447,7 @@ body {
     min-width: 0;
 }
 
-button {
-    position: relative;
-    background-color: var(--entry-color);
-    color: var(--text-color);
-    font-family: var(--fonts);
-    font-size: 12pt;
-    font-weight: 600;
-    text-align: center;
-    text-transform: uppercase;
-    height: 50px;
-    border-radius: 0;
-    border-width: 0;
-    cursor: pointer;
-}
-
-button:not(:disabled)::after {
-    content: " ";
-    position: absolute;
-    left: -2px;
-    top: -2px;
-    width: 100%;
-    height: 100%;
-}
-
-button:hover::after {
-    border: 2px solid var(--dark-grey);
-}
-
-button:focus::after,
-button:active::after {
-    border: 2px solid var(--blue);
-}
-
-@keyframes keyboard-button-color-transition {
+@keyframes keyboard-button-transition {
     from {
         background-color: var(--entry-color);
         color: var(--text-color);
@@ -325,6 +456,16 @@ button:active::after {
     to {
         background-color: var(--keyboard-background);
         color: var(--keyboard-color);
+    }
+}
+
+@keyframes keyboard-button-symbol {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
     }
 }
 
@@ -340,7 +481,7 @@ button:active::after {
 .keyboard-button.letter.incorrect,
 .keyboard-button.letter.correct,
 .keyboard-button.letter.partial {
-    animation: keyboard-button-color-transition 0.2s linear 1s backwards;
+    animation: keyboard-button-transition 0.2s linear 1s backwards;
 }
 
 .keyboard-button.incorrect,
@@ -356,12 +497,12 @@ button:active::after {
 }
 
 .keyboard-button.correct {
-    --keyboard-background: var(--green);
+    --keyboard-background: var(--correct-color);
     --keyboard-color: var(--light-text);
 }
 
 .keyboard-button.partial {
-    --keyboard-background: var(--yellow);
+    --keyboard-background: var(--partial-color);
     --keyboard-color: var(--dark-text);
 }
 
@@ -371,7 +512,7 @@ button:active::after {
 }
 
 .keyboard-button.give-up {
-    background-color: var(--red);
+    background-color: var(--failure-color);
     color: var(--light-text);
     font-size: 10pt;
     flex: 0 1.5 12%;
@@ -381,6 +522,40 @@ button:active::after {
 .keyboard-button.backspace {
     flex: 0 1.5 12%;
     min-width: auto;
+}
+
+.keyboard-button.letter.incorrect::before,
+.keyboard-button.letter.partial::before,
+.keyboard-button.letter.correct::before {
+    position: absolute;
+    visibility: hidden;
+    font-size: 10pt;
+    text-align: center;
+    width: 1em;
+    right: 0;
+    bottom: 0;
+    animation-name: keyboard-button-symbol;
+    animation-duration: inherit;
+    animation-delay: inherit;
+    animation-timing-function: inherit;
+    animation-fill-mode: inherit;
+}
+
+.use-symbols .keyboard-button.letter::before {
+    visibility: visible;
+}
+
+.keyboard-button.letter.incorrect::before {
+    content: "X";
+}
+
+.keyboard-button.letter.partial::before {
+    content: "?";
+}
+
+.keyboard-button.letter.correct::before,
+.keyboard-button.letter.resigning::before {
+    content: "\2713";
 }
 
 .end-footer {

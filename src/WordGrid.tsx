@@ -32,6 +32,10 @@ export default function WordGrid({ words }: WordGridProps) {
                 cellClass = `word-grid-cell resigning`;
             }
 
+            if (state === "entry" && char !== "") {
+                cellClass += " filled";
+            }
+
             cells.push(<div class={cellClass}>{char}</div>);
         }
 

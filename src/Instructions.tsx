@@ -6,20 +6,20 @@ export interface InstructionsProps {
 }
 
 export default function Instructions({ open, onClose }: InstructionsProps) {
-    let instructionsClass = "instructions";
+    let instructionsClass = "instructions tab";
     if (!open) {
         instructionsClass += " closed";
     }
 
     return (
         <div class={instructionsClass}>
-            <div class="instructions-contents">
-                <div class="header">
-                    <h2 class="title">Leiðbeiningar</h2>
-                    <button class="instructions-button" onClick={onClose}>X</button>
+            <div class="tab-contents">
+                <div class="tab-header">
+                    <h2 class="tab-title">Leiðbeiningar</h2>
+                    <button class="tab-button" onClick={onClose}>X</button>
                 </div>
                 <hr />
-                <div class="instructions-body">
+                <div class="tab-body">
                     <p>
                         This is an Icelandic version of the excellent{" "}
                         <a target="_blank" href="https://www.powerlanguage.co.uk/wordle/">Wordle</a>.

@@ -1,10 +1,12 @@
 import { h, Fragment, Component } from "preact";
 import EndFooter from "./EndFooter";
 import Keyboard from "./Keyboard";
+import { Settings } from "./settings";
 import WordGrid, { Letter, LetterState } from "./WordGrid";
 import { isAllowedLetter, isValidWord, randomWord } from "./words";
 
 const SQUARES = ["\u{2b1c}", "\u{2b1b}", "\u{1f7e8}", "\u{1f7e9}"];
+const HIGH_CONTRAST_SQUARES = ["\u{2b1c}", "\u{2b1b}", "\u{1f7e6}", "\u{1f7e7}"];
 
 type GameState = {
     state: "playing",
@@ -14,6 +16,10 @@ type GameState = {
 } | {
     state: "resigned"
 };
+
+export interface WordleProps {
+    settings: Settings,
+}
 
 interface WordleState {
     guessedWords: Array<Array<Letter>>,
@@ -69,16 +75,18 @@ const checkWord = (word: string, target: string): Array<Letter> | null => {
     return letters;
 }
 
-const makeResultText = (guessedWords: Array<Array<Letter>>): string => {
+const makeResultText = (guessedWords: Array<Array<Letter>>, settings: Settings) => {
+    const squares = settings.highContrast ? HIGH_CONTRAST_SQUARES : SQUARES;
+
     const grid = guessedWords
         .map(word => (
-            word.map(({ state }) => SQUARES[state]).join("")
+            word.map(({ state }) => squares[state]).join("")
         )).join("\n");
 
     return `Orðill ${guessedWords.length}/\u{221e}\n\n${grid}`;
 }
 
-export default class Wordle extends Component<{}, WordleState> {
+export default class Wordle extends Component<WordleProps, WordleState> {
     state: WordleState = {
         guessedWords: [],
         gameState: {
@@ -129,7 +137,7 @@ export default class Wordle extends Component<{}, WordleState> {
     }
 
     copyResults = () => {
-        const text = makeResultText(this.state.guessedWords);
+        const text = makeResultText(this.state.guessedWords, this.props.settings);
         return navigator.clipboard.writeText(text);
     }
 

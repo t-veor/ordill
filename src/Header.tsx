@@ -1,38 +1,53 @@
 import { h, Fragment, Component } from "preact";
-import DarkModeButton from "./DarkModeButton";
 import Instructions from "./Instructions";
+import SettingsTab from "./SettingsTab";
+
+type TabState = "settings" | "instructions" | null;
 
 interface HeaderState {
-    instructionsOpen: boolean,
+    tab: TabState,
 }
 
 export default class Header extends Component<{}, HeaderState> {
     state: HeaderState = {
-        instructionsOpen: false,
+        tab: null,
+    }
+
+    openSettings = () => {
+        this.setState({ tab: "settings" });
     }
 
     openInstructions = () => {
-        this.setState({ instructionsOpen: true });
+        this.setState({ tab: "instructions" });
     }
 
-    closeInstructions = () => {
-        this.setState({ instructionsOpen: false });
+    closeTab = () => {
+        this.setState({ tab: null });
     }
 
-    render() {
+    render(_: {}, { tab }: HeaderState) {
         return (
             <div class="header">
                 <h1 class="title">Orðill</h1>
-                <DarkModeButton />
                 <button
-                    class="instructions-button"
+                    class="tab-button"
+                    onClick={this.openSettings}
+                >
+                    {"\u{2699}\u{fe0f}"}
+                </button>
+                <button
+                    class="tab-button"
                     onClick={this.openInstructions}
                 >
                     ?
                 </button>
+                <SettingsTab
+                    open={tab === "settings"}
+                    onClose={this.closeTab}
+                />
                 <Instructions
-                    open={this.state.instructionsOpen}
-                    onClose={this.closeInstructions}
+                    open={tab === "instructions"}
+                    onClose={this.closeTab}
                 />
             </div>
         );
