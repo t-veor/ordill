@@ -1,5 +1,5 @@
 import { h, Fragment, Component } from "preact";
-import Instructions from "./Instructions";
+import InstructionsTab from "./InstructionsTab";
 import SettingsTab from "./SettingsTab";
 
 type TabState = "settings" | "instructions" | null;
@@ -45,7 +45,7 @@ export default class Header extends Component<{}, HeaderState> {
                     open={tab === "settings"}
                     onClose={this.closeTab}
                 />
-                <Instructions
+                <InstructionsTab
                     open={tab === "instructions"}
                     onClose={this.closeTab}
                 />
