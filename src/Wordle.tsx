@@ -1,12 +1,11 @@
 import { h, Fragment, Component } from "preact";
 import EndFooter from "./EndFooter";
 import Keyboard from "./Keyboard";
-import { Settings } from "./settings";
+import settingsManager, { Settings } from "./settings";
 import WordGrid, { Letter, LetterState } from "./WordGrid";
 import { isAllowedLetter, isValidWord, randomWord } from "./words";
 
-const SQUARES = ["\u{2b1c}", "\u{2b1b}", "\u{1f7e8}", "\u{1f7e9}"];
-const HIGH_CONTRAST_SQUARES = ["\u{2b1c}", "\u{2b1b}", "\u{1f7e6}", "\u{1f7e7}"];
+const SQUARES = ["\u{2b1b}", "\u{2b1c}", "\u{1f7e8}", "\u{1f7e9}", "\u{1f7e6}", "\u{1f7e7}"];
 
 type GameState = {
     state: "playing",
@@ -16,10 +15,6 @@ type GameState = {
 } | {
     state: "resigned"
 };
-
-export interface WordleProps {
-    settings: Settings,
-}
 
 interface WordleState {
     guessedWords: Array<Array<Letter>>,
@@ -76,7 +71,10 @@ const checkWord = (word: string, target: string): Array<Letter> | null => {
 }
 
 const makeResultText = (guessedWords: Array<Array<Letter>>, settings: Settings) => {
-    const squares = settings.highContrast ? HIGH_CONTRAST_SQUARES : SQUARES;
+    const squares = [""];
+    squares.push(SQUARES[settings.dark ? 0 : 1])
+    squares.push(SQUARES[settings.highContrast ? 4 : 2]);
+    squares.push(SQUARES[settings.highContrast ? 5 : 3]);
 
     const grid = guessedWords
         .map(word => (
@@ -86,7 +84,7 @@ const makeResultText = (guessedWords: Array<Array<Letter>>, settings: Settings) 
     return `Orðill ${guessedWords.length}/\u{221e}\n\n${grid}`;
 }
 
-export default class Wordle extends Component<WordleProps, WordleState> {
+export default class Wordle extends Component<{}, WordleState> {
     state: WordleState = {
         guessedWords: [],
         gameState: {
@@ -137,7 +135,7 @@ export default class Wordle extends Component<WordleProps, WordleState> {
     }
 
     copyResults = () => {
-        const text = makeResultText(this.state.guessedWords, this.props.settings);
+        const text = makeResultText(this.state.guessedWords, settingsManager.get());
         return navigator.clipboard.writeText(text);
     }
 

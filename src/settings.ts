@@ -63,7 +63,7 @@ const tryDetectDarkMode = () => {
     }
 };
 
-export const loadSettings = (): Settings => {
+const loadSettings = (): Settings => {
     const settings = tryLoadSettingsFromStorage();
 
     if (settings.dark == null) {
@@ -77,7 +77,7 @@ export const loadSettings = (): Settings => {
     return settings;
 };
 
-export const saveSettings = (settings: Settings) => {
+const saveSettings = (settings: Settings) => {
     try {
         localStorage.setItem("settings", JSON.stringify(settings));
     } catch (err) {
@@ -85,9 +85,57 @@ export const saveSettings = (settings: Settings) => {
     }
 };
 
-export const SettingsCtx = createContext<{
-    settings: Settings;
-    onSettingsChange?: (settings: Settings) => void;
-}>({
-    settings: {},
-});
+export class SettingsManager {
+    private static instance?: SettingsManager;
+
+    static getInstance(): SettingsManager {
+        if (!this.instance) {
+            this.instance = new SettingsManager();
+        }
+        return this.instance;
+    }
+
+    private callbacks: Array<(settings: Settings) => void> = [];
+    private settings: Settings;
+
+    private constructor() {
+        this.settings = loadSettings();
+        this.onChanged();
+    }
+
+    subscribe(callback: (settings: Settings) => void) {
+        if (!this.callbacks.includes(callback)) {
+            this.callbacks.push(callback);
+        }
+    }
+
+    unsubscribe(callback: (settings: Settings) => void) {
+        this.callbacks = this.callbacks.filter((i) => i !== callback);
+    }
+
+    get(): Settings {
+        return this.settings;
+    }
+
+    update(delta: Settings) {
+        this.settings = { ...this.settings, ...delta };
+        this.onChanged();
+    }
+
+    private onChanged() {
+        const { dark, highContrast, symbols } = this.settings;
+
+        const bodyClasses = document.body.classList;
+        bodyClasses.toggle("dark", dark);
+        bodyClasses.toggle("high-contrast", highContrast);
+        bodyClasses.toggle("use-symbols", symbols);
+
+        saveSettings(this.settings);
+        for (const cb of this.callbacks) {
+            cb(this.settings);
+        }
+    }
+}
+
+const settingsManager = SettingsManager.getInstance();
+export default settingsManager;

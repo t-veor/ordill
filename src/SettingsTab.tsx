@@ -1,6 +1,6 @@
 import { h, Fragment } from "preact";
-import { useContext } from "preact/hooks";
-import { SettingsCtx } from "./settings";
+import { useState, useEffect } from "preact/hooks";
+import settingsManager from "./settings";
 import Switch from "./Switch";
 import Tab from "./Tab";
 
@@ -32,12 +32,16 @@ export interface SettingsTabProps {
 }
 
 export default function SettingsTab(props: SettingsTabProps) {
-    const { settings, onSettingsChange } = useContext(SettingsCtx);
+    const [settings, setSettings] = useState(settingsManager.get());
+    useEffect(() => {
+        settingsManager.subscribe(setSettings);
+        return () => { settingsManager.unsubscribe(setSettings); }
+    }, []);
 
-    const onChangeHardMode = (hardMode: boolean) => onSettingsChange?.({ hardMode });
-    const onChangeDark = (dark: boolean) => onSettingsChange?.({ dark });
-    const onChangeHighContrast = (highContrast: boolean) => onSettingsChange?.({ highContrast });
-    const onChangeSymbols = (symbols: boolean) => onSettingsChange?.({ symbols });
+    const onChangeHardMode = (hardMode: boolean) => settingsManager.update({ hardMode });
+    const onChangeDark = (dark: boolean) => settingsManager.update({ dark });
+    const onChangeHighContrast = (highContrast: boolean) => settingsManager.update({ highContrast });
+    const onChangeSymbols = (symbols: boolean) => settingsManager.update({ symbols });
 
     return (
         <Tab name="Stillingar" {...props}>
