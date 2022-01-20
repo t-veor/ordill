@@ -126,9 +126,9 @@ export class SettingsManager {
         const { dark, highContrast, symbols } = this.settings;
 
         const bodyClasses = document.body.classList;
-        bodyClasses.toggle("dark", dark);
-        bodyClasses.toggle("high-contrast", highContrast);
-        bodyClasses.toggle("use-symbols", symbols);
+        bodyClasses.toggle("dark", !!dark);
+        bodyClasses.toggle("high-contrast", !!highContrast);
+        bodyClasses.toggle("use-symbols", !!symbols);
 
         saveSettings(this.settings);
         for (const cb of this.callbacks) {
