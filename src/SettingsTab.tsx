@@ -38,20 +38,20 @@ export default function SettingsTab(props: SettingsTabProps) {
         return () => { settingsManager.unsubscribe(setSettings); }
     }, []);
 
-    const onChangeHardMode = (hardMode: boolean) => settingsManager.update({ hardMode });
+    // const onChangeHardMode = (hardMode: boolean) => settingsManager.update({ hardMode });
     const onChangeDark = (dark: boolean) => settingsManager.update({ dark });
     const onChangeHighContrast = (highContrast: boolean) => settingsManager.update({ highContrast });
     const onChangeSymbols = (symbols: boolean) => settingsManager.update({ symbols });
 
     return (
         <Tab name="Stillingar" {...props}>
-            <Setting
+            {/* <Setting
                 name="Erfiðari Leikur"
                 description="Allar afhjúpaðar vísbendingar verður að nota í næstu tilraunum"
                 value={!!settings.hardMode}
                 onChange={onChangeHardMode}
             />
-            <hr />
+            <hr /> */}
             <Setting
                 name="Dökkt Þema"
                 value={!!settings.dark}
