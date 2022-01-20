@@ -35,8 +35,7 @@ export default class Keyboard extends Component<KeyboardProps> {
                     buttonClass += " enter";
                     contents = "Giska";
                     if (!wordIsValid) {
-                        disabled = true;
-                        buttonClass += " entry";
+                        buttonClass += " entry fake-disable";
                     } else {
                         buttonClass += " correct";
                     }

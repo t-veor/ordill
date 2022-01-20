@@ -2,6 +2,7 @@ import { h, Fragment, Component } from "preact";
 import EndFooter from "./EndFooter";
 import Keyboard from "./Keyboard";
 import settingsManager, { Settings } from "./settings";
+import { toast } from "./Toaster";
 import WordGrid, { Letter, LetterState } from "./WordGrid";
 import { isAllowedLetter, isValidWord, randomWord } from "./words";
 
@@ -17,14 +18,79 @@ type GameState = {
 };
 
 interface WordleState {
-    guessedWords: Array<Array<Letter>>,
     gameState: GameState,
+    guessedWords: Array<Array<Letter>>,
     secretWord: string,
     letterStates: Record<string, LetterState | undefined>,
+
     generation: number,
+    settings: Settings,
 }
 
-const checkWord = (word: string, target: string): Array<Letter> | null => {
+type ValidateResult = {
+    valid: true,
+    error?: undefined
+} | {
+    valid?: undefined,
+    error: string,
+}
+
+const validateWord = (word: string, lastGuess?: Array<Letter>, hardMode?: boolean): ValidateResult => {
+    if (!isValidWord(word)) {
+        return {
+            error: "Orð ekki gilt",
+        };
+    }
+
+    if (!hardMode) {
+        return { valid: true };
+    }
+
+    return validateHardModeConstraints(word, lastGuess);
+}
+
+// Actually it's only possible to index 0 or 1 into this array, but whatever
+const NEUTER_CARDINALS = ["", "", "tvö ", "þrjú ", "fjögur ", "fimm "];
+
+const validateHardModeConstraints = (word: string, lastGuess?: Array<Letter>): ValidateResult => {
+    if (lastGuess == null) {
+        return { valid: true };
+    }
+
+    for (let i = 0; i < lastGuess.length; i++) {
+        const { letter, state } = lastGuess[i];
+        if (word[i] !== letter && state === LetterState.Correct) {
+            return {
+                error: `${i + 1}. stafurinn verður að vera ${letter.toUpperCase()}`,
+            };
+        }
+    }
+
+    const requiredLetterFreqs: Record<string, number> = {};
+    for (const { letter, state } of lastGuess) {
+        if (state >= LetterState.Partial) {
+            requiredLetterFreqs[letter] = (requiredLetterFreqs[letter] || 0) + 1;
+        }
+    }
+    const foundLetterFreqs: Record<string, number> = {};
+    for (let i = 0; i < word.length; i++) {
+        const l = word[i];
+        foundLetterFreqs[l] = (foundLetterFreqs[l] || 0) + 1;
+    }
+
+    for (const letter of Object.keys(requiredLetterFreqs)) {
+        const requiredFreq = requiredLetterFreqs[letter];
+        if ((foundLetterFreqs[letter] || 0) < requiredFreq) {
+            return {
+                error: `Orð verður að innihalda ${NEUTER_CARDINALS[requiredFreq]}${letter.toUpperCase()}`,
+            };
+        }
+    }
+
+    return { valid: true };
+}
+
+const scoreWord = (word: string, target: string): Array<Letter> | null => {
     if (word.length !== target.length) {
         return null;
     }
@@ -41,7 +107,7 @@ const checkWord = (word: string, target: string): Array<Letter> | null => {
         if (word[i] === target[i]) {
             letters[i] = {
                 letter: word[i],
-                state: 3,
+                state: LetterState.Correct,
             };
             freqs[word[i]] -= 1;
         }
@@ -56,12 +122,12 @@ const checkWord = (word: string, target: string): Array<Letter> | null => {
         if (freqs[letter] == null || freqs[letter] <= 0) {
             letters[i] = {
                 letter,
-                state: 1,
+                state: LetterState.Incorrect,
             };
         } else {
             letters[i] = {
                 letter,
-                state: 2,
+                state: LetterState.Partial,
             };
             freqs[letter] -= 1;
         }
@@ -71,38 +137,57 @@ const checkWord = (word: string, target: string): Array<Letter> | null => {
 }
 
 const makeResultText = (guessedWords: Array<Array<Letter>>, settings: Settings) => {
+    const { dark, highContrast, hardMode } = settings;
+
     const squares = [""];
-    squares.push(SQUARES[settings.dark ? 0 : 1])
-    squares.push(SQUARES[settings.highContrast ? 4 : 2]);
-    squares.push(SQUARES[settings.highContrast ? 5 : 3]);
+    squares.push(SQUARES[dark ? 0 : 1])
+    squares.push(SQUARES[highContrast ? 4 : 2]);
+    squares.push(SQUARES[highContrast ? 5 : 3]);
+
+    const hardModeStar = hardMode ? "*" : "";
 
     const grid = guessedWords
         .map(word => (
             word.map(({ state }) => squares[state]).join("")
         )).join("\n");
 
-    return `Orðill ${guessedWords.length}/\u{221e}\n\n${grid}`;
+    return `Orðill ${guessedWords.length}/\u{221e}${hardModeStar}\n\n${grid}`;
 }
 
 export default class Wordle extends Component<{}, WordleState> {
     state: WordleState = {
-        guessedWords: [],
         gameState: {
             state: "playing",
             currentWord: ""
         },
+        guessedWords: [],
         secretWord: "",
         letterStates: {},
+
         generation: 0,
+        settings: {},
     };
 
     componentDidMount() {
         document.addEventListener("keydown", this.onKeyDown);
+        settingsManager.subscribe(this.onSettingsChange);
         this.reset();
     }
 
     componentWillUnmount() {
         document.removeEventListener("keydown", this.onKeyDown);
+        settingsManager.unsubscribe(this.onSettingsChange);
+    }
+
+    componentDidUpdate() {
+        const { gameState, guessedWords } = this.state;
+        settingsManager.reportInProgress(
+            gameState.state === "playing" && guessedWords.length > 0
+        );
+    }
+
+    onSettingsChange = (settings: Settings) => {
+        this.setState({ settings });
     }
 
     onKeyDown = (event: KeyboardEvent) => {
@@ -135,7 +220,7 @@ export default class Wordle extends Component<{}, WordleState> {
     }
 
     copyResults = () => {
-        const text = makeResultText(this.state.guessedWords, settingsManager.get());
+        const text = makeResultText(this.state.guessedWords, this.state.settings);
         return navigator.clipboard.writeText(text);
     }
 
@@ -188,6 +273,16 @@ export default class Wordle extends Component<{}, WordleState> {
         });
     }
 
+    validateWord(word: string): ValidateResult {
+        if (word.length !== 5) {
+            return { error: "Of fáir bókstafir" };
+        }
+
+        const { guessedWords, settings } = this.state;
+        const { hardMode } = settings;
+        return validateWord(word, guessedWords[guessedWords.length - 1], hardMode);
+    }
+
     submitWord() {
         const { gameState } = this.state;
         if (gameState.state !== "playing") {
@@ -198,33 +293,44 @@ export default class Wordle extends Component<{}, WordleState> {
 
         const correct = currentWord === this.state.secretWord;
 
-        if (correct || currentWord.length === 5 && isValidWord(currentWord)) {
-            const letters = checkWord(currentWord, this.state.secretWord)!;
-
-            const newState = Object.assign({}, this.state.letterStates);
-            for (const { letter, state } of letters) {
-                const prevState = newState[letter];
-                if (prevState == null || prevState < state) {
-                    newState[letter] = state;
-                }
+        let valid = correct;
+        if (!valid) {
+            const result = this.validateWord(currentWord);
+            if (result.error) {
+                toast(result.error);
             }
+            valid = !!result.valid;
+        }
 
-            if (correct) {
-                this.setState({
-                    guessedWords: [...this.state.guessedWords, letters],
-                    gameState: { state: "won" },
-                    letterStates: newState,
-                });
-            } else {
-                this.setState({
-                    guessedWords: [...this.state.guessedWords, letters],
-                    gameState: {
-                        state: "playing",
-                        currentWord: "",
-                    },
-                    letterStates: newState,
-                });
+        if (!valid) {
+            return;
+        }
+
+        const letters = scoreWord(currentWord, this.state.secretWord)!;
+
+        const newState = Object.assign({}, this.state.letterStates);
+        for (const { letter, state } of letters) {
+            const prevState = newState[letter];
+            if (prevState == null || prevState < state) {
+                newState[letter] = state;
             }
+        }
+
+        if (correct) {
+            this.setState({
+                guessedWords: [...this.state.guessedWords, letters],
+                gameState: { state: "won" },
+                letterStates: newState,
+            });
+        } else {
+            this.setState({
+                guessedWords: [...this.state.guessedWords, letters],
+                gameState: {
+                    state: "playing",
+                    currentWord: "",
+                },
+                letterStates: newState,
+            });
         }
     }
 
@@ -251,22 +357,21 @@ export default class Wordle extends Component<{}, WordleState> {
             const { currentWord } = gameState;
             grid.push(currentWord.split("").map(letter => ({
                 letter,
-                state: 0,
+                state: LetterState.Entry,
             })));
 
-            const wordIsValid = currentWord.length === 5 && isValidWord(currentWord);
             footer = (
                 <Keyboard
                     letterStates={letterStates}
                     onKeyDown={this.submitKey}
-                    wordIsValid={wordIsValid}
+                    wordIsValid={!!this.validateWord(currentWord).valid}
                 />
             );
         } else {
             if (gameState.state === "resigned") {
                 grid.push(secretWord.split("").map(letter => ({
                     letter,
-                    state: 3,
+                    state: LetterState.Correct,
                     resigning: true,
                 })));
             }

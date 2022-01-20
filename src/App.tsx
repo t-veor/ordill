@@ -1,5 +1,6 @@
 import { h, Fragment } from "preact";
 import Header from "./Header";
+import { Toaster } from "./Toaster";
 import Wordle from "./Wordle";
 
 export default function App() {
@@ -8,6 +9,7 @@ export default function App() {
             <Header />
             <hr />
             <Wordle />
+            <Toaster />
         </div>
     );
 }

@@ -2,6 +2,7 @@ import { h, Fragment, Component } from "preact";
 
 export interface SwitchProps {
     value: boolean;
+    disabled?: boolean;
     onChange?: (newValue: boolean) => void;
 }
 
@@ -14,9 +15,14 @@ export default class Switch extends Component<SwitchProps> {
         this.props.onChange?.(false);
     }
 
-    render({ value }: SwitchProps) {
+    render({ value, disabled }: SwitchProps) {
         let trueButtonClass = "switch-button true";
         let falseButtonClass = "switch-button false";
+
+        if (disabled) {
+            trueButtonClass += " fake-disable";
+            falseButtonClass += " fake-disable";
+        }
 
         if (value) {
             trueButtonClass += " active";

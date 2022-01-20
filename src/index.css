@@ -126,6 +126,11 @@ button:active::after {
     border: 2.5px solid var(--blue);
 }
 
+button.fake-disable {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .main-container {
     display: flex;
     justify-content: center;
@@ -573,4 +578,34 @@ button:active::after {
 .end-footer-button.play-again {
     background-color: var(--blue);
     color: var(--light-text);
+}
+
+@keyframes fade-out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.toaster {
+    position: fixed;
+    width: max-content;
+    max-width: 80%;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+    z-index: 200;
+}
+
+.toast {
+    background: var(--entry-color);
+    color: var(--text-color);
+    animation: fade-out linear 0.5s 1.5s both;
+    font-size: 14pt;
+    font-weight: 600;
+    padding: 0.5em 1em;
 }

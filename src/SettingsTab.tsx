@@ -1,6 +1,6 @@
 import { h, Fragment } from "preact";
 import { useState, useEffect } from "preact/hooks";
-import settingsManager from "./settings";
+import settingsManager, { Settings } from "./settings";
 import Switch from "./Switch";
 import Tab from "./Tab";
 
@@ -8,12 +8,13 @@ interface SettingProps {
     name: string,
     description?: string,
     value: boolean,
+    disabled?: boolean,
     onChange?: (newValue: boolean) => void;
 }
 
-function Setting({ name, description, value, onChange }: SettingProps) {
+function Setting({ name, description, value, disabled, onChange }: SettingProps) {
     const descriptionElement = description ?
-        (<div class="setting-description">{description}</div>) : undefined;
+        (<div class="setting-description">{description}</div>) : null;
 
     return (
         <div class="setting">
@@ -21,7 +22,7 @@ function Setting({ name, description, value, onChange }: SettingProps) {
                 <div class="setting-name">{name}</div>
                 {descriptionElement}
             </div>
-            <Switch value={value} onChange={onChange} />
+            <Switch value={value} disabled={disabled} onChange={onChange} />
         </div>
     );
 }
@@ -33,25 +34,31 @@ export interface SettingsTabProps {
 
 export default function SettingsTab(props: SettingsTabProps) {
     const [settings, setSettings] = useState(settingsManager.get());
+    const [gameInProgress, setGameInProgress] = useState(settingsManager.isGameInProgress());
     useEffect(() => {
-        settingsManager.subscribe(setSettings);
-        return () => { settingsManager.unsubscribe(setSettings); }
+        const cb = (settings: Settings, gameInProgress: boolean) => {
+            setSettings(settings);
+            setGameInProgress(gameInProgress);
+        };
+        settingsManager.subscribe(cb);
+        return () => { settingsManager.unsubscribe(cb); }
     }, []);
 
-    // const onChangeHardMode = (hardMode: boolean) => settingsManager.update({ hardMode });
+    const onChangeHardMode = (hardMode: boolean) => settingsManager.update({ hardMode });
     const onChangeDark = (dark: boolean) => settingsManager.update({ dark });
     const onChangeHighContrast = (highContrast: boolean) => settingsManager.update({ highContrast });
     const onChangeSymbols = (symbols: boolean) => settingsManager.update({ symbols });
 
     return (
         <Tab name="Stillingar" {...props}>
-            {/* <Setting
+            <Setting
                 name="Erfiðari Leikur"
                 description="Allar afhjúpaðar vísbendingar verður að nota í næstu tilraunum"
                 value={!!settings.hardMode}
+                disabled={!settings.hardMode && gameInProgress}
                 onChange={onChangeHardMode}
             />
-            <hr /> */}
+            <hr />
             <Setting
                 name="Dökkt Þema"
                 value={!!settings.dark}

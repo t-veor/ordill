@@ -1,11 +1,16 @@
 import { h, Fragment } from "preact";
 
-export type LetterState = 0 | 1 | 2 | 3;
+export const enum LetterState {
+    Entry,
+    Incorrect,
+    Partial,
+    Correct,
+};
 export const LETTER_STATE_MAP: Record<LetterState, string> = {
-    [0]: "entry",
-    [1]: "incorrect",
-    [2]: "partial",
-    [3]: "correct",
+    [LetterState.Entry]: "entry",
+    [LetterState.Incorrect]: "incorrect",
+    [LetterState.Partial]: "partial",
+    [LetterState.Correct]: "correct",
 };
 
 export interface Letter {

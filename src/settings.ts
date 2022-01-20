@@ -1,4 +1,4 @@
-import { createContext } from "preact";
+import { toast } from "./Toaster";
 
 export interface Settings {
     dark?: boolean;
@@ -85,6 +85,11 @@ const saveSettings = (settings: Settings) => {
     }
 };
 
+export type SettingsCallback = (
+    settings: Settings,
+    gameInProgress: boolean
+) => void;
+
 export class SettingsManager {
     private static instance?: SettingsManager;
 
@@ -95,21 +100,22 @@ export class SettingsManager {
         return this.instance;
     }
 
-    private callbacks: Array<(settings: Settings) => void> = [];
+    private callbacks: SettingsCallback[] = [];
     private settings: Settings;
+    private gameInProgress: boolean = false;
 
     private constructor() {
         this.settings = loadSettings();
         this.onChanged();
     }
 
-    subscribe(callback: (settings: Settings) => void) {
+    subscribe(callback: SettingsCallback) {
         if (!this.callbacks.includes(callback)) {
             this.callbacks.push(callback);
         }
     }
 
-    unsubscribe(callback: (settings: Settings) => void) {
+    unsubscribe(callback: SettingsCallback) {
         this.callbacks = this.callbacks.filter((i) => i !== callback);
     }
 
@@ -117,9 +123,36 @@ export class SettingsManager {
         return this.settings;
     }
 
+    isGameInProgress(): boolean {
+        return this.gameInProgress;
+    }
+
     update(delta: Settings) {
+        if (
+            this.gameInProgress &&
+            !this.settings.hardMode &&
+            delta.hardMode != null
+        ) {
+            toast(
+                "Ekki er hægt að kveikja á erfiðisstillingunni í miðjum leik"
+            );
+            let { hardMode, ...remaining } = delta;
+            delta = remaining;
+        }
         this.settings = { ...this.settings, ...delta };
         this.onChanged();
+    }
+
+    forceSetHardMode(hardMode: boolean) {
+        this.settings = { ...this.settings, hardMode };
+        this.onChanged;
+    }
+
+    reportInProgress(inProgress: boolean) {
+        if (inProgress !== this.gameInProgress) {
+            this.gameInProgress = inProgress;
+            this.onChanged();
+        }
     }
 
     private onChanged() {
@@ -132,7 +165,7 @@ export class SettingsManager {
 
         saveSettings(this.settings);
         for (const cb of this.callbacks) {
-            cb(this.settings);
+            cb(this.settings, this.gameInProgress);
         }
     }
 }

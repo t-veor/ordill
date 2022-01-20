@@ -19,13 +19,17 @@ const binarySearch = (array: string[], value: string) => {
     }
 
     return ~low;
-}
+};
 
-const includes = (array: string[], value: string) => binarySearch(array, value) >= 0;
+const includes = (array: string[], value: string) =>
+    binarySearch(array, value) >= 0;
 
-export const randomWord = () => commonWords[Math.random() * commonWords.length | 0];
+export const randomWord = () =>
+    commonWords[(Math.random() * commonWords.length) | 0];
 
-export const isValidWord = (word: string) => includes(commonWords, word) || includes(allWords, word);
+export const isValidWord = (word: string) =>
+    includes(commonWords, word) || includes(allWords, word);
 
 export const ALLOWED_LETTERS = "abcdefghijklmnopqrstuvwyxzáéíóúýþæöð";
-export const isAllowedLetter = (letter: string) => letter.length === 1 && ALLOWED_LETTERS.includes(letter);
+export const isAllowedLetter = (letter: string) =>
+    letter.length === 1 && ALLOWED_LETTERS.includes(letter);
