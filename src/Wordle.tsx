@@ -1,4 +1,5 @@
-import { h, Fragment, Component } from "preact";
+import { h, Fragment } from "preact";
+import { useCallback, useEffect, useMemo, useReducer, useState } from "preact/hooks";
 import EndFooter from "./EndFooter";
 import Keyboard from "./Keyboard";
 import settingsManager, { Settings } from "./settings";
@@ -9,23 +10,156 @@ import { isAllowedLetter, isValidWord, randomWord } from "./words";
 const SQUARES = ["\u{2b1b}", "\u{2b1c}", "\u{1f7e8}", "\u{1f7e9}", "\u{1f7e6}", "\u{1f7e7}"];
 
 type GameState = {
-    state: "playing",
+    name: "playing",
     currentWord: string,
 } | {
-    state: "won"
+    name: "won",
 } | {
-    state: "resigned"
+    name: "resigned",
 };
 
 interface WordleState {
     gameState: GameState,
     guessedWords: Array<Array<Letter>>,
     secretWord: string,
-    letterStates: Record<string, LetterState | undefined>,
-
-    generation: number,
-    settings: Settings,
+    hardMode: boolean,
+    toastMessage?: { message: string },
 }
+
+type WordleAction = {
+    type: "input",
+    letter: string,
+} | {
+    type: "submit",
+} | {
+    type: "backspace",
+} | {
+    type: "resign",
+} | {
+    type: "load",
+    newState: WordleState,
+} | {
+    type: "setHardMode",
+    hardMode: boolean,
+};
+
+function wordleReducer(state: WordleState, action: WordleAction): WordleState {
+    switch (action.type) {
+        case "input":
+            return appendLetter(state, action.letter);
+        case "submit":
+            return submitWord(state);
+        case "backspace":
+            return backspace(state);
+        case "resign":
+            return resign(state);
+        case "load":
+            return action.newState;
+        case "setHardMode":
+            return { ...state, hardMode: action.hardMode };
+        default:
+            return state;
+    }
+}
+
+function appendLetter(state: WordleState, letter: string): WordleState {
+    const { gameState } = state;
+    if (gameState.name !== "playing") {
+        return state;
+    }
+
+    const { currentWord } = gameState;
+    if (currentWord.length >= 5 || !isAllowedLetter(letter)) {
+        return state;
+    }
+
+    return {
+        ...state,
+        gameState: {
+            name: "playing",
+            currentWord: currentWord + letter,
+        }
+    }
+}
+
+function backspace(state: WordleState): WordleState {
+    const { gameState } = state;
+    if (gameState.name !== "playing") {
+        return state;
+    }
+
+    const { currentWord } = gameState;
+    return {
+        ...state,
+        gameState: {
+            name: "playing",
+            currentWord: currentWord.substring(0, currentWord.length - 1),
+        },
+    };
+}
+
+function submitWord(state: WordleState,): WordleState {
+    const { gameState, secretWord } = state;
+    if (gameState.name !== "playing") {
+        return state;
+    }
+
+    const { currentWord } = gameState;
+
+    const correct = currentWord === secretWord;
+
+    let valid = correct;
+    if (!valid) {
+        const result = validateWord(state, currentWord);
+        if (result.error) {
+            state = { ...state, toastMessage: { message: result.error } };
+        }
+        valid = !!result.valid;
+    }
+
+    if (!valid) {
+        return state;
+    }
+
+    const letters = scoreWord(currentWord, secretWord)!;
+
+    if (correct) {
+        return {
+            ...state,
+            guessedWords: [...state.guessedWords, letters],
+            gameState: { name: "won" },
+        };
+    } else {
+        return {
+            ...state,
+            guessedWords: [...state.guessedWords, letters],
+            gameState: { name: "playing", currentWord: "" },
+        };
+    }
+}
+
+function resign(state: WordleState): WordleState {
+    const { gameState } = state;
+    if (gameState.name !== "playing") {
+        return state;
+    }
+
+    return {
+        ...state,
+        gameState: { name: "resigned" }
+    };
+}
+
+function initialState(hardMode?: boolean): WordleState {
+    const secretWord = randomWord();
+    return {
+        gameState: { name: "playing", currentWord: "" },
+        guessedWords: [],
+        hardMode: !!hardMode,
+        secretWord,
+    };
+}
+
 
 type ValidateResult = {
     valid: true,
@@ -35,7 +169,12 @@ type ValidateResult = {
     error: string,
 }
 
-const validateWord = (word: string, lastGuess?: Array<Letter>, hardMode?: boolean): ValidateResult => {
+const validateWord = (state: WordleState, word: string): ValidateResult => {
+    if (word.length !== 5) {
+        return { error: "Of fáir bókstafir" };
+    }
+
+    const { guessedWords, hardMode } = state;
     if (!isValidWord(word)) {
         return {
             error: "Orð ekki gilt",
@@ -46,10 +185,11 @@ const validateWord = (word: string, lastGuess?: Array<Letter>, hardMode?: boolea
         return { valid: true };
     }
 
+    const lastGuess = guessedWords[guessedWords.length - 1];
     return validateHardModeConstraints(word, lastGuess);
 }
 
-// Actually it's only possible to index 0 or 1 into this array, but whatever
+// Actually it's only possible to index 1 or 2 into this array, but whatever
 const NEUTER_CARDINALS = ["", "", "tvö ", "þrjú ", "fjögur ", "fimm "];
 
 const validateHardModeConstraints = (word: string, lastGuess?: Array<Letter>): ValidateResult => {
@@ -154,244 +294,125 @@ const makeResultText = (guessedWords: Array<Array<Letter>>, settings: Settings) 
     return `Orðill ${guessedWords.length}/\u{221e}${hardModeStar}\n\n${grid}`;
 }
 
-export default class Wordle extends Component<{}, WordleState> {
-    state: WordleState = {
-        gameState: {
-            state: "playing",
-            currentWord: ""
-        },
-        guessedWords: [],
-        secretWord: "",
-        letterStates: {},
+export default function Wordle() {
+    const [settings, setSettings] = useState(settingsManager.get());
+    useEffect(() => {
+        settingsManager.subscribe(setSettings);
+        return () => settingsManager.unsubscribe(setSettings);
+    }, []);
 
-        generation: 0,
-        settings: {},
-    };
+    const [state, dispatch] = useReducer(wordleReducer, settings.hardMode, initialState);
+    const { gameState, guessedWords, secretWord } = state;
 
-    componentDidMount() {
-        document.addEventListener("keydown", this.onKeyDown);
-        settingsManager.subscribe(this.onSettingsChange);
-        this.reset();
-    }
+    useEffect(() => {
+        dispatch({ type: "setHardMode", hardMode: !!settings.hardMode });
+    }, [settings.hardMode]);
 
-    componentWillUnmount() {
-        document.removeEventListener("keydown", this.onKeyDown);
-        settingsManager.unsubscribe(this.onSettingsChange);
-    }
-
-    componentDidUpdate() {
-        const { gameState, guessedWords } = this.state;
+    useEffect(() => {
         settingsManager.reportInProgress(
-            gameState.state === "playing" && guessedWords.length > 0
+            gameState.name === "playing" && guessedWords.length > 0
         );
-    }
+    }, [gameState.name, guessedWords]);
 
-    onSettingsChange = (settings: Settings) => {
-        this.setState({ settings });
-    }
+    useEffect(() => {
+        if (state.toastMessage) {
+            toast(state.toastMessage.message);
+        }
+    }, [state.toastMessage])
 
-    onKeyDown = (event: KeyboardEvent) => {
+    const submitKey = useCallback((key: string) => {
+        switch (key) {
+            case "Enter":
+                return dispatch({ type: "submit" });
+            case "Backspace":
+                return dispatch({ type: "backspace" });
+            case "GiveUp":
+                return dispatch({ type: "resign" });
+            default:
+                return dispatch({ type: "input", letter: key.toLowerCase() });
+        }
+    }, []);
+
+    const onKeyDown = useCallback((event: KeyboardEvent) => {
         const target = event.target as HTMLElement;
         if (event.key === "Enter" && (target.tagName === "BUTTON" || target.tagName === "A")) {
             return;
         }
-        this.submitKey(event.key);
+        submitKey(event.key);
+    }, [submitKey]);
+    useEffect(() => {
+        document.addEventListener("keydown", onKeyDown);
+        return () => document.removeEventListener("keydown", onKeyDown);
+    }, [onKeyDown]);
+
+    const playAgain = () => {
+        dispatch({
+            type: "load",
+            newState: initialState(settings.hardMode),
+        });
     };
 
-    submitKey = (key: string) => {
-        switch (key) {
-            case "Enter":
-                this.submitWord();
-                break;
-            case "Backspace":
-                this.backspace();
-                break;
-            case "GiveUp":
-                this.giveUp();
-                break;
-            default:
-                this.appendLetter(key.toLowerCase());
-                break;
-        }
-    }
-
-    playAgain = () => {
-        this.reset();
-    }
-
-    copyResults = () => {
-        const text = makeResultText(this.state.guessedWords, this.state.settings);
+    const copyResults = () => {
+        const text = makeResultText(state.guessedWords, settings);
         return navigator.clipboard.writeText(text);
-    }
+    };
 
-    reset() {
-        const secretWord = randomWord();
-        this.setState({
-            guessedWords: [],
-            gameState: {
-                state: "playing",
-                currentWord: "",
-            },
-            secretWord,
-            letterStates: {},
-            generation: this.state.generation + 1,
-        });
-    }
-
-    appendLetter(letter: string) {
-        const { gameState } = this.state;
-        if (gameState.state !== "playing") {
-            return;
-        }
-
-        const { currentWord } = gameState;
-        if (currentWord.length >= 5) {
-            return;
-        }
-        if (isAllowedLetter(letter)) {
-            this.setState({
-                gameState: {
-                    state: "playing",
-                    currentWord: currentWord + letter,
+    const letterStates = useMemo(() => {
+        console.time();
+        const states: Record<string, LetterState> = {};
+        for (const word of guessedWords) {
+            for (const { letter, state } of word) {
+                if ((states[letter] || 0) < state) {
+                    states[letter] = state;
                 }
-            });
-        }
-    }
-
-    backspace() {
-        const { gameState } = this.state;
-        if (gameState.state !== "playing") {
-            return;
-        }
-
-        const { currentWord } = gameState;
-        this.setState({
-            gameState: {
-                state: "playing",
-                currentWord: currentWord.substring(0, currentWord.length - 1),
-            },
-        });
-    }
-
-    validateWord(word: string): ValidateResult {
-        if (word.length !== 5) {
-            return { error: "Of fáir bókstafir" };
-        }
-
-        const { guessedWords, settings } = this.state;
-        const { hardMode } = settings;
-        return validateWord(word, guessedWords[guessedWords.length - 1], hardMode);
-    }
-
-    submitWord() {
-        const { gameState } = this.state;
-        if (gameState.state !== "playing") {
-            return;
-        }
-
-        const { currentWord } = gameState;
-
-        const correct = currentWord === this.state.secretWord;
-
-        let valid = correct;
-        if (!valid) {
-            const result = this.validateWord(currentWord);
-            if (result.error) {
-                toast(result.error);
-            }
-            valid = !!result.valid;
-        }
-
-        if (!valid) {
-            return;
-        }
-
-        const letters = scoreWord(currentWord, this.state.secretWord)!;
-
-        const newState = Object.assign({}, this.state.letterStates);
-        for (const { letter, state } of letters) {
-            const prevState = newState[letter];
-            if (prevState == null || prevState < state) {
-                newState[letter] = state;
             }
         }
+        console.timeEnd();
+        return states;
+    }, [guessedWords]);
 
-        if (correct) {
-            this.setState({
-                guessedWords: [...this.state.guessedWords, letters],
-                gameState: { state: "won" },
-                letterStates: newState,
-            });
-        } else {
-            this.setState({
-                guessedWords: [...this.state.guessedWords, letters],
-                gameState: {
-                    state: "playing",
-                    currentWord: "",
-                },
-                letterStates: newState,
-            });
-        }
-    }
-
-    giveUp() {
-        const { gameState } = this.state;
-        if (gameState.state !== "playing") {
-            return;
-        }
-
-        this.setState({
-            gameState: {
-                state: "resigned"
-            },
-        });
-    }
-
-    render() {
-        const { gameState, letterStates, guessedWords, secretWord, generation } = this.state;
-
+    const grid = useMemo(() => {
         const grid = [...guessedWords];
-
-        let footer = null;
-        if (gameState.state === "playing") {
-            const { currentWord } = gameState;
-            grid.push(currentWord.split("").map(letter => ({
-                letter,
-                state: LetterState.Entry,
+        if (gameState.name === "playing") {
+            grid.push(gameState.currentWord.split("").map(letter => ({
+                letter, state: LetterState.Entry
             })));
-
-            footer = (
-                <Keyboard
-                    letterStates={letterStates}
-                    onKeyDown={this.submitKey}
-                    wordIsValid={!!this.validateWord(currentWord).valid}
-                />
-            );
-        } else {
-            if (gameState.state === "resigned") {
-                grid.push(secretWord.split("").map(letter => ({
-                    letter,
-                    state: LetterState.Correct,
-                    resigning: true,
-                })));
-            }
-
-            footer = (
-                <EndFooter
-                    state={gameState.state}
-                    guesses={guessedWords.length}
-                    onPlayAgain={this.playAgain}
-                    onCopyResults={this.copyResults}
-                />
-            );
+        } else if (gameState.name === "resigned") {
+            grid.push(secretWord.split("").map(letter => ({
+                letter,
+                state: LetterState.Correct,
+                resigning: true,
+            })));
         }
+        return grid;
+    }, [guessedWords, gameState, secretWord]);
 
-        return (
-            <>
-                <WordGrid key={generation} words={grid} />
-                {footer}
-            </>
+    const wordIsValid = gameState.name === "playing" ?
+        !!validateWord(state, gameState.currentWord).valid : false;
+
+    const footer = gameState.name === "playing" ?
+        (
+            <Keyboard
+                letterStates={letterStates}
+                onKeyDown={submitKey}
+                wordIsValid={wordIsValid}
+            />
+        )
+        :
+        (
+            <EndFooter
+                state={gameState.name}
+                guesses={guessedWords.length}
+                onPlayAgain={playAgain}
+                onCopyResults={copyResults}
+            />
         );
-    }
-}
 
+
+    return (
+        <>
+            <WordGrid words={grid} />
+            {footer}
+        </>
+    );
+}
