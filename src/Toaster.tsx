@@ -32,7 +32,7 @@ export function Toaster() {
 
     useEffect(() => {
         if (toast != null) {
-            const handle = setTimeout(() => setToast(null), 2500);
+            const handle = setTimeout(() => setToast(null), 3000);
             return () => clearTimeout(handle);
         }
     }, [toast])

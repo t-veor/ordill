@@ -604,7 +604,7 @@ button.fake-disable {
 .toast {
     background: var(--entry-color);
     color: var(--text-color);
-    animation: fade-out linear 0.5s 1.5s both;
+    animation: fade-out linear 0.5s 2s both;
     font-size: 14pt;
     font-weight: 600;
     padding: 0.5em 1em;
