@@ -1,4 +1,5 @@
 import { h, Fragment } from "preact";
+import { useEffect, useRef } from "preact/hooks";
 
 export const enum LetterState {
     Entry,
@@ -21,31 +22,46 @@ export interface Letter {
 
 export interface WordGridProps {
     words: Array<Array<Letter>>,
+    minRows?: number
 }
 
+const makeCell = (letter?: Letter) => {
+    const char = letter?.letter ?? "";
+    const state = LETTER_STATE_MAP[letter?.state ?? 0];
+
+    let cellClass = `word-grid-cell ${state}`;
+    if (letter?.resigning) {
+        cellClass = `word-grid-cell resigning`;
+    }
+
+    if (state === "entry" && char !== "") {
+        cellClass += " filled";
+    }
+
+    return (<div class={cellClass}>{char}</div>)
+};
+
 export default function WordGrid({ words }: WordGridProps) {
-    const rows = words.map(word => {
+    const lastRow = useRef<HTMLDivElement>(null);
+    useEffect(
+        () => lastRow.current?.scrollIntoView({ behavior: "smooth" }),
+        [words],
+    );
+
+    const rows = words.map((word, i) => {
         const cells = [];
-
-        for (let i = 0; i < 5; i++) {
-            const letter = word[i];
-            const char = letter?.letter ?? "";
-            const state = LETTER_STATE_MAP[letter?.state ?? 0];
-
-            let cellClass = `word-grid-cell ${state}`;
-            if (letter?.resigning) {
-                cellClass = `word-grid-cell resigning`;
-            }
-
-            if (state === "entry" && char !== "") {
-                cellClass += " filled";
-            }
-
-            cells.push(<div class={cellClass}>{char}</div>);
+        for (let j = 0; j < 5; j++) {
+            cells.push(makeCell(word[j]));
         }
-
-        return (<div class="word-grid-row">{cells}</div>);
+        const ref = i === words.length - 1 ? lastRow : undefined;
+        return (<div class="word-grid-row" ref={ref}>{cells}</div>);
     });
 
-    return (<div class="word-grid">{rows}</div>);
+    return (
+        <div class="word-grid">
+            <div class="word-grid-inner">
+                {rows}
+            </div>
+        </div>
+    );
 }

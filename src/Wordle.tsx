@@ -358,7 +358,6 @@ export default function Wordle() {
     };
 
     const letterStates = useMemo(() => {
-        console.time();
         const states: Record<string, LetterState> = {};
         for (const word of guessedWords) {
             for (const { letter, state } of word) {
@@ -367,7 +366,6 @@ export default function Wordle() {
                 }
             }
         }
-        console.timeEnd();
         return states;
     }, [guessedWords]);
 

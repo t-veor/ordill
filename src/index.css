@@ -136,7 +136,7 @@ button.fake-disable {
     justify-content: center;
     flex-direction: column;
     max-width: 640px;
-    min-height: 100vh;
+    height: 100vh;
     margin: 0 auto;
     padding: 10px 0;
 }
@@ -150,6 +150,7 @@ button.fake-disable {
 }
 
 .title {
+    margin: 0 10px;
     flex: 1 0;
 }
 
@@ -210,6 +211,10 @@ button.fake-disable {
     opacity: 0.8;
 }
 
+.show-stats-button {
+    width: 104px;
+}
+
 .switch-button {
     width: 50px;
     height: 50px;
@@ -236,11 +241,15 @@ button.fake-disable {
 }
 
 .word-grid {
+    flex: 1 0;
+    margin-bottom: 10px;
+    overflow-y: auto;
+}
+
+.word-grid-inner {
     display: flex;
     flex-direction: column;
-    flex: 1 0;
     gap: 5px;
-    margin-bottom: 10px;
 }
 
 .word-grid-row {
@@ -435,6 +444,20 @@ button.fake-disable {
     content: "\2713";
 }
 
+@media (max-height: 700px) {
+    .word-grid-cell {
+        width: 45px;
+        height: 45px;
+        font-size: 24pt;
+    }
+    .word-grid-cell.incorrect::before,
+    .word-grid-cell.partial::before,
+    .word-grid-cell.correct::before,
+    .word-grid-cell.resigning::before {
+        font-size: 7pt;
+    }
+}
+
 .keyboard {
     width: 100%;
     display: flex;
@@ -561,6 +584,22 @@ button.fake-disable {
 .keyboard-button.letter.correct::before,
 .keyboard-button.letter.resigning::before {
     content: "\2713";
+}
+
+@media (max-height: 610px) {
+    .keyboard-button {
+        height: 38px;
+        font-size: 12pt;
+    }
+    .keyboard-button.give-up {
+        font-size: 8pt;
+    }
+
+    .keyboard-button.letter.incorrect::before,
+    .keyboard-button.letter.partial::before,
+    .keyboard-button.letter.correct::before {
+        font-size: 7pt;
+    }
 }
 
 .end-footer {

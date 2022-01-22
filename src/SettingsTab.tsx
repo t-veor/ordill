@@ -1,4 +1,4 @@
-import { h, Fragment } from "preact";
+import { h, Fragment, RenderableProps } from "preact";
 import { useState, useEffect } from "preact/hooks";
 import settingsManager, { Settings } from "./settings";
 import Switch from "./Switch";
@@ -7,12 +7,9 @@ import Tab from "./Tab";
 interface SettingProps {
     name: string,
     description?: string,
-    value: boolean,
-    disabled?: boolean,
-    onChange?: (newValue: boolean) => void;
 }
 
-function Setting({ name, description, value, disabled, onChange }: SettingProps) {
+function Setting({ name, description, children }: RenderableProps<SettingProps>) {
     const descriptionElement = description ?
         (<div class="setting-description">{description}</div>) : null;
 
@@ -22,7 +19,7 @@ function Setting({ name, description, value, disabled, onChange }: SettingProps)
                 <div class="setting-name">{name}</div>
                 {descriptionElement}
             </div>
-            <Switch value={value} disabled={disabled} onChange={onChange} />
+            {children}
         </div>
     );
 }
@@ -49,35 +46,62 @@ export default function SettingsTab(props: SettingsTabProps) {
     const onChangeHighContrast = (highContrast: boolean) => settingsManager.update({ highContrast });
     const onChangeSymbols = (symbols: boolean) => settingsManager.update({ symbols });
 
+    // TODO: Hook up stats and daily buttons to stuff
     return (
-        <Tab name="Stillingar" {...props}>
+        <Tab name="Valmynd" {...props}>
+            <Setting
+                name="Tölfræðin Þín"
+            >
+                <button
+                    class="show-stats-button"
+                >
+                    Sýna
+                </button>
+            </Setting>
+            <hr />
+            <Setting
+                name="Spila Daglegt"
+                description="Allir fá sama orðið, eingöngu eru sex tilraunir, aðeins eitt orð á dag"
+            >
+                <Switch
+                    value={true}
+                />
+            </Setting>
+            <hr />
             <Setting
                 name="Erfiðari Leikur"
                 description="Allar afhjúpaðar vísbendingar verður að nota í næstu tilraunum"
-                value={!!settings.hardMode}
-                disabled={!settings.hardMode && gameInProgress}
-                onChange={onChangeHardMode}
-            />
+            >
+                <Switch
+                    value={!!settings.hardMode}
+                    disabled={!settings.hardMode && gameInProgress}
+                    onChange={onChangeHardMode}
+                />
+            </Setting>
             <hr />
-            <Setting
-                name="Dökkt Þema"
-                value={!!settings.dark}
-                onChange={onChangeDark}
-            />
+            <Setting name="Dökkt Þema">
+                <Switch value={!!settings.dark} onChange={onChangeDark} />
+            </Setting>
             <hr />
             <Setting
                 name="Litblindustilling"
                 description="Skipta um lit til að gera þá auðsjáanlegri"
-                value={!!settings.highContrast}
-                onChange={onChangeHighContrast}
-            />
+            >
+                <Switch
+                    value={!!settings.highContrast}
+                    onChange={onChangeHighContrast}
+                />
+            </Setting>
             <hr />
             <Setting
                 name="Nota Tákn"
                 description={"Nota X, ? og \u{2713} til að sýna niðurstöður"}
-                value={!!settings.symbols}
-                onChange={onChangeSymbols}
-            />
+            >
+                <Switch
+                    value={!!settings.symbols}
+                    onChange={onChangeSymbols}
+                />
+            </Setting>
             <hr />
             <p><b>Þemadæmi:</b></p>
             <div class="word-grid-row">
@@ -87,6 +111,6 @@ export default function SettingsTab(props: SettingsTabProps) {
                 <div class="word-grid-cell incorrect">v</div>
                 <div class="word-grid-cell correct">a</div>
             </div>
-        </Tab>
+        </Tab >
     );
 }

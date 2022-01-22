@@ -28,13 +28,13 @@ export default class Header extends Component<{}, HeaderState> {
     render(_: {}, { tab }: HeaderState) {
         return (
             <div class="header">
-                <h1 class="title">Orðill</h1>
                 <button
                     class="tab-button"
                     onClick={this.openSettings}
                 >
-                    {"\u{2699}\u{fe0f}"}
+                    {"\u{2630}"}
                 </button>
+                <h1 class="title">Orðill</h1>
                 <button
                     class="tab-button"
                     onClick={this.openInstructions}

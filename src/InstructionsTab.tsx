@@ -10,21 +10,7 @@ export default function InstructionsTab(props: InstructionsTabProps) {
     return (
         <Tab name="Leiðbeiningar" {...props}>
             <p>
-                This is an Icelandic version of the excellent{" "}
-                <a target="_blank" href="https://www.powerlanguage.co.uk/wordle/">Wordle</a>.
-                You can find the source code on{" "}
-                <a target="_blank" href="https://github.com/t-veor/ordill">Github</a>.
-            </p>
-            <p>
-                Þetta er íslensk útgáfa af hinu frábæra{" "}
-                <a target="_blank" href="https://www.powerlanguage.co.uk/wordle/">Wordle</a>.
-                Source kóðann má finna á{" "}
-                <a target="_blank" href="https://github.com/t-veor/ordill">Github</a>.
-            </p>
-            <hr />
-            <p>
-                Giskaðu á <b>ORÐILIN</b> í eins fáum tilraunum og þú getur.
-                Fjöldi tilrauna er ótakmarkaður.
+                Giskaðu á <b>ORÐILIN</b> í sex eða færri tilraunum.
             </p>
             <p>
                 Hver tilraun verður að vera gilt orð á íslensku með 5 bókstöfum.
@@ -59,6 +45,27 @@ export default function InstructionsTab(props: InstructionsTabProps) {
                 <div class="word-grid-cell entry">r</div>
             </div>
             <p>Bókstafurinn <b>Ý</b> er ekki í orðinu á neinum stað.</p>
+            <hr />
+            <p>
+                Allir fá sama orðið og bara sex tilraunir í „Daglegum" ham, og
+                það er eingöngu eitt orð á dag.
+            </p>
+            <p>
+                Ef þú vilt spila meira, geturðu skipt yfir í „Frjálsan" ham til
+                að fá handahófskennt orð og ótakmarkaðar tilraunir.
+            </p>
+            <p>
+                Það er hægt að skipta á milli leiktegunda í valmyndinni.
+            </p>
+            <hr />
+            <p>
+                Þetta er íslensk útgáfa af hinu frábæra{" "}
+                <a target="_blank" href="https://www.powerlanguage.co.uk/wordle/">Wordle</a>.
+            </p>
+            <p>
+                Source kóðann má finna á{" "}
+                <a target="_blank" href="https://github.com/t-veor/ordill">Github</a>.
+            </p>
         </Tab>
     );
 }
