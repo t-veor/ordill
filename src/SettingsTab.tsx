@@ -138,6 +138,24 @@ export default function SettingsTab({ open, setTab }: SettingsTabProps) {
                 <div class="word-grid-cell incorrect">v</div>
                 <div class="word-grid-cell correct">a</div>
             </div>
+            <hr />
+            <p>
+                Orðalisti fenginn frá BÍN og er dreift með{" "}
+                <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="__blank">
+                    CC BY-SA 4.0
+                </a>.
+            </p>
+            <p>
+                <em>
+                    Beygingarlýsing íslensks nútímamáls. Stofnun Árna
+                    Magnússonar í íslenskum fræðum. Höfundur og ritstjóri
+                    Kristín Bjarnadóttir.
+                    {" "}
+                    <a href="https://bin.arnastofnun.is" target="__blank">
+                        https://bin.arnastofnun.is
+                    </a>
+                </em>
+            </p>
         </Tab >
     );
 }
