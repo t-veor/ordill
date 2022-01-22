@@ -1,8 +1,9 @@
 import { h, Fragment, Component } from "preact"
 
 export interface EndFooterProps {
-    state: "won" | "resigned";
+    state: "won" | "resigned" | "lost";
     guesses: number;
+    secretWord: string;
     onPlayAgain?: () => void;
     onCopyResults?: () => Promise<void>;
 }
@@ -30,13 +31,15 @@ export default class EndFooter extends Component<EndFooterProps, EndFooterState>
         }
     };
 
-    render({ state, guesses, onPlayAgain }: EndFooterProps, { copied }: EndFooterState) {
+    render({ state, guesses, secretWord, onPlayAgain }: EndFooterProps, { copied }: EndFooterState) {
 
         let message;
         if (state === "won") {
             message = `Þér tókst það í ${guesses} tilraun${isPlural(guesses) ? "um" : ""}!`;
-        } else {
+        } else if (state === "resigned") {
             message = `Þú gafst upp eftir ${guesses} tilraun${isPlural(guesses) ? "ir" : ""}!`;
+        } else {
+            message = `Orðið var ${secretWord.toUpperCase()}.`;
         }
 
         return (

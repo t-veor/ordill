@@ -8,7 +8,7 @@ export interface Settings {
 }
 
 const tryLoadSettingsFromStorage = () => {
-    const settings: Settings = {};
+    const settings: Partial<Settings> = {};
 
     try {
         const settingsString = localStorage.getItem("settings");
@@ -127,7 +127,7 @@ export class SettingsManager {
         return this.gameInProgress;
     }
 
-    update(delta: Settings) {
+    update(delta: Partial<Settings>) {
         if (
             this.gameInProgress &&
             !this.settings.hardMode &&

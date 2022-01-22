@@ -194,6 +194,32 @@ button.fake-disable {
     display: none;
 }
 
+@media (max-height: 640px) {
+    .header {
+        height: 30px;
+    }
+
+    hr {
+        margin: 5px;
+    }
+
+    .tab-button {
+        height: 30px;
+    }
+
+    .title {
+        font-size: 18pt;
+    }
+
+    .tab-header {
+        height: 30px;
+    }
+
+    .tab-title {
+        font-size: 16pt;
+    }
+}
+
 .setting {
     display: flex;
     align-items: center;
@@ -240,9 +266,16 @@ button.fake-disable {
     background-color: var(--correct-color);
 }
 
+.mode-display {
+    font-size: 12pt;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+}
+
 .word-grid {
     flex: 1 0;
-    margin-bottom: 10px;
+    margin: 10px 0;
     overflow-y: auto;
 }
 
@@ -444,12 +477,23 @@ button.fake-disable {
     content: "\2713";
 }
 
-@media (max-height: 700px) {
+@media (max-height: 640px) {
+    .word-grid {
+        margin: 5px 0;
+    }
+}
+
+@media (max-height: 730px) {
+    .mode-display {
+        font-size: 10pt;
+    }
+
     .word-grid-cell {
         width: 45px;
         height: 45px;
         font-size: 24pt;
     }
+
     .word-grid-cell.incorrect::before,
     .word-grid-cell.partial::before,
     .word-grid-cell.correct::before,
@@ -503,6 +547,13 @@ button.fake-disable {
 
 .keyboard-button.entry:disabled {
     opacity: 50%;
+    cursor: not-allowed;
+}
+
+.keyboard-button.give-up:disabled {
+    background: var(--entry-color);
+    color: var(--text-color);
+    opacity: 0.5;
     cursor: not-allowed;
 }
 
@@ -586,11 +637,12 @@ button.fake-disable {
     content: "\2713";
 }
 
-@media (max-height: 610px) {
+@media (max-height: 640px) {
     .keyboard-button {
         height: 38px;
         font-size: 12pt;
     }
+
     .keyboard-button.give-up {
         font-size: 8pt;
     }

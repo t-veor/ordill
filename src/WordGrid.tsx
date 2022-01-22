@@ -41,21 +41,25 @@ const makeCell = (letter?: Letter) => {
     return (<div class={cellClass}>{char}</div>)
 };
 
-export default function WordGrid({ words }: WordGridProps) {
+export default function WordGrid({ words, minRows }: WordGridProps) {
+    minRows = minRows || 0;
+
     const lastRow = useRef<HTMLDivElement>(null);
     useEffect(
-        () => lastRow.current?.scrollIntoView({ behavior: "smooth" }),
+        () => lastRow.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }),
         [words],
     );
 
-    const rows = words.map((word, i) => {
+    const rows = [];
+    for (let i = 0; i < Math.max(words.length, minRows); i++) {
         const cells = [];
+        const word = words[i];
         for (let j = 0; j < 5; j++) {
-            cells.push(makeCell(word[j]));
+            cells.push(makeCell(word?.[j]));
         }
         const ref = i === words.length - 1 ? lastRow : undefined;
-        return (<div class="word-grid-row" ref={ref}>{cells}</div>);
-    });
+        rows.push(<div class="word-grid-row" ref={ref}>{cells}</div>);
+    }
 
     return (
         <div class="word-grid">
