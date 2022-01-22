@@ -47,12 +47,12 @@ export default function InstructionsTab(props: InstructionsTabProps) {
             <p>Bókstafurinn <b>Ý</b> er ekki í orðinu á neinum stað.</p>
             <hr />
             <p>
-                Allir fá sama orðið og bara 6 tilraunir í „Daglegum" ham, og
-                það er eingöngu eitt orð á dag.
+                Í „Daglegum" ham fá allir sama orðið, bara 6 tilraunir og það er
+                eingöngu eitt orð á dag.
             </p>
             <p>
-                Ef þú vilt spila meira, geturðu skipt yfir í „Frjálsan" ham til
-                að fá handahófskennt orð og ótakmarkaðar tilraunir.
+                Skiptu yfir í „Frjálsan" ham ef þú vilt spila meira. Í honum
+                færðu handahófskennd orð og ótakmarkaðar tilraunir.
             </p>
             <p>
                 Það er hægt að skipta á milli leiktegunda í valmyndinni.

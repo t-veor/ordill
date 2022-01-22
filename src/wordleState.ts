@@ -3,7 +3,8 @@ import { DAILY_GUESSES, WORD_LENGTH } from "./consts";
 import settingsManager, { Settings } from "./settings";
 import { toast } from "./Toaster";
 import { Letter, LetterState } from "./WordGrid";
-import { isAllowedLetter, isValidWord, randomWord } from "./words";
+import { isAllowedLetter, isValidWord } from "./words";
+import { getDailyWord, getRandomWord } from "./words/randomize";
 
 type GameState =
     | {
@@ -24,7 +25,7 @@ export interface WordleState {
     gameState: GameState;
     guessedWords: Array<Array<Letter>>;
     secretWord: string;
-    isDaily: boolean;
+    dailyNumber?: number;
     hardMode: boolean;
     generation?: number;
     toastMessage?: { message: string };
@@ -137,7 +138,10 @@ function submitWord(state: WordleState): WordleState {
     let newGameState: GameState;
     if (correct) {
         newGameState = { name: "won" };
-    } else if (state.isDaily && guessedWords.length >= DAILY_GUESSES) {
+    } else if (
+        state.dailyNumber != null &&
+        guessedWords.length >= DAILY_GUESSES
+    ) {
         newGameState = { name: "lost" };
     } else {
         newGameState = { name: "playing", currentWord: "" };
@@ -151,8 +155,8 @@ function submitWord(state: WordleState): WordleState {
 }
 
 function resign(state: WordleState): WordleState {
-    const { gameState } = state;
-    if (gameState.name !== "playing") {
+    const { gameState, dailyNumber } = state;
+    if (gameState.name !== "playing" || dailyNumber != null) {
         return state;
     }
 
@@ -163,14 +167,15 @@ function resign(state: WordleState): WordleState {
 }
 
 export function initialState(
-    isDaily: boolean,
-    settings: Settings
+    settings: Settings,
+    dailyNumber?: number
 ): WordleState {
-    const secretWord = randomWord();
+    const secretWord =
+        dailyNumber != null ? getDailyWord(dailyNumber) : getRandomWord();
     return {
         gameState: { name: "playing", currentWord: "" },
         guessedWords: [],
-        isDaily,
+        dailyNumber,
         hardMode: !!settings.hardMode,
         secretWord,
     };
@@ -369,10 +374,7 @@ const tryParseGuessedWords = (obj: unknown): Array<Array<Letter>> | null => {
     return guessedWords;
 };
 
-const tryParseWordleState = (
-    isDaily: boolean,
-    obj: unknown
-): WordleState | null => {
+const tryParseWordleState = (obj: unknown): WordleState | null => {
     if (!isObject(obj)) {
         return null;
     }
@@ -394,12 +396,17 @@ const tryParseWordleState = (
 
     const hardMode = !!obj.hardMode;
 
+    const dailyNumber = parseInt("" + obj.dailyNumber);
+    if (isNaN(dailyNumber)) {
+        return null;
+    }
+
     return {
         gameState,
         guessedWords,
         secretWord,
-        isDaily,
         hardMode,
+        dailyNumber,
     };
 };
 
@@ -409,7 +416,7 @@ const tryLoadGame = (isDaily: boolean): WordleState | null => {
         const data = localStorage.getItem(storageKey);
         const parsed: unknown = JSON.parse(data!);
 
-        return tryParseWordleState(isDaily, parsed);
+        return tryParseWordleState(parsed);
     } catch (err) {
         console.log(err);
     }
@@ -418,7 +425,7 @@ const tryLoadGame = (isDaily: boolean): WordleState | null => {
 };
 
 const saveGame = ({ generation, toastMessage, ...game }: WordleState) => {
-    const storageKey = game.isDaily ? "dailySave" : "freeplaySave";
+    const storageKey = game.dailyNumber != null ? "dailySave" : "freeplaySave";
     try {
         localStorage.setItem(storageKey, JSON.stringify(game));
     } catch (err) {
@@ -427,11 +434,18 @@ const saveGame = ({ generation, toastMessage, ...game }: WordleState) => {
 };
 
 export const loadGameOrNew = (
-    isDaily: boolean,
     settings: Settings,
+    dailyNumber?: number,
     prevState?: WordleState
 ): WordleState => {
-    const game = tryLoadGame(isDaily) ?? initialState(isDaily, settings);
+    let game = tryLoadGame(dailyNumber != null);
+    if (
+        game == null ||
+        (dailyNumber != null && game.dailyNumber !== dailyNumber)
+    ) {
+        game = initialState(settings, dailyNumber);
+    }
+
     game.generation = (prevState?.generation ?? 0) + 1;
     return game;
 };

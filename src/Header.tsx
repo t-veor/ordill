@@ -2,7 +2,7 @@ import { h, Fragment, Component } from "preact";
 import InstructionsTab from "./InstructionsTab";
 import SettingsTab from "./SettingsTab";
 
-type TabState = "settings" | "instructions" | null;
+export type TabState = "settings" | "instructions" | null;
 
 interface HeaderState {
     tab: TabState,
@@ -13,17 +13,10 @@ export default class Header extends Component<{}, HeaderState> {
         tab: null,
     }
 
-    openSettings = () => {
-        this.setState({ tab: "settings" });
-    }
-
-    openInstructions = () => {
-        this.setState({ tab: "instructions" });
-    }
-
-    closeTab = () => {
-        this.setState({ tab: null });
-    }
+    setTab = (tab: TabState) => this.setState({ tab });
+    openSettings = () => this.setTab("settings");
+    openInstructions = () => this.setTab("instructions");
+    closeTab = () => this.setTab(null);
 
     render(_: {}, { tab }: HeaderState) {
         return (
@@ -43,7 +36,7 @@ export default class Header extends Component<{}, HeaderState> {
                 </button>
                 <SettingsTab
                     open={tab === "settings"}
-                    onClose={this.closeTab}
+                    setTab={this.setTab}
                 />
                 <InstructionsTab
                     open={tab === "instructions"}

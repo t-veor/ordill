@@ -354,6 +354,7 @@ anita
 anitu
 aniði
 ankar
+annan
 annar
 annas
 annel
@@ -1149,6 +1150,7 @@ blýin
 blýið
 blýja
 bobba
+bobbi
 bobbs
 bobla
 bobli
@@ -3802,6 +3804,7 @@ feðma
 feðmi
 feðri
 fides
+fiffa
 fiffi
 fiffs
 fikar
@@ -4829,6 +4832,7 @@ gagað
 gagga
 gaggi
 gaggs
+gaggó
 gagir
 gagið
 gagla
@@ -5539,10 +5543,12 @@ grjúp
 grobb
 grogg
 groms
+gross
 groti
 grots
 grubb
 grufl
+grugg
 grund
 gruni
 gruns
@@ -8918,6 +8924,7 @@ klifr
 klifs
 klifu
 klifá
+klikk
 kling
 klipa
 klipi
@@ -8937,6 +8944,7 @@ kljúf
 klofi
 klofs
 klufu
+klukk
 klumb
 klump
 klunk
@@ -8948,6 +8956,7 @@ klykk
 kláfa
 kláfi
 kláfs
+klámi
 kláms
 klápa
 kláps
@@ -9582,6 +9591,7 @@ kvett
 kveðu
 kvika
 kviki
+kvikk
 kviks
 kvikt
 kviku
@@ -10206,6 +10216,7 @@ lakra
 lakri
 lakst
 lakur
+lalla
 lalli
 lalls
 lalía
@@ -10493,6 +10504,7 @@ lifuð
 lifðu
 lilju
 liljá
+lilla
 lilli
 lills
 lillu
@@ -10660,6 +10672,7 @@ lokri
 lokum
 lokur
 lolar
+lolla
 lolli
 lolum
 lonar
@@ -11278,6 +11291,7 @@ lúkna
 lúktu
 lúkum
 lúkur
+lúlla
 lúlli
 lúllu
 lúmen
@@ -12598,6 +12612,7 @@ nemdu
 nemir
 nemið
 nemum
+nenni
 nennt
 nennu
 neoni
@@ -12778,7 +12793,9 @@ numdi
 numdu
 numin
 numið
+nunna
 nunni
+nunnu
 nurfa
 nurfi
 nurla
@@ -13466,6 +13483,7 @@ pants
 paník
 papar
 papey
+pappa
 papps
 papúa
 papúu
@@ -13538,9 +13556,10 @@ peluð
 penan
 penar
 penir
-penni
+penna
 penny
 penná
+penní
 penta
 penti
 pents
@@ -13726,6 +13745,7 @@ ponsu
 ponti
 ponts
 pontu
+poppa
 poppi
 popps
 poran
@@ -15395,6 +15415,7 @@ rýnur
 rýpan
 rýran
 rýrar
+rýrir
 rýris
 rýrið
 rýrka
@@ -15674,6 +15695,8 @@ serði
 serðu
 sesar
 sesil
+sessa
+sessi
 sessu
 sesta
 sesti
@@ -15895,6 +15918,7 @@ sjúgi
 sjúki
 sjúks
 sjúku
+sjúss
 skadd
 skafa
 skafi
@@ -15983,6 +16007,7 @@ skjóm
 skjór
 skjós
 skjót
+skokk
 skola
 skoli
 skoll
@@ -16783,6 +16808,7 @@ spílu
 spíru
 spísa
 spísi
+spíss
 spíta
 spítt
 spítu
@@ -16856,6 +16882,7 @@ stapa
 stapp
 starr
 stars
+statt
 stauk
 staur
 staut
@@ -16965,6 +16992,7 @@ styrm
 styrr
 styrs
 styst
+stytt
 stáka
 stáki
 stála
@@ -17064,6 +17092,7 @@ stúra
 stúri
 stúrs
 stúru
+stúss
 stúti
 stúts
 stúum
@@ -18132,6 +18161,7 @@ tasti
 tasía
 tasíu
 tattó
+tattú
 taugi
 tauin
 tauið
@@ -18544,6 +18574,7 @@ trúið
 trúna
 trúnó
 trúss
+trútt
 trúuð
 trúða
 trúði
@@ -19255,6 +19286,7 @@ uniði
 unjan
 unnar
 unnað
+unnin
 unnir
 unnsa
 unnsi
@@ -19582,6 +19614,7 @@ vekli
 vekra
 vekri
 vekst
+vekti
 vektu
 vekur
 velda
@@ -20790,6 +20823,7 @@ zörum
 árbýl
 árdag
 árdal
+árdís
 áreit
 áreið
 árfar
@@ -21348,6 +21382,7 @@ zörum
 írski
 írsks
 írskt
+írsku
 írunn
 íræða
 íræði

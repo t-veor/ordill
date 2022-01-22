@@ -40,7 +40,6 @@ andúð
 angar
 angra
 anker
-annan
 annað
 annir
 antík
@@ -183,7 +182,6 @@ blóma
 blóta
 blóðs
 blönk
-bobbi
 bogið
 bogna
 bolla
@@ -540,7 +538,6 @@ fetta
 fetum
 feðra
 feður
-fiffa
 fikra
 fikta
 filma
@@ -698,7 +695,6 @@ fúinn
 gabba
 gadda
 gafst
-gaggó
 gagna
 galin
 galli
@@ -793,8 +789,6 @@ grimm
 grind
 grjón
 grjót
-gross
-grugg
 gruna
 grunn
 gráan
@@ -1214,11 +1208,8 @@ klapp
 klasa
 klefi
 kleif
-klikk
 klink
 klofa
-klukk
-klámi
 klára
 kláði
 klæja
@@ -1284,7 +1275,6 @@ kvatt
 kverk
 kveða
 kveði
-kvikk
 kvitt
 kvæði
 kvísl
@@ -1359,7 +1349,6 @@ lagsi
 lagst
 lagði
 lakka
-lalla
 lamdi
 lamið
 lampa
@@ -1414,7 +1403,6 @@ lifum
 lifði
 liggi
 lilja
-lilla
 linan
 linni
 linur
@@ -1453,7 +1441,6 @@ lokið
 lokka
 lokun
 lokuð
-lolla
 losað
 losti
 losum
@@ -1536,7 +1523,6 @@ löngu
 löður
 lúber
 lúkka
-lúlla
 lúsmý
 lútur
 lúxus
@@ -1713,7 +1699,6 @@ neitt
 nemar
 nemur
 nenna
-nenni
 nesta
 nesti
 netið
@@ -1735,8 +1720,6 @@ notar
 notir
 notuð
 nudda
-nunna
-nunnu
 nykur
 náinn
 nálar
@@ -1817,7 +1800,6 @@ palli
 panda
 panta
 panti
-pappa
 pappi
 parið
 partí
@@ -1826,8 +1808,7 @@ parís
 passi
 pasta
 patti
-penna
-penní
+penni
 perla
 persi
 pestó
@@ -1850,7 +1831,6 @@ pláss
 plötu
 polli
 ponta
-poppa
 potta
 prakt
 prent
@@ -2034,7 +2014,6 @@ rýfur
 rýkur
 rýmið
 rýmka
-rýrir
 rýrna
 safna
 safni
@@ -2078,8 +2057,6 @@ senda
 sendi
 seppi
 sería
-sessa
-sessi
 setja
 setji
 setur
@@ -2112,7 +2089,6 @@ sjóða
 sjóði
 sjúka
 sjúkt
-sjúss
 skafl
 skaft
 skaga
@@ -2138,7 +2114,6 @@ skjár
 skjól
 skjöl
 skjön
-skokk
 skopp
 skoti
 skott
@@ -2273,7 +2248,6 @@ spáði
 spæna
 spíra
 spíri
-spíss
 spóla
 spólu
 spöng
@@ -2287,7 +2261,6 @@ stara
 starf
 stari
 start
-statt
 staup
 steik
 stekk
@@ -2310,7 +2283,6 @@ stríð
 stund
 stutt
 styrk
-stytt
 stálu
 stæra
 stæða
@@ -2329,7 +2301,6 @@ stökk
 störf
 stöðu
 stúpa
-stúss
 stúta
 stýri
 stýrt
@@ -2459,7 +2430,6 @@ tapað
 tappi
 tarna
 taska
-tattú
 tauga
 taxti
 teddi
@@ -2526,7 +2496,6 @@ tröll
 trúar
 trúin
 trúir
-trútt
 trúum
 trýni
 tuddi
@@ -2607,7 +2576,6 @@ ungar
 ungir
 ungra
 ungur
-unnin
 unnið
 unnum
 uppúr
@@ -2659,7 +2627,6 @@ veiti
 veiða
 veiði
 vekja
-vekti
 veldi
 velji
 velti
@@ -2832,7 +2799,6 @@ yrðum
 árans
 árbók
 árbót
-árdís
 árinn
 árinu
 árnes
@@ -2877,7 +2843,6 @@ yrðum
 íhuga
 ímynd
 írska
-írsku
 ísbúð
 íshús
 ísing

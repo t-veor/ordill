@@ -1,13 +1,14 @@
-import { h, Fragment, RenderableProps } from "preact";
+import { h, Fragment, RenderableProps, ComponentChildren } from "preact";
 import { useState, useEffect, useContext } from "preact/hooks";
 import { AppContext } from "./App";
+import { TabState } from "./Header";
 import settingsManager, { Settings } from "./settings";
 import Switch from "./Switch";
 import Tab from "./Tab";
 
 interface SettingProps {
     name: string,
-    description?: string,
+    description?: ComponentChildren,
 }
 
 function Setting({ name, description, children }: RenderableProps<SettingProps>) {
@@ -27,11 +28,11 @@ function Setting({ name, description, children }: RenderableProps<SettingProps>)
 
 export interface SettingsTabProps {
     open: boolean,
-    onClose?: () => void;
+    setTab?: (tab: TabState) => void;
 }
 
-export default function SettingsTab(props: SettingsTabProps) {
-    const { isDaily, setIsDaily } = useContext(AppContext);
+export default function SettingsTab({ open, setTab }: SettingsTabProps) {
+    const { isDaily, setIsDaily, openStats } = useContext(AppContext);
 
     const [settings, setSettings] = useState(settingsManager.get());
     const [gameInProgress, setGameInProgress] = useState(settingsManager.isGameInProgress());
@@ -49,27 +50,49 @@ export default function SettingsTab(props: SettingsTabProps) {
     const onChangeHighContrast = (highContrast: boolean) => settingsManager.update({ highContrast });
     const onChangeSymbols = (symbols: boolean) => settingsManager.update({ symbols });
 
-    // TODO: Hook up stats and daily buttons to stuff
+    const onClose = () => setTab?.(null);
+    const showStats = () => {
+        setTab?.(null);
+        openStats?.();
+    };
+    const goToInstructions = () => setTab?.("instructions");
+
+    let dailyClass = "settings-mode-button";
+    let freeplayClass = "settings-mode-button";
+    if (isDaily) {
+        dailyClass += " active";
+    } else {
+        freeplayClass += " active";
+    }
+
     return (
-        <Tab name="Valmynd" {...props}>
-            <Setting
-                name="Tölfræðin Þín"
-            >
-                <button
-                    class="show-stats-button"
-                >
+        <Tab name="Valmynd" open={open} onClose={onClose}>
+            <Setting name="Tölfræðin Þín">
+                <button class="show-stats-button" onClick={showStats}>
                     Sýna
                 </button>
             </Setting>
             <hr />
             <Setting
-                name="Spila Daglegt"
-                description="Allir fá sama orðið, eingöngu eru sex tilraunir, aðeins eitt orð á dag"
+                name="Leiktegund"
+                description={<span class="link" onClick={goToInstructions}>
+                    Sjá leiðbeiningar
+                </span>}
             >
-                <Switch
-                    value={isDaily}
-                    onChange={setIsDaily}
-                />
+                <div class="settings-modes">
+                    <button
+                        class={dailyClass}
+                        onClick={() => setIsDaily?.(true)}
+                    >
+                        Dagleg
+                    </button>
+                    <button
+                        class={freeplayClass}
+                        onClick={() => setIsDaily?.(false)}
+                    >
+                        Frjáls
+                    </button>
+                </div>
             </Setting>
             <hr />
             <Setting

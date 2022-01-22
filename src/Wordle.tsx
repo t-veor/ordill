@@ -14,7 +14,7 @@ export interface WordleProps {
     dispatchWordle: (action: WordleAction) => void,
 }
 
-const makeResultText = (guessedWords: Array<Array<Letter>>, hardMode: boolean, isDaily: boolean) => {
+const makeResultText = (guessedWords: Array<Array<Letter>>, hardMode: boolean, dailyNumber?: number) => {
     const { dark, highContrast } = settingsManager.get();
 
     const squares = [""];
@@ -22,19 +22,21 @@ const makeResultText = (guessedWords: Array<Array<Letter>>, hardMode: boolean, i
     squares.push(SQUARES[highContrast ? 4 : 2]);
     squares.push(SQUARES[highContrast ? 5 : 3]);
 
+    const dayCount = dailyNumber != null ? `${dailyNumber + 1} ` : "";
+    const totalGuesses = dailyNumber != null ? `${DAILY_GUESSES}` : "\u{221e}";
     const hardModeStar = hardMode ? "*" : "";
-    const totalGuesses = isDaily ? `${DAILY_GUESSES}` : "\u{221e}";
 
     const grid = guessedWords
         .map(word => (
             word.map(({ state }) => squares[state]).join("")
         )).join("\n");
 
-    return `Orðill ${guessedWords.length}/${totalGuesses}${hardModeStar}\n\n${grid}`;
+    return `Orðill ${dayCount}${guessedWords.length}/${totalGuesses}${hardModeStar}\n\n${grid}`;
 }
 
 export default function Wordle({ wordle, dispatchWordle }: WordleProps) {
-    const { gameState, guessedWords, secretWord, isDaily, generation } = wordle;
+    const { gameState, guessedWords, secretWord, dailyNumber, generation } = wordle;
+    const isDaily = dailyNumber != null;
 
     const submitKey = useCallback((key: string) => {
         switch (key) {
@@ -62,14 +64,15 @@ export default function Wordle({ wordle, dispatchWordle }: WordleProps) {
     }, [onKeyDown]);
 
     const playAgain = () => {
+        // TODO: move this somewhere else, probably
         dispatchWordle({
             type: "load",
-            newState: initialState(false, settingsManager.get()),
+            newState: initialState(settingsManager.get()),
         });
     };
 
     const copyResults = () => {
-        const text = makeResultText(wordle.guessedWords, wordle.hardMode, wordle.isDaily);
+        const text = makeResultText(wordle.guessedWords, wordle.hardMode, dailyNumber);
         return navigator.clipboard.writeText(text);
     };
 
@@ -110,6 +113,7 @@ export default function Wordle({ wordle, dispatchWordle }: WordleProps) {
                 letterStates={letterStates}
                 onKeyDown={submitKey}
                 wordIsValid={wordIsValid}
+                isDaily={isDaily}
             />
         )
         :
@@ -121,9 +125,12 @@ export default function Wordle({ wordle, dispatchWordle }: WordleProps) {
             />
         );
 
+
     return (
         <>
-            <div class="mode-display">{isDaily ? "Daglegt" : "Frjálst"}</div>
+            <div class="mode-display">
+                {isDaily ? `Daglegt - # ${dailyNumber + 1}` : "Frjálst"}
+            </div>
             <WordGrid
                 words={grid}
                 minRows={isDaily ? DAILY_GUESSES : undefined}
