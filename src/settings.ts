@@ -12,11 +12,7 @@ const tryLoadSettingsFromStorage = () => {
 
     try {
         const settingsString = localStorage.getItem("settings");
-        if (settingsString == null) {
-            return settings;
-        }
-
-        const parsedSettings = JSON.parse(settingsString);
+        const parsedSettings = JSON.parse(settingsString!);
 
         if (parsedSettings.dark != null) {
             settings.dark = !!parsedSettings.dark;

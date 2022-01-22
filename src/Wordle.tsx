@@ -1,14 +1,20 @@
 import { h, Fragment } from "preact";
 import { useCallback, useEffect, useMemo } from "preact/hooks";
+import { DAILY_GUESSES } from "./consts";
 import EndFooter from "./EndFooter";
 import Keyboard from "./Keyboard";
 import settingsManager from "./settings";
 import WordGrid, { Letter, LetterState } from "./WordGrid";
-import { initialState, useWordle, validateWord } from "./wordleState";
+import { initialState, useWordle, validateWord, WordleAction, WordleState } from "./wordleState";
 
 const SQUARES = ["\u{2b1b}", "\u{2b1c}", "\u{1f7e8}", "\u{1f7e9}", "\u{1f7e6}", "\u{1f7e7}"];
 
-const makeResultText = (guessedWords: Array<Array<Letter>>, hardMode: boolean) => {
+export interface WordleProps {
+    wordle: WordleState,
+    dispatchWordle: (action: WordleAction) => void,
+}
+
+const makeResultText = (guessedWords: Array<Array<Letter>>, hardMode: boolean, isDaily: boolean) => {
     const { dark, highContrast } = settingsManager.get();
 
     const squares = [""];
@@ -17,29 +23,29 @@ const makeResultText = (guessedWords: Array<Array<Letter>>, hardMode: boolean) =
     squares.push(SQUARES[highContrast ? 5 : 3]);
 
     const hardModeStar = hardMode ? "*" : "";
+    const totalGuesses = isDaily ? `${DAILY_GUESSES}` : "\u{221e}";
 
     const grid = guessedWords
         .map(word => (
             word.map(({ state }) => squares[state]).join("")
         )).join("\n");
 
-    return `Orðill ${guessedWords.length}/\u{221e}${hardModeStar}\n\n${grid}`;
+    return `Orðill ${guessedWords.length}/${totalGuesses}${hardModeStar}\n\n${grid}`;
 }
 
-export default function Wordle() {
-    const [state, dispatch] = useWordle(initialState(settingsManager.get()))
-    const { gameState, guessedWords, secretWord } = state;
+export default function Wordle({ wordle, dispatchWordle }: WordleProps) {
+    const { gameState, guessedWords, secretWord, isDaily, generation } = wordle;
 
     const submitKey = useCallback((key: string) => {
         switch (key) {
             case "Enter":
-                return dispatch({ type: "submit" });
+                return dispatchWordle({ type: "submit" });
             case "Backspace":
-                return dispatch({ type: "backspace" });
+                return dispatchWordle({ type: "backspace" });
             case "GiveUp":
-                return dispatch({ type: "resign" });
+                return dispatchWordle({ type: "resign" });
             default:
-                return dispatch({ type: "input", letter: key.toLowerCase() });
+                return dispatchWordle({ type: "input", letter: key.toLowerCase() });
         }
     }, []);
 
@@ -56,14 +62,14 @@ export default function Wordle() {
     }, [onKeyDown]);
 
     const playAgain = () => {
-        dispatch({
+        dispatchWordle({
             type: "load",
-            newState: initialState(settingsManager.get()),
+            newState: initialState(false, settingsManager.get()),
         });
     };
 
     const copyResults = () => {
-        const text = makeResultText(state.guessedWords, state.hardMode);
+        const text = makeResultText(wordle.guessedWords, wordle.hardMode, wordle.isDaily);
         return navigator.clipboard.writeText(text);
     };
 
@@ -96,7 +102,7 @@ export default function Wordle() {
     }, [guessedWords, gameState, secretWord]);
 
     const wordIsValid = gameState.name === "playing" ?
-        !!validateWord(state, gameState.currentWord).valid : false;
+        !!validateWord(wordle, gameState.currentWord).valid : false;
 
     const footer = gameState.name === "playing" ?
         (
@@ -109,19 +115,20 @@ export default function Wordle() {
         :
         (
             <EndFooter
-                state={gameState.name}
-                guesses={guessedWords.length}
-                secretWord={secretWord}
+                wordle={wordle}
                 onPlayAgain={playAgain}
                 onCopyResults={copyResults}
             />
         );
 
-
     return (
         <>
-            <div class="mode-display">Frjálst</div>
-            <WordGrid words={grid} />
+            <div class="mode-display">{isDaily ? "Daglegt" : "Frjálst"}</div>
+            <WordGrid
+                words={grid}
+                minRows={isDaily ? DAILY_GUESSES : undefined}
+                key={generation}
+            />
             {footer}
         </>
     );

@@ -1,5 +1,6 @@
 import { h, Fragment } from "preact";
 import { useEffect, useRef } from "preact/hooks";
+import { WORD_LENGTH } from "./consts";
 
 export const enum LetterState {
     Entry,
@@ -54,7 +55,7 @@ export default function WordGrid({ words, minRows }: WordGridProps) {
     for (let i = 0; i < Math.max(words.length, minRows); i++) {
         const cells = [];
         const word = words[i];
-        for (let j = 0; j < 5; j++) {
+        for (let j = 0; j < WORD_LENGTH; j++) {
             cells.push(makeCell(word?.[j]));
         }
         const ref = i === words.length - 1 ? lastRow : undefined;

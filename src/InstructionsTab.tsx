@@ -10,7 +10,7 @@ export default function InstructionsTab(props: InstructionsTabProps) {
     return (
         <Tab name="Leiðbeiningar" {...props}>
             <p>
-                Giskaðu á <b>ORÐILIN</b> í sex eða færri tilraunum.
+                Giskaðu á <b>ORÐILIN</b> í 6 eða færri tilraunum.
             </p>
             <p>
                 Hver tilraun verður að vera gilt orð á íslensku með 5 bókstöfum.
@@ -47,7 +47,7 @@ export default function InstructionsTab(props: InstructionsTabProps) {
             <p>Bókstafurinn <b>Ý</b> er ekki í orðinu á neinum stað.</p>
             <hr />
             <p>
-                Allir fá sama orðið og bara sex tilraunir í „Daglegum" ham, og
+                Allir fá sama orðið og bara 6 tilraunir í „Daglegum" ham, og
                 það er eingöngu eitt orð á dag.
             </p>
             <p>

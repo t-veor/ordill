@@ -1,5 +1,6 @@
 import { h, Fragment, RenderableProps } from "preact";
-import { useState, useEffect } from "preact/hooks";
+import { useState, useEffect, useContext } from "preact/hooks";
+import { AppContext } from "./App";
 import settingsManager, { Settings } from "./settings";
 import Switch from "./Switch";
 import Tab from "./Tab";
@@ -30,6 +31,8 @@ export interface SettingsTabProps {
 }
 
 export default function SettingsTab(props: SettingsTabProps) {
+    const { isDaily, setIsDaily } = useContext(AppContext);
+
     const [settings, setSettings] = useState(settingsManager.get());
     const [gameInProgress, setGameInProgress] = useState(settingsManager.isGameInProgress());
     useEffect(() => {
@@ -64,7 +67,8 @@ export default function SettingsTab(props: SettingsTabProps) {
                 description="Allir fá sama orðið, eingöngu eru sex tilraunir, aðeins eitt orð á dag"
             >
                 <Switch
-                    value={true}
+                    value={isDaily}
+                    onChange={setIsDaily}
                 />
             </Setting>
             <hr />

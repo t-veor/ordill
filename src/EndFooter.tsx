@@ -1,9 +1,8 @@
 import { h, Fragment, Component } from "preact"
+import { WordleState } from "./wordleState";
 
 export interface EndFooterProps {
-    state: "won" | "resigned" | "lost";
-    guesses: number;
-    secretWord: string;
+    wordle: WordleState,
     onPlayAgain?: () => void;
     onCopyResults?: () => Promise<void>;
 }
@@ -31,7 +30,10 @@ export default class EndFooter extends Component<EndFooterProps, EndFooterState>
         }
     };
 
-    render({ state, guesses, secretWord, onPlayAgain }: EndFooterProps, { copied }: EndFooterState) {
+    render({ wordle, onPlayAgain }: EndFooterProps, { copied }: EndFooterState) {
+        const { gameState, guessedWords, secretWord } = wordle;
+        const state = gameState.name;
+        const guesses = guessedWords.length;
 
         let message;
         if (state === "won") {
