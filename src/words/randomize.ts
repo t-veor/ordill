@@ -29,8 +29,6 @@ const getRandomizer = (generation: number) => {
         fisherYatesShuffle(randomizer, mulberry32(0x12345678 + generation));
         randomizerCache[generation] = randomizer;
         cachedRandomizer = randomizer;
-        // TODO: REMOVE THIS!!!
-        console.log(randomizer.map((i) => commonWords[i]));
     }
     return cachedRandomizer;
 };
