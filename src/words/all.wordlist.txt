@@ -1029,6 +1029,7 @@ bjóls
 bjólu
 bjóra
 bjórs
+bjóði
 bjóðs
 bjökk
 björt
@@ -1045,6 +1046,7 @@ blamm
 blasi
 blaut
 blauð
+blaði
 blaðk
 blaðs
 bleia
@@ -1112,6 +1114,7 @@ blæta
 blæti
 blætt
 blævi
+blæði
 blési
 blést
 blésu
@@ -1375,6 +1378,7 @@ bróká
 brómi
 bróms
 brósa
+brósi
 bróum
 brögu
 bröku
@@ -1844,6 +1848,7 @@ búafé
 búana
 búann
 búans
+búbót
 búdda
 búddi
 búddu
@@ -2511,6 +2516,7 @@ dugið
 dugum
 dugur
 duguð
+dugði
 dugðu
 dulan
 dular
@@ -3327,6 +3333,7 @@ erfis
 erfst
 erfum
 erfða
+erfði
 erfðs
 erfðu
 ergin
@@ -3401,6 +3408,7 @@ ertri
 ertum
 ertur
 ertuð
+eruði
 erðin
 erðis
 erðið
@@ -6182,6 +6190,7 @@ haddý
 hades
 hafey
 hafin
+hafir
 hafla
 hafli
 hafna
@@ -6570,6 +6579,7 @@ hirta
 hirti
 hirts
 hirtu
+hirði
 hirðu
 hismi
 hispa
@@ -7056,6 +7066,7 @@ hrært
 hræru
 hræsi
 hræða
+hræði
 hræðu
 hrífi
 hrífu
@@ -8489,6 +8500,7 @@ kalni
 kalsa
 kalsi
 kalár
+kalín
 kalís
 kamba
 kambi
@@ -10354,6 +10366,7 @@ legum
 legur
 legás
 legða
+legði
 legðu
 leidd
 leifa
@@ -11583,6 +11596,7 @@ meisu
 meita
 meiti
 meitt
+meiði
 meiðm
 meiðs
 mekki
@@ -15591,6 +15605,7 @@ segna
 segul
 segum
 segða
+segði
 segðu
 seifa
 seifi
@@ -15727,6 +15742,7 @@ sexum
 sexur
 sexær
 seydd
+seyla
 seylu
 seyma
 seymd
@@ -16461,6 +16477,7 @@ smááa
 smáám
 smáár
 smáæð
+smáél
 smáða
 smáði
 smáðs
@@ -23535,6 +23552,7 @@ zörum
 þurri
 þurrk
 þurrs
+þurru
 þurrð
 þursa
 þursi
@@ -23629,9 +23647,9 @@ zörum
 þyril
 þyrir
 þyris
-þyrla
 þyrli
 þyrls
+þyrlu
 þyrmd
 þyrmi
 þyrmt
@@ -23644,6 +23662,7 @@ zörum
 þyrru
 þyrst
 þyrum
+þyrði
 þyrðu
 þysja
 þysji
@@ -23847,6 +23866,8 @@ zörum
 þýnni
 þýski
 þýsks
+þýskt
+þýsku
 þýðan
 þýðar
 þýðin

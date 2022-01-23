@@ -60,11 +60,23 @@ export default function InstructionsTab(props: InstructionsTabProps) {
             <hr />
             <p>
                 Þetta er íslensk útgáfa af hinu frábæra{" "}
-                <a target="_blank" href="https://www.powerlanguage.co.uk/wordle/">Wordle</a>.
+                <a
+                    href="https://www.powerlanguage.co.uk/wordle/"
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    Wordle
+                </a>.
             </p>
             <p>
                 Source kóðann má finna á{" "}
-                <a target="_blank" href="https://github.com/t-veor/ordill">Github</a>.
+                <a
+                    href="https://github.com/t-veor/ordill"
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    Github
+                </a>.
             </p>
         </Tab>
     );

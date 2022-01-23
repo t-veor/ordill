@@ -32,20 +32,22 @@ export interface SettingsTabProps {
 }
 
 export default function SettingsTab({ open, setTab }: SettingsTabProps) {
-    const { isDaily, setIsDaily, openStats } = useContext(AppContext);
+    const {
+        isDaily,
+        setIsDaily,
+        openStats,
+        hardMode,
+        gameInProgress,
+        setHardMode
+    } = useContext(AppContext);
 
     const [settings, setSettings] = useState(settingsManager.get());
-    const [gameInProgress, setGameInProgress] = useState(settingsManager.isGameInProgress());
     useEffect(() => {
-        const cb = (settings: Settings, gameInProgress: boolean) => {
-            setSettings(settings);
-            setGameInProgress(gameInProgress);
-        };
+        const cb = (settings: Settings) => setSettings(settings);
         settingsManager.subscribe(cb);
         return () => { settingsManager.unsubscribe(cb); }
     }, []);
 
-    const onChangeHardMode = (hardMode: boolean) => settingsManager.update({ hardMode });
     const onChangeDark = (dark: boolean) => settingsManager.update({ dark });
     const onChangeHighContrast = (highContrast: boolean) => settingsManager.update({ highContrast });
     const onChangeSymbols = (symbols: boolean) => settingsManager.update({ symbols });
@@ -67,7 +69,7 @@ export default function SettingsTab({ open, setTab }: SettingsTabProps) {
 
     return (
         <Tab name="Valmynd" open={open} onClose={onClose}>
-            <Setting name="Tölfræðin Þín">
+            <Setting name="Tölfræðin þín">
                 <button class="show-stats-button" onClick={showStats}>
                     Sýna
                 </button>
@@ -96,17 +98,17 @@ export default function SettingsTab({ open, setTab }: SettingsTabProps) {
             </Setting>
             <hr />
             <Setting
-                name="Erfiðari Leikur"
+                name="Erfiðari leikur"
                 description="Allar afhjúpaðar vísbendingar verður að nota í næstu tilraunum"
             >
                 <Switch
-                    value={!!settings.hardMode}
-                    disabled={!settings.hardMode && gameInProgress}
-                    onChange={onChangeHardMode}
+                    value={hardMode}
+                    disabled={!hardMode && gameInProgress}
+                    onChange={setHardMode}
                 />
             </Setting>
             <hr />
-            <Setting name="Dökkt Þema">
+            <Setting name="Dökkt þema">
                 <Switch value={!!settings.dark} onChange={onChangeDark} />
             </Setting>
             <hr />
@@ -121,7 +123,7 @@ export default function SettingsTab({ open, setTab }: SettingsTabProps) {
             </Setting>
             <hr />
             <Setting
-                name="Nota Tákn"
+                name="Nota tákn"
                 description={"Nota X, ? og \u{2713} til að sýna niðurstöður"}
             >
                 <Switch
@@ -139,9 +141,17 @@ export default function SettingsTab({ open, setTab }: SettingsTabProps) {
                 <div class="word-grid-cell correct">a</div>
             </div>
             <hr />
+            <Setting name="Hafa samband">
+                <a href="mailto:ordillinn@gmail.com">Email</a>
+            </Setting>
+            <hr />
             <p>
-                Orðalisti fenginn frá BÍN og er dreift með{" "}
-                <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="__blank">
+                Orðalisti fenginn frá BÍN og er dreifður með{" "}
+                <a
+                    href="https://creativecommons.org/licenses/by-sa/4.0/"
+                    target="_blank"
+                    rel="noreferrer"
+                >
                     CC BY-SA 4.0
                 </a>.
             </p>
@@ -151,7 +161,11 @@ export default function SettingsTab({ open, setTab }: SettingsTabProps) {
                     Magnússonar í íslenskum fræðum. Höfundur og ritstjóri
                     Kristín Bjarnadóttir.
                     {" "}
-                    <a href="https://bin.arnastofnun.is" target="__blank">
+                    <a
+                        href="https://bin.arnastofnun.is"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
                         https://bin.arnastofnun.is
                     </a>
                 </em>

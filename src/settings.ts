@@ -1,9 +1,6 @@
-import { toast } from "./Toaster";
-
 export interface Settings {
     dark?: boolean;
     highContrast?: boolean;
-    hardMode?: boolean;
     symbols?: boolean;
 }
 
@@ -12,7 +9,11 @@ const tryLoadSettingsFromStorage = () => {
 
     try {
         const settingsString = localStorage.getItem("settings");
-        const parsedSettings = JSON.parse(settingsString!);
+        if (settingsString == null) {
+            return settings;
+        }
+
+        const parsedSettings = JSON.parse(settingsString);
 
         if (parsedSettings.dark != null) {
             settings.dark = !!parsedSettings.dark;
@@ -20,10 +21,6 @@ const tryLoadSettingsFromStorage = () => {
 
         if (parsedSettings.highContrast != null) {
             settings.highContrast = !!parsedSettings.highContrast;
-        }
-
-        if (parsedSettings.hardMode != null) {
-            settings.hardMode = !!parsedSettings.hardMode;
         }
 
         if (parsedSettings.symbols != null) {
@@ -81,10 +78,7 @@ const saveSettings = (settings: Settings) => {
     }
 };
 
-export type SettingsCallback = (
-    settings: Settings,
-    gameInProgress: boolean
-) => void;
+export type SettingsCallback = (settings: Settings) => void;
 
 export class SettingsManager {
     private static instance?: SettingsManager;
@@ -119,36 +113,10 @@ export class SettingsManager {
         return this.settings;
     }
 
-    isGameInProgress(): boolean {
-        return this.gameInProgress;
-    }
-
     update(delta: Partial<Settings>) {
-        if (
-            this.gameInProgress &&
-            !this.settings.hardMode &&
-            delta.hardMode != null
-        ) {
-            toast(
-                "Ekki er hægt að kveikja á erfiðisstillingunni í miðjum leik"
-            );
-            let { hardMode, ...remaining } = delta;
-            delta = remaining;
-        }
+        // toast("Ekki hægt að kveikja á erfiðisstillingunni í miðjum leik");
         this.settings = { ...this.settings, ...delta };
         this.onChanged();
-    }
-
-    forceSetHardMode(hardMode: boolean) {
-        this.settings = { ...this.settings, hardMode };
-        this.onChanged;
-    }
-
-    reportInProgress(inProgress: boolean) {
-        if (inProgress !== this.gameInProgress) {
-            this.gameInProgress = inProgress;
-            this.onChanged();
-        }
     }
 
     private onChanged() {
@@ -161,7 +129,7 @@ export class SettingsManager {
 
         saveSettings(this.settings);
         for (const cb of this.callbacks) {
-            cb(this.settings, this.gameInProgress);
+            cb(this.settings);
         }
     }
 }

@@ -29,6 +29,8 @@ const getRandomizer = (generation: number) => {
         fisherYatesShuffle(randomizer, mulberry32(0x12345678 + generation));
         randomizerCache[generation] = randomizer;
         cachedRandomizer = randomizer;
+        // TODO: REMOVE THIS!!!
+        console.log(randomizer.map((i) => commonWords[i]));
     }
     return cachedRandomizer;
 };
@@ -41,6 +43,7 @@ const getDailyIndex = (dayNumber: number) => {
 };
 
 export const getDailyWord = (dayNumber: number) => {
+    console.log("DAILY WORD CALLED!!");
     const index = getDailyIndex(dayNumber);
     return commonWords[index];
 };
@@ -53,7 +56,6 @@ export const getRandomWord = () => {
     for (let i = 0; i < 30; i++) {
         nextDailyIndices.push(getDailyIndex(today + i));
     }
-    console.log(nextDailyIndices.map((i) => commonWords[i]));
 
     // Try to pick an index that is not included in the next 30 daily days. This
     // is bounded to 10 tries so that the extremely low probability of getting

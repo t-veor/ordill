@@ -1,17 +1,20 @@
 import { h, Fragment } from "preact";
-import { useCallback, useEffect, useMemo } from "preact/hooks";
+import { useCallback, useContext, useEffect, useMemo } from "preact/hooks";
+import { AppContext } from "./App";
 import { DAILY_GUESSES } from "./consts";
 import EndFooter from "./EndFooter";
 import Keyboard from "./Keyboard";
 import settingsManager from "./settings";
+import { toast } from "./Toaster";
 import WordGrid, { Letter, LetterState } from "./WordGrid";
-import { initialState, useWordle, validateWord, WordleAction, WordleState } from "./wordleState";
+import { initialState, validateWord, WordleAction, WordleState } from "./wordleState";
 
 const SQUARES = ["\u{2b1b}", "\u{2b1c}", "\u{1f7e8}", "\u{1f7e9}", "\u{1f7e6}", "\u{1f7e7}"];
 
 export interface WordleProps {
     wordle: WordleState,
     dispatchWordle: (action: WordleAction) => void,
+    onShowStats?: () => void;
 }
 
 const makeResultText = (guessedWords: Array<Array<Letter>>, hardMode: boolean, dailyNumber?: number) => {
@@ -29,14 +32,16 @@ const makeResultText = (guessedWords: Array<Array<Letter>>, hardMode: boolean, d
     const grid = guessedWords
         .map(word => (
             word.map(({ state }) => squares[state]).join("")
-        )).join("\n");
+        )).join("  \n");
 
     return `Orðill ${dayCount}${guessedWords.length}/${totalGuesses}${hardModeStar}\n\n${grid}`;
 }
 
-export default function Wordle({ wordle, dispatchWordle }: WordleProps) {
+export default function Wordle({ wordle, dispatchWordle, onShowStats }: WordleProps) {
     const { gameState, guessedWords, secretWord, dailyNumber, generation } = wordle;
     const isDaily = dailyNumber != null;
+
+    const { statsDidShow } = useContext(AppContext);
 
     const submitKey = useCallback((key: string) => {
         switch (key) {
@@ -64,16 +69,17 @@ export default function Wordle({ wordle, dispatchWordle }: WordleProps) {
     }, [onKeyDown]);
 
     const playAgain = () => {
-        // TODO: move this somewhere else, probably
         dispatchWordle({
             type: "load",
-            newState: initialState(settingsManager.get()),
+            newState: initialState(settingsManager.get(), wordle.hardMode),
         });
     };
 
     const copyResults = () => {
         const text = makeResultText(wordle.guessedWords, wordle.hardMode, dailyNumber);
-        return navigator.clipboard.writeText(text);
+        navigator.clipboard.writeText(text)
+            .then(() => toast("Afritun tókst!"))
+            .catch(() => toast("Afritun mistókst!"));
     };
 
     const letterStates = useMemo(() => {
@@ -104,10 +110,13 @@ export default function Wordle({ wordle, dispatchWordle }: WordleProps) {
         return grid;
     }, [guessedWords, gameState, secretWord]);
 
-    const wordIsValid = gameState.name === "playing" ?
+    const isEndGame = gameState.name !== "playing";
+
+    const wordIsValid = !isEndGame ?
         !!validateWord(wordle, gameState.currentWord).valid : false;
 
-    const footer = gameState.name === "playing" ?
+    const showFooter = isEndGame && (!isDaily || statsDidShow);
+    const footer = !showFooter ?
         (
             <Keyboard
                 letterStates={letterStates}
@@ -122,6 +131,7 @@ export default function Wordle({ wordle, dispatchWordle }: WordleProps) {
                 wordle={wordle}
                 onPlayAgain={playAgain}
                 onCopyResults={copyResults}
+                onShowStats={onShowStats}
             />
         );
 
@@ -129,7 +139,7 @@ export default function Wordle({ wordle, dispatchWordle }: WordleProps) {
     return (
         <>
             <div class="mode-display">
-                {isDaily ? `Daglegt - # ${dailyNumber + 1}` : "Frjálst"}
+                {isDaily ? `Daglegt - #${dailyNumber + 1}` : "Frjálst"}
             </div>
             <WordGrid
                 words={grid}

@@ -66,8 +66,21 @@ function wordleReducer(state: WordleState, action: WordleAction): WordleState {
             return resign(state);
         case "load":
             return action.newState;
-        case "setHardMode":
-            return { ...state, hardMode: action.hardMode };
+        case "setHardMode": {
+            if (!state.hardMode && inProgress(state)) {
+                return {
+                    ...state,
+                    toastMessage: {
+                        message:
+                            "Ekki hægt að kveikja á erfiðisstillingunni í miðjum leik",
+                    },
+                };
+            } else if (state.hardMode !== action.hardMode) {
+                return { ...state, hardMode: action.hardMode };
+            } else {
+                return state;
+            }
+        }
         default:
             return state;
     }
@@ -168,6 +181,7 @@ function resign(state: WordleState): WordleState {
 
 export function initialState(
     settings: Settings,
+    hardMode: boolean,
     dailyNumber?: number
 ): WordleState {
     const secretWord =
@@ -176,7 +190,7 @@ export function initialState(
         gameState: { name: "playing", currentWord: "" },
         guessedWords: [],
         dailyNumber,
-        hardMode: !!settings.hardMode,
+        hardMode,
         secretWord,
     };
 }
@@ -374,6 +388,8 @@ const tryParseGuessedWords = (obj: unknown): Array<Array<Letter>> | null => {
     return guessedWords;
 };
 
+const isInteger = (x: unknown): x is number => Number.isInteger(x);
+
 const tryParseWordleState = (obj: unknown): WordleState | null => {
     if (!isObject(obj)) {
         return null;
@@ -396,8 +412,8 @@ const tryParseWordleState = (obj: unknown): WordleState | null => {
 
     const hardMode = !!obj.hardMode;
 
-    const dailyNumber = parseInt("" + obj.dailyNumber);
-    if (isNaN(dailyNumber)) {
+    const dailyNumber = obj.dailyNumber;
+    if (!isInteger(dailyNumber) && dailyNumber !== undefined) {
         return null;
     }
 
@@ -414,7 +430,10 @@ const tryLoadGame = (isDaily: boolean): WordleState | null => {
     const storageKey = isDaily ? "dailySave" : "freeplaySave";
     try {
         const data = localStorage.getItem(storageKey);
-        const parsed: unknown = JSON.parse(data!);
+        if (data == null) {
+            return null;
+        }
+        const parsed: unknown = JSON.parse(data);
 
         return tryParseWordleState(parsed);
     } catch (err) {
@@ -433,6 +452,10 @@ const saveGame = ({ generation, toastMessage, ...game }: WordleState) => {
     }
 };
 
+export const inProgress = ({ guessedWords }: WordleState) => {
+    return guessedWords.length > 0;
+};
+
 export const loadGameOrNew = (
     settings: Settings,
     dailyNumber?: number,
@@ -441,9 +464,14 @@ export const loadGameOrNew = (
     let game = tryLoadGame(dailyNumber != null);
     if (
         game == null ||
-        (dailyNumber != null && game.dailyNumber !== dailyNumber)
+        (dailyNumber != null && game.dailyNumber !== dailyNumber) ||
+        (dailyNumber != null && game.secretWord !== getDailyWord(dailyNumber))
     ) {
-        game = initialState(settings, dailyNumber);
+        game = initialState(
+            settings,
+            game?.hardMode ?? prevState?.hardMode ?? false,
+            dailyNumber
+        );
     }
 
     game.generation = (prevState?.generation ?? 0) + 1;
@@ -460,19 +488,8 @@ export const useWordle = (
     }, []);
 
     const [state, dispatch] = useReducer(wordleReducer, undefined, initialize);
-    const { gameState, guessedWords } = state;
 
     useEffect(() => saveGame(state), [state]);
-
-    useEffect(() => {
-        dispatch({ type: "setHardMode", hardMode: !!settings.hardMode });
-    }, [settings.hardMode]);
-
-    useEffect(() => {
-        settingsManager.reportInProgress(
-            gameState.name === "playing" && guessedWords.length > 0
-        );
-    }, [gameState.name, guessedWords]);
 
     useEffect(() => {
         if (state.toastMessage) {

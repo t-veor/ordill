@@ -3,6 +3,7 @@
     font-family: "Libre Franklin";
     font-style: normal;
     font-weight: 400;
+    font-display: swap;
     src: local(""),
         url("fonts/libre-franklin-v7-latin-regular.woff2") format("woff2"),
         url("fonts/libre-franklin-v7-latin-regular.woff") format("woff");
@@ -12,6 +13,7 @@
     font-family: "Libre Franklin";
     font-style: normal;
     font-weight: 600;
+    font-display: swap;
     src: local(""),
         url("fonts/libre-franklin-v7-latin-600.woff2") format("woff2"),
         url("fonts/libre-franklin-v7-latin-600.woff") format("woff");
@@ -41,6 +43,7 @@ body {
     --correct-color: var(--green);
     --failure-color: var(--red);
     --link-color: var(--blue);
+    --inactive-color: var(--light-grey);
 }
 
 body.dark {
@@ -48,6 +51,7 @@ body.dark {
     --background: #181a1b;
     --entry-color: #4f5a5f;
     --link-color: var(--light-blue);
+    --inactive-color: #3c3c3c;
 }
 
 body.high-contrast {
@@ -76,7 +80,8 @@ body {
 }
 
 h1,
-h2 {
+h2,
+h3 {
     margin: 0;
 }
 
@@ -86,6 +91,8 @@ p {
 
 hr {
     color: var(--dark-grey);
+    border-color: var(--dark-grey);
+    background-color: var(--dark-grey);
     margin: 10px 5px;
 }
 
@@ -112,7 +119,7 @@ button {
 }
 
 button:not(:disabled)::after {
-    content: " ";
+    content: "";
     position: absolute;
     left: -2px;
     top: -2px;
@@ -228,6 +235,7 @@ button.fake-disable {
     align-items: center;
     justify-content: space-between;
     padding: 0 5px;
+    gap: 5px;
 }
 
 .setting-name {
@@ -249,10 +257,10 @@ button.fake-disable {
     height: 50px;
     font-size: 14pt;
     font-weight: 400;
+    background-color: var(--inactive-color);
 }
 
-.switch,
-.settings-modes {
+.switch {
     display: flex;
     gap: 4px;
 }
@@ -269,8 +277,15 @@ button.fake-disable {
     background-color: var(--correct-color);
 }
 
+.settings-modes {
+    display: flex;
+    flex: 0 1 212px;
+    gap: 4px;
+}
+
 .settings-mode-button {
-    width: 104px;
+    flex: 1;
+    background-color: var(--inactive-color);
 }
 
 .settings-mode-button.active {
@@ -531,18 +546,6 @@ button.fake-disable {
     min-width: 0;
 }
 
-@keyframes keyboard-button-transition {
-    from {
-        background-color: var(--entry-color);
-        color: var(--text-color);
-    }
-
-    to {
-        background-color: var(--keyboard-background);
-        color: var(--keyboard-color);
-    }
-}
-
 @keyframes keyboard-button-symbol {
     from {
         opacity: 0;
@@ -572,7 +575,7 @@ button.fake-disable {
 .keyboard-button.letter.incorrect,
 .keyboard-button.letter.correct,
 .keyboard-button.letter.partial {
-    animation: keyboard-button-transition 0.2s linear 1s backwards;
+    transition: background-color 0.2s linear 1s, color 0.2s linear 1s;
 }
 
 .keyboard-button.incorrect,
@@ -625,11 +628,7 @@ button.fake-disable {
     width: 1em;
     right: 0;
     bottom: 0;
-    animation-name: keyboard-button-symbol;
-    animation-duration: inherit;
-    animation-delay: inherit;
-    animation-timing-function: inherit;
-    animation-fill-mode: inherit;
+    animation: keyboard-button-symbol 0.2s linear 1s both;
 }
 
 .use-symbols .keyboard-button.letter::before {
@@ -649,20 +648,9 @@ button.fake-disable {
     content: "\2713";
 }
 
-@media (max-height: 640px) {
-    .keyboard-button {
-        height: 38px;
-        font-size: 12pt;
-    }
-
+@media (max-width: 480px) {
     .keyboard-button.give-up {
         font-size: 8pt;
-    }
-
-    .keyboard-button.letter.incorrect::before,
-    .keyboard-button.letter.partial::before,
-    .keyboard-button.letter.correct::before {
-        font-size: 7pt;
     }
 }
 
@@ -722,12 +710,124 @@ button.fake-disable {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #00000000;
-    transition: background-color 0.5s;
+    background-color: #00000080;
+    transition: visibility 0.5s, opacity 0.5s;
+    opacity: 0;
     visibility: hidden;
 }
 
 .stats-modal.open {
     visibility: visible;
-    background-color: #00000080;
+    opacity: 1;
+}
+
+.stats-modal-inner {
+    background: var(--background);
+    width: 90%;
+    max-width: 640px;
+    max-height: 90%;
+    overflow-y: auto;
+    padding: 16px;
+    font-size: 12pt;
+}
+
+.stats-modal hr {
+    margin: 10px 0;
+}
+
+.stats-modal-header {
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.stats-modal-title {
+    flex: 1;
+}
+
+.stats-modal-subtitle {
+    margin-bottom: 5px;
+}
+
+.stats-modal-close-button {
+    width: 30px;
+    height: 30px;
+}
+
+.stats-modal-rows {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+}
+
+.stats-modal-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70px;
+}
+
+.stats-modal-row-name {
+    flex: 1;
+    text-align: center;
+}
+
+.stats-modal-row-value {
+    font-size: 24pt;
+}
+
+.distribution-row {
+    display: flex;
+    gap: 6px;
+}
+
+.distribution-bar {
+    flex: 1;
+}
+
+.distribution-bar-inner {
+    text-align: right;
+    background: var(--entry-color);
+    color: var(--text-color);
+    padding: 0 4px;
+    min-width: min-content;
+}
+
+.distribution-bar-inner.active {
+    background: var(--blue);
+    color: var(--light-text);
+}
+
+.distribution-label {
+    width: 1em;
+    text-align: right;
+}
+
+.distribution {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.stats-modal-timer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.timer-description {
+    font-weight: 600;
+}
+
+.timer-clock {
+    display: flex;
+    font-size: 24pt;
+}
+
+.timer-digit {
+    min-width: 0.7em;
+    text-align: center;
+}
+
+.timer-sep {
+    padding: 0 2px;
 }

@@ -152,7 +152,6 @@ bjána
 bjáni
 bjóst
 bjóða
-bjóði
 björg
 björk
 björn
@@ -160,7 +159,6 @@ blaka
 bland
 blasa
 blaða
-blaði
 bless
 blett
 blika
@@ -175,7 +173,6 @@ bláir
 bláum
 blæst
 blæða
-blæði
 blítt
 blíðu
 blóma
@@ -226,7 +223,6 @@ bræla
 bræða
 bréfa
 bréfi
-brósi
 brögð
 brölt
 brúin
@@ -291,7 +287,6 @@ bölva
 börðu
 böðun
 búast
-búbót
 búinu
 búist
 búkur
@@ -376,7 +371,6 @@ drógu
 dróst
 dugar
 dugir
-dugði
 dulúð
 dunda
 dusta
@@ -476,11 +470,9 @@ enski
 ensím
 eplið
 erfið
-erfði
 ergir
 ergja
 erill
-eruði
 essum
 evrur
 eyddi
@@ -849,7 +841,6 @@ gúffa
 gúmmí
 gúrka
 gúrku
-hafir
 hafið
 hafur
 hafís
@@ -928,7 +919,6 @@ hinna
 hinum
 hippi
 hirða
-hirði
 hissa
 hitar
 hitað
@@ -1005,7 +995,6 @@ hrátt
 hræra
 hrærð
 hrætt
-hræði
 hrífa
 hrópa
 hrósa
@@ -1152,7 +1141,6 @@ kakan
 kaldi
 kalli
 kalls
-kalín
 kamar
 kampa
 kanna
@@ -1365,7 +1353,6 @@ lausa
 lausn
 lausu
 leggi
-legði
 leifi
 leiga
 leigt
@@ -1565,7 +1552,6 @@ meina
 meiri
 meiru
 meiða
-meiði
 melta
 melur
 menga
@@ -2039,7 +2025,6 @@ satan
 sauma
 sefur
 segir
-segði
 seina
 seinn
 seiða
@@ -2060,7 +2045,6 @@ sería
 setja
 setji
 setur
-seyla
 seyta
 seðil
 seðla
@@ -2189,7 +2173,6 @@ smuga
 smygl
 smábæ
 smátt
-smáél
 smíða
 smíði
 smúla
@@ -3029,7 +3012,6 @@ yrðum
 þunnt
 þurft
 þurrt
-þurru
 þvers
 þvert
 þverá
@@ -3043,9 +3025,8 @@ yrðum
 þyldi
 þyngd
 þynna
-þyrlu
+þyrla
 þyrma
-þyrði
 þátta
 þátíð
 þægir
@@ -3061,7 +3042,5 @@ yrðum
 þúfur
 þýddi
 þýska
-þýskt
-þýsku
 þýtur
 þýðir

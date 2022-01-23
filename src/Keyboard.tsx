@@ -1,4 +1,4 @@
-import { h, Fragment, Component, Attributes, ComponentChild, ComponentChildren, Ref, RenderableProps } from "preact";
+import { h, Fragment, Component, RenderableProps } from "preact";
 import { LetterState, LETTER_STATE_MAP } from "./WordGrid";
 
 const KEYBOARD_ROWS = [
