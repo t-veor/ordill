@@ -42,7 +42,7 @@ export default function Wordle({ wordle, dispatchWordle, onShowStats }: WordlePr
     const { gameState, guessedWords, secretWord, dailyNumber, generation } = wordle;
     const isDaily = dailyNumber != null;
 
-    const { statsDidShow } = useContext(AppContext);
+    const { statsDidShow, setIsDaily } = useContext(AppContext);
 
     const submitKey = useCallback((key: string) => {
         switch (key) {
@@ -70,10 +70,14 @@ export default function Wordle({ wordle, dispatchWordle, onShowStats }: WordlePr
     }, [onKeyDown]);
 
     const playAgain = () => {
-        dispatchWordle({
-            type: "load",
-            newState: initialState(settingsManager.get(), wordle.hardMode),
-        });
+        if (isDaily && setIsDaily) {
+            setIsDaily?.(false);
+        } else {
+            dispatchWordle({
+                type: "load",
+                newState: initialState(settingsManager.get(), wordle.hardMode),
+            });
+        }
     };
 
     const copyResults = () => {
