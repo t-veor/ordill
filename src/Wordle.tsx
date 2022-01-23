@@ -10,6 +10,7 @@ import WordGrid, { Letter, LetterState } from "./WordGrid";
 import { initialState, validateWord, WordleAction, WordleState } from "./wordleState";
 
 const SQUARES = ["\u{2b1b}", "\u{2b1c}", "\u{1f7e8}", "\u{1f7e9}", "\u{1f7e6}", "\u{1f7e7}"];
+const LINK = "https://t-veor.github.io/ordill/";
 
 export interface WordleProps {
     wordle: WordleState,
@@ -34,7 +35,7 @@ const makeResultText = (guessedWords: Array<Array<Letter>>, hardMode: boolean, d
             word.map(({ state }) => squares[state]).join("")
         )).join("  \n");
 
-    return `Orðill ${dayCount}${guessedWords.length}/${totalGuesses}${hardModeStar}\n\n${grid}`;
+    return `Orðill ${dayCount}${guessedWords.length}/${totalGuesses}${hardModeStar}\n\n${grid}\n${LINK}`;
 }
 
 export default function Wordle({ wordle, dispatchWordle, onShowStats }: WordleProps) {

@@ -41,7 +41,6 @@ const getDailyIndex = (dayNumber: number) => {
 };
 
 export const getDailyWord = (dayNumber: number) => {
-    console.log("DAILY WORD CALLED!!");
     const index = getDailyIndex(dayNumber);
     return commonWords[index];
 };
