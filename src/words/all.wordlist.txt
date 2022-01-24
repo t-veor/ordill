@@ -117,6 +117,7 @@ agaða
 agaði
 agaðs
 agaðu
+agent
 aggan
 aggar
 aggir
@@ -156,6 +157,7 @@ akkur
 aknet
 akrar
 akrim
+akrýl
 aksel
 aktar
 aktað
@@ -217,6 +219,7 @@ allar
 allen
 allfá
 allhá
+allra
 allri
 allæs
 allíf
@@ -354,6 +357,7 @@ anita
 anitu
 aniði
 ankar
+anker
 annan
 annar
 annas
@@ -373,6 +377,7 @@ ansir
 ansið
 ansum
 anton
+antík
 aníka
 aníku
 anína
@@ -672,6 +677,8 @@ balsa
 balsi
 balta
 balti
+bamba
+bambi
 bambs
 banar
 banað
@@ -801,6 +808,7 @@ belin
 belið
 belji
 belju
+bella
 belld
 belli
 bellt
@@ -1139,6 +1147,7 @@ blómi
 blóms
 blóra
 blóri
+blóta
 blóti
 blóts
 blóða
@@ -1291,6 +1300,7 @@ bresa
 bresi
 brest
 breti
+brett
 breyt
 breða
 breði
@@ -1916,6 +1926,7 @@ bústi
 bústu
 búsum
 búsæl
+bútan
 bútar
 bútað
 búten
@@ -2289,6 +2300,7 @@ dokað
 dokin
 dokir
 dokið
+dokka
 dokki
 dokks
 dokku
@@ -2304,6 +2316,7 @@ dolið
 dolka
 dolki
 dolks
+dolla
 dolli
 dolls
 dollu
@@ -2384,12 +2397,14 @@ dreps
 drepu
 dreri
 drers
+dress
 dreyp
 dreyr
 drifa
 drifi
 drifs
 drifu
+drita
 driti
 drits
 dritt
@@ -2774,6 +2789,7 @@ dísæt
 dívan
 dívum
 dívur
+díóða
 díóðu
 díönu
 dóbra
@@ -2863,6 +2879,7 @@ dúkki
 dúkum
 dúkur
 dúkuð
+dúlla
 dúlli
 dúlls
 dúllu
@@ -3586,6 +3603,7 @@ eyþór
 eísin
 eísið
 eísum
+eðall
 eðals
 eðalt
 eðinu
@@ -4109,6 +4127,7 @@ flögg
 flögr
 flögu
 flögð
+flökt
 flöku
 flöss
 flösu
@@ -4188,11 +4207,13 @@ foxum
 fragi
 frags
 fragt
+frakt
 frami
 frams
 framt
 framá
 framí
+frank
 frans
 franz
 frasa
@@ -4207,6 +4228,7 @@ freks
 frekt
 freku
 fremd
+fremi
 freon
 frera
 freri
@@ -4239,6 +4261,7 @@ frugg
 frumi
 frums
 frumu
+fruss
 frusu
 frygð
 fryma
@@ -4954,7 +4977,9 @@ gauri
 gaurs
 gauru
 gausk
+gauss
 gaust
+gauta
 gauti
 gauts
 gauða
@@ -4993,6 +5018,7 @@ geira
 geirs
 geiru
 geisi
+geisp
 geita
 geiti
 geitá
@@ -5071,6 +5097,7 @@ getra
 getru
 getta
 gettu
+gettó
 geyfa
 geyfu
 geyin
@@ -5492,6 +5519,7 @@ gotni
 gotnu
 gotra
 gotri
+gotta
 gotti
 gotts
 gotum
@@ -5501,6 +5529,7 @@ goðgá
 goðin
 goðið
 goðum
+graff
 grafi
 grafs
 grali
@@ -6129,6 +6158,7 @@ gúanó
 gúbba
 gúbbi
 gúfan
+gúffa
 gúffi
 gúfum
 gúfur
@@ -6155,6 +6185,7 @@ gúmið
 gúmma
 gúmmi
 gúmms
+gúmmí
 gúmum
 gúmuð
 gúmía
@@ -6420,6 +6451,7 @@ helja
 helju
 helli
 hellu
+helma
 helmu
 helró
 helsa
@@ -6795,6 +6827,7 @@ hnubb
 hnull
 hnusa
 hnusi
+hnuss
 hnusu
 hnutu
 hnuðl
@@ -7161,6 +7194,7 @@ huldu
 hulin
 hulla
 hulli
+hulsa
 hulsu
 hulta
 hulti
@@ -7913,6 +7947,7 @@ húðað
 húðir
 húðið
 húðum
+húðun
 húðuð
 hýdda
 hýddi
@@ -8136,6 +8171,7 @@ iðrar
 iðrað
 iðrin
 iðrið
+iðrum
 iðuna
 iðunn
 iðurs
@@ -8311,6 +8347,7 @@ játsi
 játti
 játtu
 játum
+játun
 játuð
 jóabs
 jóana
@@ -8579,6 +8616,7 @@ kasar
 kasað
 kasir
 kasið
+kaskó
 kassa
 kasta
 kasts
@@ -9311,6 +9349,7 @@ krani
 krans
 krapi
 kraps
+krass
 krata
 krati
 krauk
@@ -9584,6 +9623,7 @@ kvapi
 kvaps
 kvark
 kvars
+kvart
 kvasa
 kvasi
 kvass
@@ -10026,6 +10066,7 @@ kösum
 kösun
 kösuð
 kötlu
+kötta
 kötti
 köttu
 kötum
@@ -10210,6 +10251,7 @@ lagir
 lagna
 lagni
 lagsa
+lagsi
 lagís
 lagða
 lagðs
@@ -10944,6 +10986,7 @@ látni
 látra
 látri
 láttu
+látur
 látuð
 lávað
 láðin
@@ -11122,6 +11165,7 @@ líran
 lírum
 lírur
 lísól
+líter
 lítil
 lítið
 lítra
@@ -11155,6 +11199,7 @@ lógið
 lógum
 lógun
 lóguð
+lógík
 lógóa
 lógói
 lógós
@@ -11652,6 +11697,7 @@ messi
 messu
 mesti
 mests
+metal
 metan
 meter
 metfé
@@ -11671,6 +11717,7 @@ metur
 meyin
 meyja
 meyju
+meyla
 meylu
 meyna
 meyri
@@ -12232,6 +12279,7 @@ móaás
 móaði
 móblá
 módal
+módem
 módes
 móeyg
 móféð
@@ -12355,6 +12403,7 @@ möndu
 möngu
 mönin
 mönum
+mönun
 mönuð
 möppu
 mörju
@@ -12432,7 +12481,9 @@ músaá
 músin
 múska
 músku
+múslí
 músum
+músík
 mútan
 mútar
 mútað
@@ -12655,6 +12706,7 @@ nesið
 nesja
 nesla
 neslu
+nesta
 nests
 nestu
 nestá
@@ -12691,6 +12743,7 @@ nifli
 nifls
 nifta
 nikil
+nikki
 nikks
 nikku
 nikla
@@ -13700,6 +13753,7 @@ plett
 plikt
 plitt
 plokk
+plott
 pluma
 plumi
 plunk
@@ -14189,6 +14243,7 @@ rador
 radía
 radíi
 radín
+radíó
 rafal
 rafar
 rafey
@@ -14351,6 +14406,7 @@ refða
 refði
 reggi
 reggs
+regin
 regla
 regli
 regni
@@ -14413,6 +14469,7 @@ rekúð
 relli
 rells
 rellu
+remba
 rembu
 remin
 remið
@@ -14549,6 +14606,7 @@ ringu
 ripil
 ripla
 ripli
+rippa
 rippi
 rippu
 ripta
@@ -15372,6 +15430,7 @@ rúnuð
 rúpía
 rúpíu
 rúrik
+rússa
 rústa
 rústi
 rúten
@@ -15495,6 +15554,7 @@ salli
 salma
 salna
 salný
+salon
 salpa
 salsa
 salta
@@ -15821,6 +15881,7 @@ silja
 silju
 silka
 silku
+silla
 silli
 sillu
 silti
@@ -15876,6 +15937,7 @@ sitlu
 sitra
 sitri
 sittu
+siðan
 siðar
 siðað
 siðin
@@ -16218,6 +16280,7 @@ sköss
 skötu
 skúar
 skúað
+skúbb
 skúfa
 skúfi
 skúfs
@@ -16434,6 +16497,7 @@ smakk
 smali
 smals
 smarl
+smart
 smaug
 smeit
 smell
@@ -16502,6 +16566,7 @@ smóka
 smóki
 smóks
 smört
+smúla
 smúli
 smúls
 snaga
@@ -16533,6 +16598,7 @@ sneri
 snerp
 sneyp
 sneyð
+sniff
 sniga
 snigu
 snikk
@@ -16552,6 +16618,7 @@ snoðs
 snoðu
 snubb
 snudd
+snuff
 snugg
 snurt
 snusa
@@ -16740,6 +16807,7 @@ speld
 spelk
 spell
 spels
+spelt
 spena
 speng
 speni
@@ -16765,6 +16833,7 @@ sposk
 spott
 sprak
 sprek
+sprey
 sprit
 sprok
 spruð
@@ -16783,6 +16852,7 @@ spáin
 spáir
 spáið
 spána
+spánn
 spáns
 spánu
 spáná
@@ -16899,6 +16969,7 @@ stapa
 stapp
 starr
 stars
+start
 statt
 stauk
 staur
@@ -17104,6 +17175,7 @@ stúki
 stúku
 stúma
 stúmi
+stúpa
 stúpu
 stúra
 stúri
@@ -18041,6 +18113,7 @@ sýnda
 sýndi
 sýnds
 sýndu
+sýnis
 sýnið
 sýnna
 sýnni
@@ -18168,6 +18241,7 @@ tarfa
 tarfi
 tarfs
 targa
+tarna
 tarra
 tarri
 tasla
@@ -18293,6 +18367,7 @@ terós
 tesan
 tesla
 tessa
+tessi
 testa
 testi
 tests
@@ -18301,6 +18376,7 @@ tesur
 tesía
 tesíu
 tetau
+tetra
 tetri
 texas
 texið
@@ -19322,6 +19398,7 @@ upphá
 uppát
 uppól
 uppör
+uppúr
 upsar
 upsir
 upsum
@@ -19762,6 +19839,7 @@ vikni
 viknu
 vikra
 vikri
+vikta
 vikti
 vikur
 vikuð
@@ -19874,6 +19952,7 @@ vitra
 vitri
 vitru
 vitta
+vitti
 vitts
 vittu
 vitug
@@ -20021,6 +20100,7 @@ válka
 válki
 vánni
 váorð
+várar
 várum
 váuðu
 vædda
@@ -20837,6 +20917,7 @@ zörum
 árbær
 árbít
 árból
+árbót
 árbýl
 árdag
 árdal
@@ -20886,6 +20967,7 @@ zörum
 árset
 ársfé
 ársæl
+ársól
 ársöm
 ártak
 ártíð
@@ -21024,6 +21106,7 @@ zörum
 ávann
 ávans
 ávant
+áverk
 ávert
 áverð
 ávinn
@@ -21530,6 +21613,7 @@ zörum
 ítaka
 ítaki
 ítaks
+ítala
 ítogi
 ítogs
 ítran
@@ -23425,6 +23509,7 @@ zörum
 þreyð
 þreða
 þreðu
+þrifa
 þrifi
 þrift
 þrifu
@@ -23594,6 +23679,7 @@ zörum
 þveri
 þverr
 þveru
+þverá
 þvest
 þvita
 þviti

@@ -9,10 +9,8 @@ aftan
 aftar
 aftur
 afurð
-agent
 agnar
 agnið
-akrýl
 alast
 albúm
 aldan
@@ -24,7 +22,6 @@ alger
 alinn
 alist
 alkul
-allra
 allan
 allir
 allur
@@ -39,10 +36,8 @@ andóf
 andúð
 angar
 angra
-anker
 annað
 annir
-antík
 apann
 apinn
 apríl
@@ -82,8 +77,6 @@ bakað
 bakið
 bakka
 balli
-bamba
-bambi
 bandi
 banjó
 banki
@@ -111,7 +104,6 @@ beinu
 beiti
 beitt
 belja
-bella
 belti
 benda
 benti
@@ -176,7 +168,6 @@ blæða
 blítt
 blíðu
 blóma
-blóta
 blóðs
 blönk
 bogið
@@ -206,7 +197,6 @@ bravó
 brenn
 bresk
 breta
-brett
 brima
 brjál
 brons
@@ -294,7 +284,6 @@ búlla
 búnar
 búnir
 búrið
-bútan
 bútur
 búðin
 búðum
@@ -347,8 +336,6 @@ djörf
 djúpt
 djúpu
 dofna
-dokka
-dolla
 draga
 dragi
 drama
@@ -357,9 +344,7 @@ dreif
 dreki
 dreng
 drepa
-dress
 drift
-drita
 dropa
 dropi
 drull
@@ -393,7 +378,6 @@ dæmis
 dæmið
 dætur
 dísin
-díóða
 dómur
 dósir
 dótið
@@ -410,7 +394,6 @@ dúfan
 dúfur
 dúkka
 dúkku
-dúlla
 dútla
 dýpka
 dýpra
@@ -485,7 +468,6 @@ eyrað
 eyrun
 eyðum
 eyður
-eðall
 eðlis
 fagra
 fagur
@@ -576,7 +558,6 @@ flækt
 flæða
 flæði
 flóra
-flökt
 flúið
 flúor
 flúði
@@ -591,19 +572,15 @@ fornt
 forða
 fossa
 fossi
-frakt
 frama
-frank
 fraus
 fregn
-fremi
 frest
 friða
 friði
 frost
 froða
 fruma
-fruss
 fræga
 frægð
 fræsa
@@ -701,8 +678,6 @@ gasið
 gassi
 gatan
 gatið
-gauss
-gauta
 gefið
 gefst
 gefum
@@ -711,7 +686,6 @@ gegna
 gegnt
 geiri
 geisa
-geisp
 gella
 gellu
 gelta
@@ -726,7 +700,6 @@ gerði
 gesta
 gesti
 getað
-gettó
 getum
 getur
 geyma
@@ -767,9 +740,7 @@ gnægð
 gnótt
 gorta
 gossa
-gotta
 grafa
-graff
 grams
 grand
 grasa
@@ -837,8 +808,6 @@ gönur
 götin
 götun
 götur
-gúffa
-gúmmí
 gúrka
 gúrku
 hafið
@@ -889,7 +858,6 @@ hekla
 helgi
 hella
 hellt
-helma
 helín
 hemil
 hemla
@@ -962,7 +930,6 @@ hnetu
 hnota
 hnoða
 hnupl
-hnuss
 hnénu
 hnífa
 hnífi
@@ -1004,7 +971,6 @@ hugga
 hugsa
 hugsi
 hulið
-hulsa
 humar
 hunda
 hunsa
@@ -1095,7 +1061,6 @@ húrra
 húsin
 húsum
 húðin
-húðun
 illan
 illir
 illur
@@ -1108,7 +1073,6 @@ innri
 innst
 iðinn
 iðkun
-iðrum
 iðrun
 jafni
 jafnt
@@ -1123,7 +1087,6 @@ jesús
 járni
 járns
 játar
-játun
 jóker
 jókst
 jólin
@@ -1151,7 +1114,6 @@ kappi
 karat
 karfi
 karrí
-kaskó
 kassi
 kasti
 kaupi
@@ -1236,7 +1198,6 @@ kosta
 kraft
 krana
 krapa
-krass
 kreik
 kring
 krist
@@ -1258,7 +1219,6 @@ kulda
 kuldi
 kunni
 kunnu
-kvart
 kvatt
 kverk
 kveða
@@ -1311,7 +1271,6 @@ kökur
 köldu
 könnu
 körfu
-kötta
 kúabú
 kúgar
 kúgun
@@ -1333,7 +1292,6 @@ lafði
 lagar
 lagga
 lagið
-lagsi
 lagst
 lagði
 lakka
@@ -1458,7 +1416,6 @@ lásum
 látin
 látnu
 látum
-látur
 látún
 lægir
 lægja
@@ -1492,14 +1449,12 @@ líkur
 límir
 línan
 línur
-líter
 lítir
 lítri
 lítum
 lítur
 líðan
 líður
-lógík
 lóðum
 lögga
 löggu
@@ -1562,12 +1517,10 @@ merkt
 messa
 mesta
 mestu
-metal
 metin
 metið
 metri
 metár
-meyla
 meyra
 meðal
 meðan
@@ -1639,7 +1592,6 @@ mínir
 mínum
 mínus
 módel
-módem
 mótor
 mótum
 mótun
@@ -1648,12 +1600,9 @@ móðga
 móður
 mögur
 mömmu
-mönun
 mörgu
 múgur
 múkki
-múslí
-músík
 mútta
 mútur
 múður
@@ -1685,7 +1634,6 @@ neitt
 nemar
 nemur
 nenna
-nesta
 nesti
 netið
 nettó
@@ -1696,7 +1644,6 @@ neðan
 neðra
 neðst
 nikka
-nikki
 nitur
 niðra
 niður
@@ -1811,7 +1758,6 @@ pjakk
 plagg
 plana
 plast
-plott
 plága
 pláss
 plötu
@@ -1857,7 +1803,6 @@ pússa
 púður
 rabba
 radar
-radíó
 rakar
 rakka
 rakki
@@ -1882,7 +1827,6 @@ redda
 refsa
 refur
 reggí
-regin
 reglu
 reika
 reipi
@@ -1896,7 +1840,6 @@ rekst
 rekum
 rekur
 rella
-remba
 renna
 renni
 retta
@@ -1910,7 +1853,6 @@ rifja
 rifta
 riggs
 rigna
-rippa
 rispa
 rissa
 rista
@@ -1993,7 +1935,6 @@ rúmið
 rúmur
 rúnar
 rúnta
-rússa
 rússi
 rútan
 rýfur
@@ -2010,7 +1951,6 @@ sakar
 sakað
 sakni
 salat
-salon
 salti
 salur
 sambú
@@ -2055,14 +1995,12 @@ sigra
 sigri
 sigta
 silki
-silla
 sinna
 sinni
 sippa
 sirka
 sitji
 situr
-siðan
 siður
 sjeik
 sjokk
@@ -2129,7 +2067,6 @@ skóli
 skólp
 skömm
 skörp
-skúbb
 skúra
 skúti
 skýin
@@ -2164,7 +2101,6 @@ slóst
 slóða
 smala
 small
-smart
 smekk
 smita
 smjör
@@ -2175,7 +2111,6 @@ smábæ
 smátt
 smíða
 smíði
-smúla
 snafs
 snakk
 snarl
@@ -2183,12 +2118,10 @@ snatt
 sneið
 snert
 sneru
-sniff
 snjóa
 snjór
 snobb
 snoða
-snuff
 snáka
 snáði
 snæri
@@ -2214,19 +2147,16 @@ spark
 spaug
 speki
 speli
-spelt
 spila
 spili
 spjót
 spori
 sport
-sprey
 spuni
 spurn
 spurð
 spyrð
 spáni
-spánn
 spáði
 spæna
 spíra
@@ -2243,7 +2173,6 @@ stapi
 stara
 starf
 stari
-start
 staup
 steik
 stekk
@@ -2283,7 +2212,6 @@ stödd
 stökk
 störf
 stöðu
-stúpa
 stúta
 stýri
 stýrt
@@ -2389,7 +2317,6 @@ sýkla
 sýkna
 sýnin
 sýnir
-sýnis
 sýsli
 sýslu
 sýður
@@ -2411,7 +2338,6 @@ tanna
 tapar
 tapað
 tappi
-tarna
 taska
 tauga
 taxti
@@ -2435,8 +2361,6 @@ tengt
 tenór
 teppa
 tepra
-tessi
-tetra
 tetur
 texta
 texti
@@ -2561,7 +2485,6 @@ ungra
 ungur
 unnið
 unnum
-uppúr
 urðum
 urðuð
 vafri
@@ -2641,7 +2564,6 @@ vigta
 vigur
 vikan
 vikið
-vikta
 vikum
 vildi
 vilja
@@ -2667,7 +2589,6 @@ vitað
 vitir
 vitna
 vitni
-vitti
 vitum
 viðra
 viður
@@ -2688,7 +2609,6 @@ vorar
 vorið
 vorri
 votta
-várar
 vægir
 vælir
 væmið
@@ -2781,11 +2701,9 @@ yrðum
 ánægð
 árans
 árbók
-árbót
 árinn
 árinu
 árnes
-ársól
 ártal
 ásaka
 ásamt
@@ -2800,7 +2718,6 @@ yrðum
 áttum
 ávani
 ávarp
-áverk
 ávísa
 ávöxt
 áætla
@@ -2834,7 +2751,6 @@ yrðum
 íslam
 ísnum
 ísöld
-ítala
 ítali
 óbeit
 ódæði
@@ -2993,7 +2909,6 @@ yrðum
 þraut
 þrefi
 þreif
-þrifa
 þrjár
 þruma
 þráir
@@ -3014,7 +2929,6 @@ yrðum
 þurrt
 þvers
 þvert
-þverá
 þvott
 þvoðu
 þvæla
