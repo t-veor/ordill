@@ -92,7 +92,6 @@ export class SettingsManager {
 
     private callbacks: SettingsCallback[] = [];
     private settings: Settings;
-    private gameInProgress: boolean = false;
 
     private constructor() {
         this.settings = loadSettings();
@@ -114,7 +113,6 @@ export class SettingsManager {
     }
 
     update(delta: Partial<Settings>) {
-        // toast("Ekki hægt að kveikja á erfiðisstillingunni í miðjum leik");
         this.settings = { ...this.settings, ...delta };
         this.onChanged();
     }

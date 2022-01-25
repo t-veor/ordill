@@ -174,7 +174,7 @@ button.fake-disable {
 .tab {
     position: absolute;
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     top: 0;
     left: 0;
     background: var(--background);
@@ -214,6 +214,7 @@ button.fake-disable {
     }
 
     .tab-button {
+        width: 30px;
         height: 30px;
     }
 
@@ -701,7 +702,7 @@ button.fake-disable {
     padding: 0.5em 1em;
 }
 
-.stats-modal {
+.modal {
     position: fixed;
     left: 0;
     top: 0;
@@ -716,12 +717,12 @@ button.fake-disable {
     visibility: hidden;
 }
 
-.stats-modal.open {
+.modal.open {
     visibility: visible;
     opacity: 1;
 }
 
-.stats-modal-inner {
+.modal-inner {
     background: var(--background);
     width: 90%;
     max-width: 640px;
@@ -731,24 +732,34 @@ button.fake-disable {
     font-size: 12pt;
 }
 
-.stats-modal hr {
+.modal hr {
     margin: 10px 0;
 }
 
-.stats-modal-header {
+.modal p {
+    margin: 0.25em 0 1em;
+}
+
+.modal .word-grid-row.example {
+    padding: 0;
+}
+
+.modal-header {
     display: flex;
+    align-items: end;
+    gap: 4px;
     margin-bottom: 5px;
 }
 
-.stats-modal-title {
+.modal-title {
     flex: 1;
 }
 
-.stats-modal-subtitle {
+.modal-subtitle {
     margin-bottom: 5px;
 }
 
-.stats-modal-close-button {
+.modal-header-button {
     width: 30px;
     height: 30px;
 }
@@ -816,6 +827,7 @@ button.fake-disable {
 
 .timer-description {
     font-weight: 600;
+    text-align: center;
 }
 
 .timer-clock {

@@ -4,21 +4,27 @@ import Header from "./Header";
 import settingsManager from "./settings";
 import { Toaster } from "./Toaster";
 import Wordle from "./Wordle";
-import { inProgress, loadGameOrNew, useWordle, WordleState } from "./wordleState";
+import {
+    inProgress,
+    loadGameOrNew,
+    useWordle,
+    WordleState,
+} from "./wordleState";
 import { StatsModal } from "./StatsModal";
 import { useEffect, useRef, useState } from "preact/hooks";
 import { useStats } from "./stats";
+import { InstructionsModal } from "./InstructionsModal";
 
 export interface AppContext {
-    isDaily: boolean,
-    setIsDaily?: (isDaily: boolean) => void,
+    isDaily: boolean;
+    setIsDaily?: (isDaily: boolean) => void;
 
-    statsDidShow: boolean,
-    openStats?: () => void,
+    statsDidShow: boolean;
+    openStats?: () => void;
 
-    hardMode: boolean,
-    gameInProgress: boolean,
-    setHardMode?: (hardMode: boolean) => void,
+    hardMode: boolean;
+    gameInProgress: boolean;
+    setHardMode?: (hardMode: boolean) => void;
 }
 
 export const AppContext = createContext<AppContext>({
@@ -29,13 +35,13 @@ export const AppContext = createContext<AppContext>({
 });
 
 export default function App() {
-    const [wordle, dispatchWordle] = useWordle(
-        () => loadGameOrNew(settingsManager.get(), getTodayNumber()),
+    const [wordle, dispatchWordle] = useWordle(() =>
+        loadGameOrNew(settingsManager.get(), getTodayNumber())
     );
     const [currDaily, setCurrDaily] = useState<WordleState | null>(null);
     useEffect(() => {
         if (wordle.dailyNumber != null) {
-            setCurrDaily(wordle)
+            setCurrDaily(wordle);
         }
     }, [wordle]);
 
@@ -50,7 +56,7 @@ export default function App() {
                 newState: loadGameOrNew(
                     settingsManager.get(),
                     isDaily ? getTodayNumber() : undefined,
-                    wordle,
+                    wordle
                 ),
             });
         }
@@ -81,7 +87,7 @@ export default function App() {
                 if (statsDidShowHandle.current != null) {
                     clearTimeout(statsDidShowHandle.current);
                 }
-            }
+            };
         } else {
             setStatsDidShow(false);
             setStatsOpen(false);
@@ -89,7 +95,7 @@ export default function App() {
     }, [wordle.gameState, wordle.dailyNumber]);
 
     const setHardMode = (hardMode: boolean) => {
-        dispatchWordle({ type: "setHardMode", hardMode })
+        dispatchWordle({ type: "setHardMode", hardMode });
     };
 
     const context: AppContext = {
@@ -120,6 +126,7 @@ export default function App() {
                 onClose={closeStats}
                 wordle={currDaily}
             />
+            <InstructionsModal />
         </AppContext.Provider>
     );
 }
