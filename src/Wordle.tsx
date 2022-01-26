@@ -18,7 +18,7 @@ export interface WordleProps {
     onShowStats?: () => void;
 }
 
-const makeResultText = (guessedWords: Array<Array<Letter>>, hardMode: boolean, dailyNumber?: number) => {
+const makeResultText = (won: boolean, guessedWords: Array<Array<Letter>>, hardMode: boolean, dailyNumber?: number) => {
     const { dark, highContrast } = settingsManager.get();
 
     const squares = [""];
@@ -27,15 +27,16 @@ const makeResultText = (guessedWords: Array<Array<Letter>>, hardMode: boolean, d
     squares.push(SQUARES[highContrast ? 5 : 3]);
 
     const dayCount = dailyNumber != null ? `${dailyNumber + 1} ` : "";
-    const totalGuesses = dailyNumber != null ? `${DAILY_GUESSES}` : "\u{221e}";
+    const totalGuesses = dailyNumber != null ? DAILY_GUESSES : "\u{221e}";
     const hardModeStar = hardMode ? "*" : "";
+    const guessCount = won ? guessedWords.length :"X";
 
     const grid = guessedWords
         .map(word => (
             word.map(({ state }) => squares[state]).join("")
         )).join("  \n");
 
-    return `Orðill ${dayCount}${guessedWords.length}/${totalGuesses}${hardModeStar}\n\n${grid}\n${LINK}`;
+    return `Orðill ${dayCount}${guessCount}/${totalGuesses}${hardModeStar}\n\n${grid}\n${LINK}`;
 }
 
 export default function Wordle({ wordle, dispatchWordle, onShowStats }: WordleProps) {
@@ -81,7 +82,12 @@ export default function Wordle({ wordle, dispatchWordle, onShowStats }: WordlePr
     };
 
     const copyResults = () => {
-        const text = makeResultText(wordle.guessedWords, wordle.hardMode, dailyNumber);
+        const text = makeResultText(
+            wordle.gameState.name === "won",
+            wordle.guessedWords,
+            wordle.hardMode,
+            dailyNumber,
+        );
         navigator.clipboard.writeText(text)
             .then(() => toast("Afritun tókst!"))
             .catch(() => toast("Afritun mistókst!"));
