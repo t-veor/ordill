@@ -69,10 +69,10 @@ function DailyTimer({
     useEffect(() => {
         if (tick) {
             setTimeRemaining(getTimeRemaining());
-            const handle = setInterval(() => {
-                console.log("Ticking!");
-                setTimeRemaining(getTimeRemaining());
-            }, 1000);
+            const handle = setInterval(
+                () => setTimeRemaining(getTimeRemaining()),
+                1000
+            );
             return () => clearInterval(handle);
         }
     }, [tick, getTimeRemaining]);
