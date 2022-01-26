@@ -11,9 +11,9 @@ const KEYBOARD_ROWS = [
 const BLANKED_KEYS = ["c", "q", "w", "z"];
 
 export interface KeyboardProps {
-    letterStates: Record<string, LetterState | undefined>,
-    wordIsValid: boolean,
-    isDaily: boolean,
+    letterStates: Record<string, LetterState | undefined>;
+    wordIsValid: boolean;
+    isDaily: boolean;
     onKeyDown?: (key: string) => void;
 }
 
@@ -25,9 +25,13 @@ export default class Keyboard extends Component<KeyboardProps> {
         }
     };
 
-    render({ letterStates, wordIsValid, isDaily }: RenderableProps<KeyboardProps>) {
+    render({
+        letterStates,
+        wordIsValid,
+        isDaily,
+    }: RenderableProps<KeyboardProps>) {
         const rows = KEYBOARD_ROWS.map((row, rowIndex) => {
-            const keys = row.map(key => {
+            const keys = row.map((key) => {
                 let buttonClass = "keyboard-button";
                 let contents;
                 let disabled = BLANKED_KEYS.includes(key);
@@ -70,9 +74,13 @@ export default class Keyboard extends Component<KeyboardProps> {
                 );
             });
 
-            return (<div class="keyboard-row" key={rowIndex}>{keys}</div>);
+            return (
+                <div class="keyboard-row" key={rowIndex}>
+                    {keys}
+                </div>
+            );
         });
 
-        return (<div class="keyboard">{rows}</div>);
+        return <div class="keyboard">{rows}</div>;
     }
 }

@@ -7,7 +7,7 @@ export const enum LetterState {
     Incorrect,
     Partial,
     Correct,
-};
+}
 export const LETTER_STATE_MAP: Record<LetterState, string> = {
     [LetterState.Entry]: "entry",
     [LetterState.Incorrect]: "incorrect",
@@ -16,14 +16,14 @@ export const LETTER_STATE_MAP: Record<LetterState, string> = {
 };
 
 export interface Letter {
-    letter: string,
-    state: LetterState,
-    resigning?: boolean,
+    letter: string;
+    state: LetterState;
+    resigning?: boolean;
 }
 
 export interface WordGridProps {
-    words: Array<Array<Letter>>,
-    minRows?: number
+    words: Array<Array<Letter>>;
+    minRows?: number;
 }
 
 const makeCell = (letter?: Letter) => {
@@ -39,7 +39,7 @@ const makeCell = (letter?: Letter) => {
         cellClass += " filled";
     }
 
-    return (<div class={cellClass}>{char}</div>)
+    return <div class={cellClass}>{char}</div>;
 };
 
 export default function WordGrid({ words, minRows }: WordGridProps) {
@@ -47,8 +47,12 @@ export default function WordGrid({ words, minRows }: WordGridProps) {
 
     const lastRow = useRef<HTMLDivElement>(null);
     useEffect(
-        () => lastRow.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }),
-        [words],
+        () =>
+            lastRow.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest",
+            }),
+        [words]
     );
 
     const rows = [];
@@ -59,14 +63,16 @@ export default function WordGrid({ words, minRows }: WordGridProps) {
             cells.push(makeCell(word?.[j]));
         }
         const ref = i === words.length - 1 ? lastRow : undefined;
-        rows.push(<div class="word-grid-row" ref={ref}>{cells}</div>);
+        rows.push(
+            <div class="word-grid-row" ref={ref}>
+                {cells}
+            </div>
+        );
     }
 
     return (
         <div class="word-grid">
-            <div class="word-grid-inner">
-                {rows}
-            </div>
+            <div class="word-grid-inner">{rows}</div>
         </div>
     );
 }

@@ -7,13 +7,18 @@ import Switch from "./Switch";
 import Tab from "./Tab";
 
 interface SettingProps {
-    name: string,
-    description?: ComponentChildren,
+    name: string;
+    description?: ComponentChildren;
 }
 
-function Setting({ name, description, children }: RenderableProps<SettingProps>) {
-    const descriptionElement = description ?
-        (<div class="setting-description">{description}</div>) : null;
+function Setting({
+    name,
+    description,
+    children,
+}: RenderableProps<SettingProps>) {
+    const descriptionElement = description ? (
+        <div class="setting-description">{description}</div>
+    ) : null;
 
     return (
         <div class="setting">
@@ -27,7 +32,7 @@ function Setting({ name, description, children }: RenderableProps<SettingProps>)
 }
 
 export interface SettingsTabProps {
-    open: boolean,
+    open: boolean;
     setTab?: (tab: TabState) => void;
 }
 
@@ -38,19 +43,23 @@ export default function SettingsTab({ open, setTab }: SettingsTabProps) {
         openStats,
         hardMode,
         gameInProgress,
-        setHardMode
+        setHardMode,
     } = useContext(AppContext);
 
     const [settings, setSettings] = useState(settingsManager.get());
     useEffect(() => {
         const cb = (settings: Settings) => setSettings(settings);
         settingsManager.subscribe(cb);
-        return () => { settingsManager.unsubscribe(cb); }
+        return () => {
+            settingsManager.unsubscribe(cb);
+        };
     }, []);
 
     const onChangeDark = (dark: boolean) => settingsManager.update({ dark });
-    const onChangeHighContrast = (highContrast: boolean) => settingsManager.update({ highContrast });
-    const onChangeSymbols = (symbols: boolean) => settingsManager.update({ symbols });
+    const onChangeHighContrast = (highContrast: boolean) =>
+        settingsManager.update({ highContrast });
+    const onChangeSymbols = (symbols: boolean) =>
+        settingsManager.update({ symbols });
 
     const onClose = () => setTab?.(null);
     const showStats = () => {
@@ -77,9 +86,11 @@ export default function SettingsTab({ open, setTab }: SettingsTabProps) {
             <hr />
             <Setting
                 name="Leiktegund"
-                description={<span class="link" onClick={goToInstructions}>
-                    Sjá leiðbeiningar
-                </span>}
+                description={
+                    <span class="link" onClick={goToInstructions}>
+                        Sjá leiðbeiningar
+                    </span>
+                }
             >
                 <div class="settings-modes">
                     <button
@@ -126,13 +137,12 @@ export default function SettingsTab({ open, setTab }: SettingsTabProps) {
                 name="Nota tákn"
                 description={"Nota X, ? og \u{2713} til að sýna niðurstöður"}
             >
-                <Switch
-                    value={!!settings.symbols}
-                    onChange={onChangeSymbols}
-                />
+                <Switch value={!!settings.symbols} onChange={onChangeSymbols} />
             </Setting>
             <hr />
-            <p><b>Þemadæmi:</b></p>
+            <p>
+                <b>Þemadæmi:</b>
+            </p>
             <div class="word-grid-row">
                 <div class="word-grid-cell correct">t</div>
                 <div class="word-grid-cell incorrect">ö</div>
@@ -153,14 +163,14 @@ export default function SettingsTab({ open, setTab }: SettingsTabProps) {
                     rel="noreferrer"
                 >
                     CC BY-SA 4.0
-                </a>.
+                </a>
+                .
             </p>
             <p>
                 <em>
                     Beygingarlýsing íslensks nútímamáls. Stofnun Árna
                     Magnússonar í íslenskum fræðum. Höfundur og ritstjóri
-                    Kristín Bjarnadóttir.
-                    {" "}
+                    Kristín Bjarnadóttir.{" "}
                     <a
                         href="https://bin.arnastofnun.is"
                         target="_blank"
@@ -170,6 +180,6 @@ export default function SettingsTab({ open, setTab }: SettingsTabProps) {
                     </a>
                 </em>
             </p>
-        </Tab >
+        </Tab>
     );
 }

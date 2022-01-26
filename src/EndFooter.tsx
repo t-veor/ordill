@@ -1,8 +1,8 @@
-import { h, Fragment } from "preact"
+import { h, Fragment } from "preact";
 import { WordleState } from "./wordleState";
 
 export interface EndFooterProps {
-    wordle: WordleState,
+    wordle: WordleState;
     onPlayAgain?: () => void;
     onCopyResults?: () => void;
     onShowStats?: () => void;
@@ -14,7 +14,12 @@ const isPlural = (n: number): boolean => {
     return !endsInOne || endsInEleven;
 };
 
-export default function EndFooter({ wordle, onPlayAgain, onCopyResults, onShowStats }: EndFooterProps) {
+export default function EndFooter({
+    wordle,
+    onPlayAgain,
+    onCopyResults,
+    onShowStats,
+}: EndFooterProps) {
     const { gameState, guessedWords, secretWord, dailyNumber } = wordle;
     const state = gameState.name;
     const guesses = guessedWords.length;
@@ -22,9 +27,13 @@ export default function EndFooter({ wordle, onPlayAgain, onCopyResults, onShowSt
 
     let message;
     if (state === "won") {
-        message = `Þér tókst það í ${guesses} tilraun${isPlural(guesses) ? "um" : ""}!`;
+        message = `Þér tókst það í ${guesses} tilraun${
+            isPlural(guesses) ? "um" : ""
+        }!`;
     } else if (state === "resigned") {
-        message = `Þú gafst upp eftir ${guesses} tilraun${isPlural(guesses) ? "ir" : ""}!`;
+        message = `Þú gafst upp eftir ${guesses} tilraun${
+            isPlural(guesses) ? "ir" : ""
+        }!`;
     } else {
         message = `Orðið var ${secretWord.toUpperCase()}.`;
     }
@@ -45,10 +54,12 @@ export default function EndFooter({ wordle, onPlayAgain, onCopyResults, onShowSt
                 {isDaily ? "Spila Frjálst" : "Spila Aftur"}
             </button>
             {showStatsButton}
-            <button class="end-footer-button copy-results" onClick={onCopyResults}>
+            <button
+                class="end-footer-button copy-results"
+                onClick={onCopyResults}
+            >
                 Deila
             </button>
         </div>
     );
 }
-

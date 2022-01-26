@@ -2,8 +2,8 @@ import { h, Fragment } from "preact";
 import { useEffect, useState } from "preact/hooks";
 
 interface Toast {
-    message: string,
-    id: number,
+    message: string;
+    id: number;
 }
 
 type ToastCallback = (toast: Toast) => void;
@@ -13,7 +13,7 @@ const addToastCallback = (cb: ToastCallback) => {
     toastCallbacks.push(cb);
 };
 const removeToastCallback = (cb: ToastCallback) => {
-    toastCallbacks = toastCallbacks.filter(i => i !== cb);
+    toastCallbacks = toastCallbacks.filter((i) => i !== cb);
 };
 
 export const toast = (message: string) => {
@@ -21,28 +21,28 @@ export const toast = (message: string) => {
         const id = currId++;
         cb({ message, id });
     }
-}
+};
 
 export function Toaster() {
     const [toast, setToast] = useState<Toast | null>(null);
     useEffect(() => {
         addToastCallback(setToast);
         return () => removeToastCallback(setToast);
-    }, [])
+    }, []);
 
     useEffect(() => {
         if (toast != null) {
             const handle = setTimeout(() => setToast(null), 3000);
             return () => clearTimeout(handle);
         }
-    }, [toast])
+    }, [toast]);
 
-    const toastElement = toast != null ?
-        <div class="toast" key={toast.id}>{toast.message}</div> : null;
+    const toastElement =
+        toast != null ? (
+            <div class="toast" key={toast.id}>
+                {toast.message}
+            </div>
+        ) : null;
 
-    return (
-        <div class="toaster">
-            {toastElement}
-        </div>
-    );
+    return <div class="toaster">{toastElement}</div>;
 }

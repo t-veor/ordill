@@ -9,11 +9,11 @@ export interface SwitchProps {
 export default class Switch extends Component<SwitchProps> {
     onTrue = () => {
         this.props.onChange?.(true);
-    }
+    };
 
     onFalse = () => {
         this.props.onChange?.(false);
-    }
+    };
 
     render({ value, disabled }: SwitchProps) {
         let trueButtonClass = "switch-button true";
@@ -32,16 +32,10 @@ export default class Switch extends Component<SwitchProps> {
 
         return (
             <div class="switch">
-                <button
-                    class={falseButtonClass}
-                    onClick={this.onFalse}
-                >
+                <button class={falseButtonClass} onClick={this.onFalse}>
                     X
                 </button>
-                <button
-                    class={trueButtonClass}
-                    onClick={this.onTrue}
-                >
+                <button class={trueButtonClass} onClick={this.onTrue}>
                     {"\u{2713}"}
                 </button>
             </div>
