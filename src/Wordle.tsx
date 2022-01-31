@@ -91,6 +91,9 @@ export default function Wordle({
             ) {
                 return;
             }
+            if (event.key === "Backspace") {
+                event.preventDefault();
+            }
             submitKey(event.key);
         },
         [submitKey]
