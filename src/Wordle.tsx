@@ -36,10 +36,10 @@ const makeResultText = (
     hardMode: boolean,
     dailyNumber?: number
 ) => {
-    const { dark, highContrast } = settingsManager.get();
+    const { highContrast } = settingsManager.get();
 
     const squares = [""];
-    squares.push(SQUARES[dark ? 0 : 1]);
+    squares.push(SQUARES[1]);
     squares.push(SQUARES[highContrast ? 4 : 2]);
     squares.push(SQUARES[highContrast ? 5 : 3]);
 
