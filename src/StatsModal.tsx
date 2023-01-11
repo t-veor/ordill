@@ -111,7 +111,7 @@ export function StatsModal({ stats, open, onClose, wordle }: StatsModalProps) {
     let activeRow = undefined;
     if (
         wordle != null &&
-        wordle.dailyNumber != null &&
+        wordle.dailyNumber === stats.lastPlayedDay &&
         wordle.gameState.name !== "playing"
     ) {
         if (wordle.gameState.name === "won") {

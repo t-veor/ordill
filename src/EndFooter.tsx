@@ -1,4 +1,6 @@
 import { h, Fragment } from "preact";
+import { useContext } from "preact/hooks";
+import { AppContext } from "./App";
 import { WordleState } from "./wordleState";
 
 export interface EndFooterProps {
@@ -23,7 +25,10 @@ export default function EndFooter({
     const { gameState, guessedWords, secretWord, dailyNumber } = wordle;
     const state = gameState.name;
     const guesses = guessedWords.length;
-    const isDaily = dailyNumber != null;
+
+    const { todayNumber } = useContext(AppContext);
+
+    const isTodaysDaily = dailyNumber === todayNumber;
 
     let message;
     if (state === "won") {
@@ -39,7 +44,7 @@ export default function EndFooter({
     }
 
     let showStatsButton = undefined;
-    if (isDaily) {
+    if (isTodaysDaily) {
         showStatsButton = (
             <button class="end-footer-button show-stats" onClick={onShowStats}>
                 Sýna Tölfræði
@@ -51,7 +56,7 @@ export default function EndFooter({
         <div class="end-footer">
             <div class="end-footer-message">{message}</div>
             <button class="end-footer-button play-again" onClick={onPlayAgain}>
-                {isDaily ? "Spila Frjálst" : "Spila Aftur"}
+                {isTodaysDaily ? "Spila Frjálst" : "Spila Aftur"}
             </button>
             {showStatsButton}
             <button

@@ -4,6 +4,7 @@ import settingsManager, { Settings } from "./settings";
 import { toast } from "./Toaster";
 import { Letter, LetterState } from "./WordGrid";
 import { isAllowedLetter, isValidWord } from "./words";
+import { getTodayNumber } from "./words/daily";
 import { getDailyWord, getRandomWord } from "./words/randomize";
 
 type GameState =
@@ -168,8 +169,8 @@ function submitWord(state: WordleState): WordleState {
 }
 
 function resign(state: WordleState): WordleState {
-    const { gameState, dailyNumber } = state;
-    if (gameState.name !== "playing" || dailyNumber != null) {
+    const { gameState } = state;
+    if (gameState.name !== "playing") {
         return state;
     }
 
@@ -426,8 +427,8 @@ const tryParseWordleState = (obj: unknown): WordleState | null => {
     };
 };
 
-const tryLoadGame = (isDaily: boolean): WordleState | null => {
-    const storageKey = isDaily ? "dailySave" : "freeplaySave";
+const tryLoadGame = (dailyNumber?: number): WordleState | null => {
+    const storageKey = dailyNumber != null ? "dailySave" : "freeplaySave";
     try {
         const data = localStorage.getItem(storageKey);
         if (data == null) {
@@ -435,7 +436,10 @@ const tryLoadGame = (isDaily: boolean): WordleState | null => {
         }
         const parsed: unknown = JSON.parse(data);
 
-        return tryParseWordleState(parsed);
+        const wordle = tryParseWordleState(parsed);
+        if (dailyNumber == null || dailyNumber === wordle?.dailyNumber) {
+            return wordle;
+        }
     } catch (err) {
         console.log(err);
     }
@@ -444,6 +448,10 @@ const tryLoadGame = (isDaily: boolean): WordleState | null => {
 };
 
 const saveGame = ({ generation, toastMessage, ...game }: WordleState) => {
+    if (game.dailyNumber != null && game.dailyNumber !== getTodayNumber()) {
+        return;
+    }
+
     const storageKey = game.dailyNumber != null ? "dailySave" : "freeplaySave";
     try {
         localStorage.setItem(storageKey, JSON.stringify(game));
@@ -461,7 +469,7 @@ export const loadGameOrNew = (
     dailyNumber?: number,
     prevState?: WordleState
 ): WordleState => {
-    let game = tryLoadGame(dailyNumber != null);
+    let game = tryLoadGame(dailyNumber);
     if (
         game == null ||
         (dailyNumber != null && game.dailyNumber !== dailyNumber) ||

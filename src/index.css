@@ -295,10 +295,63 @@ button.fake-disable {
 }
 
 .mode-display {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 24px;
+    gap: 4px;
+    margin: 0 5px;
     font-size: 12pt;
     font-weight: 600;
     text-transform: uppercase;
     text-align: center;
+}
+
+.mode-display-main {
+    flex-grow: 1;
+}
+
+.daily-nav-button {
+    width: 2em;
+    height: 100%;
+}
+
+.daily-nav-button:disabled {
+    opacity: 50%;
+    cursor: not-allowed;
+}
+
+.daily-nav-hidden {
+    position: absolute;
+    visibility: hidden;
+}
+
+.daily-nav-input {
+    background-color: rgba(128, 128, 128, 0.25);
+    border: 2.5px solid transparent;
+    outline: 0;
+    margin: 0;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+    font-family: inherit;
+    font-weight: inherit;
+    text-align: center;
+}
+
+.daily-nav-input:hover,
+.daily-nav-input:focus,
+.daily-nav-input:active {
+    background-color: rgba(128, 128, 128, 0.5);
+}
+
+.daily-nav-input:hover {
+    border: 2.5px solid var(--dark-grey);
+}
+
+.daily-nav-input:focus,
+.daily-nav-input:active {
+    border: 2.5px solid var(--blue);
 }
 
 .word-grid {

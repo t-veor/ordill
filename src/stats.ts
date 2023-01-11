@@ -1,6 +1,7 @@
 import { useEffect, useState } from "preact/hooks";
 import { DAILY_GUESSES } from "./consts";
 import { WordleState } from "./wordleState";
+import { getTodayNumber } from "./words/daily";
 
 export interface Stats {
     played: number;
@@ -130,7 +131,8 @@ const updateStats = (stats: Stats, game: WordleState): Stats => {
         gameState.name === "playing" ||
         dailyNumber == null ||
         guesses > DAILY_GUESSES ||
-        dailyNumber <= stats.lastPlayedDay
+        dailyNumber <= stats.lastPlayedDay ||
+        dailyNumber !== getTodayNumber()
     ) {
         return stats;
     }

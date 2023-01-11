@@ -1,5 +1,5 @@
 import { h, Fragment, createContext } from "preact";
-import { getTodayNumber } from "./words/daily";
+import { getTodayNumber, timeUntilNextDayMs } from "./words/daily";
 import Header from "./Header";
 import settingsManager from "./settings";
 import { Toaster } from "./Toaster";
@@ -18,6 +18,7 @@ import { InstructionsModal } from "./InstructionsModal";
 export interface AppContext {
     isDaily: boolean;
     setIsDaily?: (isDaily: boolean) => void;
+    todayNumber: number;
 
     statsDidShow: boolean;
     openStats?: () => void;
@@ -30,20 +31,29 @@ export interface AppContext {
 export const AppContext = createContext<AppContext>({
     isDaily: false,
     statsDidShow: false,
+    todayNumber: getTodayNumber(),
     hardMode: false,
     gameInProgress: false,
 });
 
 export default function App() {
+    const [todayNumber, setTodayNumber] = useState(getTodayNumber());
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setTodayNumber(getTodayNumber());
+        }, timeUntilNextDayMs(todayNumber));
+        return () => clearTimeout(timeout);
+    }, [todayNumber]);
+
     const [wordle, dispatchWordle] = useWordle(() =>
-        loadGameOrNew(settingsManager.get(), getTodayNumber())
+        loadGameOrNew(settingsManager.get(), todayNumber)
     );
     const [currDaily, setCurrDaily] = useState<WordleState | null>(null);
     useEffect(() => {
-        if (wordle.dailyNumber != null) {
+        if (wordle.dailyNumber === todayNumber) {
             setCurrDaily(wordle);
         }
-    }, [wordle]);
+    }, [wordle, todayNumber]);
 
     const [stats, updateStats] = useStats();
     useEffect(() => updateStats(wordle), [wordle]);
@@ -55,7 +65,7 @@ export default function App() {
                 type: "load",
                 newState: loadGameOrNew(
                     settingsManager.get(),
-                    isDaily ? getTodayNumber() : undefined,
+                    isDaily ? todayNumber : undefined,
                     wordle
                 ),
             });
@@ -76,9 +86,9 @@ export default function App() {
     };
     useEffect(() => {
         const isEndGame = wordle.gameState.name !== "playing";
-        const isDaily = wordle.dailyNumber != null;
+        const isTodaysDaily = wordle.dailyNumber === todayNumber;
 
-        if (isDaily && isEndGame) {
+        if (isTodaysDaily && isEndGame) {
             statsDidShowHandle.current = setTimeout(() => {
                 setStatsDidShow(true);
                 setStatsOpen(true);
@@ -92,7 +102,7 @@ export default function App() {
             setStatsDidShow(false);
             setStatsOpen(false);
         }
-    }, [wordle.gameState, wordle.dailyNumber]);
+    }, [wordle.gameState, wordle.dailyNumber, todayNumber]);
 
     const setHardMode = (hardMode: boolean) => {
         dispatchWordle({ type: "setHardMode", hardMode });
@@ -101,6 +111,7 @@ export default function App() {
     const context: AppContext = {
         isDaily: wordle.dailyNumber != null,
         setIsDaily,
+        todayNumber,
         openStats,
         statsDidShow,
         hardMode: wordle.hardMode,
@@ -116,6 +127,7 @@ export default function App() {
                 <Wordle
                     wordle={wordle}
                     dispatchWordle={dispatchWordle}
+                    todayNumber={todayNumber}
                     onShowStats={openStats}
                 />
                 <Toaster />

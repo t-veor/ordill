@@ -13,7 +13,7 @@ const BLANKED_KEYS = ["c", "q", "w", "z"];
 export interface KeyboardProps {
     letterStates: Record<string, LetterState | undefined>;
     wordIsValid: boolean;
-    isDaily: boolean;
+    isTodaysDaily: boolean;
     onKeyDown?: (key: string) => void;
 }
 
@@ -28,7 +28,7 @@ export default class Keyboard extends Component<KeyboardProps> {
     render({
         letterStates,
         wordIsValid,
-        isDaily,
+        isTodaysDaily,
     }: RenderableProps<KeyboardProps>) {
         const rows = KEYBOARD_ROWS.map((row, rowIndex) => {
             const keys = row.map((key) => {
@@ -47,7 +47,7 @@ export default class Keyboard extends Component<KeyboardProps> {
                 } else if (key === "GiveUp") {
                     buttonClass += " give-up";
                     contents = "Gefast Upp";
-                    disabled = isDaily;
+                    disabled = isTodaysDaily;
                 } else {
                     if (key === "Backspace") {
                         buttonClass += " backspace";

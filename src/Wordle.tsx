@@ -4,11 +4,13 @@ import { AppContext } from "./App";
 import { DAILY_GUESSES } from "./consts";
 import EndFooter from "./EndFooter";
 import Keyboard from "./Keyboard";
+import ModeDisplay from "./ModeDisplay";
 import settingsManager from "./settings";
 import { toast } from "./Toaster";
 import WordGrid, { Letter, LetterState } from "./WordGrid";
 import {
     initialState,
+    loadGameOrNew,
     validateWord,
     WordleAction,
     WordleState,
@@ -27,6 +29,7 @@ const LINK = "https://t-veor.github.io/ordill/";
 export interface WordleProps {
     wordle: WordleState;
     dispatchWordle: (action: WordleAction) => void;
+    todayNumber: number;
     onShowStats?: () => void;
 }
 
@@ -62,9 +65,10 @@ export default function Wordle({
 }: WordleProps) {
     const { gameState, guessedWords, secretWord, dailyNumber, generation } =
         wordle;
-    const isDaily = dailyNumber != null;
+    const { statsDidShow, setIsDaily, todayNumber } = useContext(AppContext);
 
-    const { statsDidShow, setIsDaily } = useContext(AppContext);
+    const isDaily = dailyNumber != null;
+    const isTodaysDaily = dailyNumber === todayNumber;
 
     const submitKey = useCallback((key: string) => {
         switch (key) {
@@ -87,11 +91,17 @@ export default function Wordle({
             const target = event.target as HTMLElement;
             if (
                 event.key === "Enter" &&
-                (target.tagName === "BUTTON" || target.tagName === "A")
+                (target.tagName === "BUTTON" ||
+                    target.tagName === "A" ||
+                    target.tagName === "INPUT")
             ) {
                 return;
             }
             if (event.key === "Backspace") {
+                if (target.tagName === "INPUT") {
+                    return;
+                }
+
                 event.preventDefault();
             }
             submitKey(event.key);
@@ -104,12 +114,32 @@ export default function Wordle({
     }, [onKeyDown]);
 
     const playAgain = () => {
-        if (isDaily && setIsDaily) {
+        if (isTodaysDaily && setIsDaily) {
             setIsDaily?.(false);
         } else {
             dispatchWordle({
                 type: "load",
-                newState: initialState(settingsManager.get(), wordle.hardMode),
+                newState: initialState(
+                    settingsManager.get(),
+                    wordle.hardMode,
+                    isDaily ? dailyNumber : undefined
+                ),
+            });
+        }
+    };
+    const setDailyNumber = (newDailyNumber: number) => {
+        if (
+            newDailyNumber !== wordle.dailyNumber &&
+            newDailyNumber >= 0 &&
+            newDailyNumber <= todayNumber
+        ) {
+            dispatchWordle({
+                type: "load",
+                newState: loadGameOrNew(
+                    settingsManager.get(),
+                    newDailyNumber,
+                    wordle
+                ),
             });
         }
     };
@@ -166,13 +196,13 @@ export default function Wordle({
         ? !!validateWord(wordle, gameState.currentWord).valid
         : false;
 
-    const showFooter = isEndGame && (!isDaily || statsDidShow);
+    const showFooter = isEndGame && (!isTodaysDaily || statsDidShow);
     const footer = !showFooter ? (
         <Keyboard
             letterStates={letterStates}
             onKeyDown={submitKey}
             wordIsValid={wordIsValid}
-            isDaily={isDaily}
+            isTodaysDaily={isTodaysDaily}
         />
     ) : (
         <EndFooter
@@ -185,9 +215,11 @@ export default function Wordle({
 
     return (
         <>
-            <div class="mode-display">
-                {isDaily ? `Daglegt - #${dailyNumber + 1}` : "Frjálst"}
-            </div>
+            <ModeDisplay
+                dailyNumber={dailyNumber}
+                todayNumber={todayNumber}
+                setDailyNumber={setDailyNumber}
+            />
             <WordGrid
                 words={grid}
                 minRows={isDaily ? DAILY_GUESSES : undefined}
