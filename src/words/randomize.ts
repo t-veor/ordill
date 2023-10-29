@@ -41,6 +41,10 @@ const getDailyIndex = (dayNumber: number) => {
 };
 
 export const getDailyWord = (dayNumber: number) => {
+    if (dayNumber === 666) {
+        return "satan";
+    }
+
     const index = getDailyIndex(dayNumber);
     return commonWords[index];
 };
