@@ -13875,7 +13875,9 @@ orvar
 orðan
 orðað
 orðfá
+orðil
 orðir
+orðli
 orðna
 orðnu
 orðug

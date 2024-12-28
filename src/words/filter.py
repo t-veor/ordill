@@ -16,6 +16,8 @@ with open("SHsnid.csv", encoding="utf-8") as f:
         if len(form) == 5:
             words.add(form)
 
+words.update(["orðil", "orðli"])
+
 words = sorted(words)
 
 with open("all.wordlist.txt", "w+", encoding="utf-8", newline="\n") as f:
