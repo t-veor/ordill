@@ -9,6 +9,7 @@
     "build": "node build.js"
   },
   "dependencies": {
+    "lean-qr": "^2.5.0",
     "preact": "^10.6.4"
   },
   "devDependencies": {

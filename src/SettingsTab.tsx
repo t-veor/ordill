@@ -5,6 +5,8 @@ import { TabState } from "./Header";
 import settingsManager, { Settings } from "./settings";
 import Switch from "./Switch";
 import Tab from "./Tab";
+import { MigrateStatsModal } from "./MigrateStatsModal";
+import { Stats } from "./stats";
 
 interface SettingProps {
     name: string;
@@ -41,6 +43,7 @@ export default function SettingsTab({ open, setTab }: SettingsTabProps) {
         isDaily,
         setIsDaily,
         openStats,
+        stats,
         hardMode,
         gameInProgress,
         setHardMode,
@@ -75,6 +78,8 @@ export default function SettingsTab({ open, setTab }: SettingsTabProps) {
     } else {
         freeplayClass += " active";
     }
+
+    const [openMigrateStatsModal, setOpenMigrateStatsModal] = useState(false);
 
     return (
         <Tab name="Valmynd" open={open} onClose={onClose}>
@@ -153,6 +158,20 @@ export default function SettingsTab({ open, setTab }: SettingsTabProps) {
             <hr />
             <Setting name="Hafa samband">
                 <a href="mailto:ordillinn@gmail.com">Email</a>
+            </Setting>
+            <hr />
+            <Setting
+                name="Færa gögn"
+                description="Færa „streak“-ið þitt í annað tæki"
+            >
+                <button class="show-stats-button" onClick={() => setOpenMigrateStatsModal(true)}>
+                    Færa
+                </button>
+                <MigrateStatsModal
+                    stats={stats}
+                    open={openMigrateStatsModal}
+                    onClose={() => setOpenMigrateStatsModal(false)}
+                />
             </Setting>
             <hr />
             <p>

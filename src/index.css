@@ -118,6 +118,10 @@ button {
     cursor: pointer;
 }
 
+button.primary {
+    background-color: var(--blue);
+}
+
 button:not(:disabled)::after {
     content: "";
     position: absolute;
@@ -842,4 +846,25 @@ button.fake-disable {
 
 .timer-sep {
     padding: 0 2px;
+}
+
+.migrate-stats-qr-code-container {
+    background-color: white;
+    width: 300px;
+    height: 300px;
+    margin: auto;
+}
+
+.migrate-stats-qr-code {
+    width: 100%;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: end;
+    gap: 8px;
+}
+
+.modal-buttons > button {
+    min-width: 5em;
 }

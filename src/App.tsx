@@ -12,13 +12,15 @@ import {
 } from "./wordleState";
 import { StatsModal } from "./StatsModal";
 import { useEffect, useRef, useState } from "preact/hooks";
-import { useStats } from "./stats";
+import { Stats, useStats } from "./stats";
 import { InstructionsModal } from "./InstructionsModal";
+import { MigrateStatsConfirmModal } from "./MigrateStatsConfirmModal";
 
 export interface AppContext {
     isDaily: boolean;
     setIsDaily?: (isDaily: boolean) => void;
 
+    stats?: Stats;
     statsDidShow: boolean;
     openStats?: () => void;
 
@@ -45,7 +47,7 @@ export default function App() {
         }
     }, [wordle]);
 
-    const [stats, updateStats] = useStats();
+    const [stats, setStats, updateStats] = useStats();
     useEffect(() => updateStats(wordle), [wordle]);
 
     const setIsDaily = (isDaily: boolean) => {
@@ -101,6 +103,7 @@ export default function App() {
     const context: AppContext = {
         isDaily: wordle.dailyNumber != null,
         setIsDaily,
+        stats,
         openStats,
         statsDidShow,
         hardMode: wordle.hardMode,
@@ -127,6 +130,7 @@ export default function App() {
                 wordle={currDaily}
             />
             <InstructionsModal />
+            <MigrateStatsConfirmModal setStats={setStats} />
         </AppContext.Provider>
     );
 }

@@ -97,6 +97,30 @@ const tryParseStats = (obj: unknown): Stats | null => {
     };
 };
 
+const MIGRATE_STATS_PREFIX = "#migrateStats--"
+
+export const migrateStatsLink = (stats: Stats): string => {
+    const url = new URL(window.location.href);
+    const encodedStats = encodeURIComponent(JSON.stringify(stats));
+    url.hash = `${MIGRATE_STATS_PREFIX}${encodedStats}`;
+    return url.href;
+}
+
+export const tryMigrateStats = (): Stats | null => {
+    if (window.location.hash.startsWith(MIGRATE_STATS_PREFIX)) {
+        const encodedStats = window.location.hash.slice(MIGRATE_STATS_PREFIX.length);
+        window.location.hash = "";
+        try {
+            const parsed: unknown = JSON.parse(decodeURIComponent(encodedStats));
+            return tryParseStats(parsed);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    return null;
+}
+
 const loadStats = (): Stats => {
     try {
         const data = localStorage.getItem("stats");
@@ -157,12 +181,12 @@ const updateStats = (stats: Stats, game: WordleState): Stats => {
     return newStats;
 };
 
-export const useStats = (): [Stats, (game: WordleState) => void] => {
+export const useStats = (): [Stats, (stats: Stats) => void, (game: WordleState) => void] => {
     const [stats, setStats] = useState(loadStats);
     useEffect(() => saveStats(stats), [stats]);
 
     const update = (game: WordleState) => {
         setStats(updateStats(stats, game));
     };
-    return [stats, update];
+    return [stats, setStats, update];
 };
