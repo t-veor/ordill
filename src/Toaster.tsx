@@ -1,9 +1,10 @@
 import { h, Fragment } from "preact";
-import { useEffect, useState } from "preact/hooks";
+import { useCallback, useEffect, useState } from "preact/hooks";
 
 interface Toast {
     message: string;
     id: number;
+    expiry: number;
 }
 
 type ToastCallback = (toast: Toast) => void;
@@ -16,33 +17,45 @@ const removeToastCallback = (cb: ToastCallback) => {
     toastCallbacks = toastCallbacks.filter((i) => i !== cb);
 };
 
+const TOAST_TIMEOUT_MS = 3000;
+
 export const toast = (message: string) => {
+    const id = currId++;
+    const expiry = Date.now() + TOAST_TIMEOUT_MS;
+    const toast = { message, id, expiry };
     for (const cb of toastCallbacks) {
-        const id = currId++;
-        cb({ message, id });
+        cb(toast);
     }
 };
 
 export function Toaster() {
-    const [toast, setToast] = useState<Toast | null>(null);
+    const [toasts, setToasts] = useState<Toast[]>([]);
+    const addToast = useCallback(
+        (toast: Toast) => setToasts((prevToasts) => [...prevToasts, toast]),
+        []
+    );
+
     useEffect(() => {
-        addToastCallback(setToast);
-        return () => removeToastCallback(setToast);
+        addToastCallback(addToast);
+        return () => removeToastCallback(addToast);
     }, []);
 
     useEffect(() => {
-        if (toast != null) {
-            const handle = setTimeout(() => setToast(null), 3000);
-            return () => clearTimeout(handle);
-        }
-    }, [toast]);
+        setTimeout(() => {
+            setToasts((prevToasts) => {
+                const now = Date.now();
+                return prevToasts.filter((toast) => toast.expiry > now);
+            });
+        }, TOAST_TIMEOUT_MS);
+    });
 
-    const toastElement =
-        toast != null ? (
-            <div class="toast" key={toast.id}>
-                {toast.message}
-            </div>
-        ) : null;
-
-    return <div class="toaster">{toastElement}</div>;
+    return (
+        <div class="toaster">
+            {toasts.map((toast) => (
+                <div class="toast" key={toast.id}>
+                    {toast.message}
+                </div>
+            ))}
+        </div>
+    );
 }

@@ -32,11 +32,12 @@ const EditableDailyNumber = ({
                 setState(state);
                 return;
             } else {
+                toast(`Loading day ${parsed}`);
                 setState(parsed - 1);
                 onChange(parsed - 1);
             }
         },
-        [onChange]
+        [state, onChange]
     );
 
     return (

@@ -107,6 +107,8 @@ export function StatsModal({ stats, open, onClose, wordle }: StatsModalProps) {
         (100 * stats.wins) / Math.max(1, stats.played)
     );
 
+    console.log(wordle);
+
     let footer = undefined;
     let activeRow = undefined;
     if (

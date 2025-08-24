@@ -737,6 +737,10 @@ button.fake-disable {
 
 .toaster {
     position: fixed;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 1em;
     width: max-content;
     max-width: 80%;
     top: 10%;
@@ -747,6 +751,7 @@ button.fake-disable {
 }
 
 .toast {
+    width: fit-content;
     background: var(--entry-color);
     color: var(--text-color);
     animation: fade-out linear 0.5s 2s both;
